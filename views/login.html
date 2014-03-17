@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<section id="section-main" class="container">
+		<div class="">
+			<h1 class="text-center title">Connexion</h1>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="col-md-6">
+					<a id="btn-login-etudiant" href="#" class="btn btn-primary form-control btn-login">Etudiant</a>
+				</div>
+				<div class="col-md-6">
+					<a id="btn-login-enseignant" href="#" class="btn btn-default form-control btn-login">Enseignant</a>
+				</div>
+			</div>
+		</div>
+
+		<section id="form-enseignant" class="col-md-6 col-md-offset-3">
+			<h2 class="text-center">Enseignant</h2>
+			<form method="post" action="#">	
+				<div class="col-md-8 col-md-offset-2">	
+					<label class="hide">Identifiant</label>
+					<input type="text" placeholder="Identiant" class="form-control">
+					<label class="hide">Mot de passe</label>
+					<input type="" placeholder="mot de passe" class="form-control">
+					<input id="subm-enseignant" type="submit" class="btn btn-primary form-control">
+				</div>
+			</form>
+		</section>
+
+		<section id="form-etudiant" class="col-md-6 col-md-offset-3">
+			<h2 class="text-center">Etudiant</h2>
+			<form method="post" action="#">
+				<div class="col-md-8 col-md-offset-2">
+					<label class="hide">Identifiant</label>
+					<input type="text" placeholder="Identiant" class="form-control">			
+					<label class="hide">Email</label>
+					<input type="" placeholder="Email" class="form-control">
+					<input id="subm-enseignant" type="submit" class="btn btn-primary form-control">
+				</div>
+			</form>
+		</section>
+	</section>
+{% endblock %}

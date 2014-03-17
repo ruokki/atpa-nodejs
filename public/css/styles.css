@@ -1,0 +1,65 @@
+/* =========================
+	GENERAL 
+========================== */
+body{
+	background-color: #ffffff;
+}
+
+h2{
+
+}
+
+.hide{
+	display: none;
+}
+
+.center{
+
+}
+
+.btn-login{
+	margin: 5px auto;
+}
+
+
+.title{
+	margin-bottom: 5%; 
+}
+
+.marge-input{
+	margin: 5px auto;
+}
+/* =============================
+	MAIN
+============================== */
+#section-main{
+
+}
+
+#section-main h1{
+	color: rgb(96,96,96);
+}
+
+
+/* =============================
+	Formulaire
+============================== */
+
+/* enseignant */
+#form-enseignant{
+
+}
+
+#form-enseignant form input{
+	margin: 5px auto;
+}
+
+
+/* etudiant */
+#form-etudiant{
+
+}
+
+#form-etudiant form input{
+	margin: 5px auto;
+}
