@@ -13,7 +13,24 @@ exports.login = function(req, res){
  * POST login page
  */
  exports.loginPost = function(req, res) {
- 	console.log(req.body);
+ 	var crypto = require("crypto");
+
+ 	if(req.body.student) {
+ 		console.log("Connexion étudiant");
+
+ 		var formPost = req.body.student;
+ 		var student = require('../models/student');
+ 		student.connectStudent(formPost.id, formPost.email);
+
+ 	}
+ 	else if (req.body.teacher) {
+ 		console.log("Connexion professeur");
+ 		
+ 		var formPost = req.body.teacher;
+ 		var teacher = require('../models/teacher');
+ 		teacher.connectTeacher(formPost.id, formPost.password)
+ 	}
+
  	res.render("login",{
  		title: "Connexion"
  	});
