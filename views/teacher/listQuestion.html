@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Ajout question</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/foundation.css">
-	<link rel="stylesheet" href="css/general_enclosed_foundicons.css">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script src="js/vendor/modernizr.js"></script>	
-</head>
-<body>
+{% extends '../layout.html' %}
 	
-
-	
-<div class="off-canvas-wrap docs-wrap">
-  <div class="inner-wrap">
-    <nav class="tab-bar">
-      <section class="left-small">
-        <a class="left-off-canvas-toggle menu-icon"><span></span></a>
-      </section>
-
-      <section class="right tab-bar-section">
-        <h1 class="title">ATPA</h1>
-      </section>
-
-    </nav>
-
-    <aside class="left-off-canvas-menu">
-      <ul class="off-canvas-list">
-        <li><label class="label-small">Nom Prénom<br/>(type personne)</label></li>
-        <li class="active"><a href="#">Accueil</a></li>
-        <li><a href="#">Liste questions</a></li>
-        <li><a href="#">Liste questionnaire</a></li>
-        <li><a href="#">Se déconnecter</a></li>
-      </ul>
-    </aside>
-
+{% block content %}
     <section class="main-section">
       <div class="row">
         <div class="small-12 columns">	<!-- body -->
@@ -96,17 +62,4 @@
       </div>
     </section>
 
-<a class="exit-off-canvas"></a>
-
-  </div>
-</div>
-</body>
-
-<script src="js/vendor/jquery.js"></script>
-<script src="js/foundation.min.js"></script>
-<script src="js/foundation/foundation.topbar.js"></script>
-<script src="js/script.js"></script>
-<script>
-	$(document).foundation();
-</script>
-</html>
+{% endblock %}

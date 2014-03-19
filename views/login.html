@@ -1,5 +1,13 @@
-{% extends 'layout.html' %}
-{% block content %}
+<!doctype html>
+<html>
+<head>
+		<title>{{ title }}</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/css/foundation.css">
+		<link rel="stylesheet" type="text/css" href="/css/general_enclosed_foundicons.css">
+		<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
 	<section id="section-main" class="">
 			<div class="row">
 				<h1 class="text-center title">Connexion</h1>
@@ -26,11 +34,11 @@
 					<form method="post" action="#">	
 						<div class="small-8 small-centered columns">	
 							<label class="hide">Identifiant</label>
-							<input type="text" placeholder="Identiant" name="teacher[id]">
+							<input type="text" placeholder="Identifiant" name="teacher[id]">
 							<label class="hide">Mot de passe</label>
 							<input id="password" type="password" placeholder="Mot de passe" name="teacher[passwd]"></input>
 							
-							<input id="subm-enseignant" type="submit" class="button small">
+							<input id="subm-enseignant" type="submit" class="button small" value="Se connecter">
 						
 						</div>
 					</form>
@@ -44,11 +52,11 @@
 					<form method="post" action="#">	
 						<div class="small-8 small-centered columns">	
 							<label class="hide">Identifiant</label>
-							<input type="text" placeholder="Identiant" name="student[id]">
+							<input type="text" placeholder="Identifiant" name="student[id]">
 							<label class="hide">Mot de passe</label>
 							<input type="email" placeholder="Email" class="form-control" name="student[email]">
 							
-							<input id="subm-etudiant" type="submit" class="button small">
+							<input id="subm-etudiant" type="submit" class="button small" value="Se connecter">
 							
 						</div>
 					</form>
@@ -56,4 +64,9 @@
 
 			</section>
 		</section>
-{% endblock %}
+		<script src="/js/vendor/jquery.js"></script>
+		<script src="/js/foundation.min.js"></script>
+		<script src="/js/script.js"></script>
+		<script src="/js/vendor/modernizr.js"></script>
+	</body>
+</html>

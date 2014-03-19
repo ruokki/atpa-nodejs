@@ -16,3 +16,21 @@ exports.addQuestionnaire = function(req, res) {
 		title: 'Ajouter un questionnaire'
 	})
 };
+
+/*
+ * GET listQuestion page
+ */
+exports.listQuestion = function(req, res) {
+	res.render('teacher/listQuestion', {
+		title: 'Liste des questions'
+	});
+}
+
+/*
+ * GET listQuestionnaire page
+ */
+exports.listQuestionnaire = function(req, res) {
+	res.render('teacher/listQuestionnaire', {
+		title: 'Liste des questionnaires'
+	})
+};

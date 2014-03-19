@@ -3,23 +3,47 @@
 <head>
 		<title>{{ title }}</title>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/foundation.css">
-		<link rel="stylesheet" type="text/css" href="css/styles.css">
-
-
-	    <script src="js/vendor/modernizr.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/foundation.css">
+		<link rel="stylesheet" type="text/css" href="/css/general_enclosed_foundicons.css">
+		<link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
+
+	<div class="off-canvas-wrap docs-wrap">
+	  <div class="inner-wrap">
+	    <nav class="tab-bar">
+	      <section class="left-small">
+	        <a class="left-off-canvas-toggle menu-icon"><span></span></a>
+	      </section>
+
+	      <section class="right tab-bar-section">
+	        <h1 class="title">ATPA</h1>
+	      </section>
+	    </nav>
+
+	    <aside class="left-off-canvas-menu">
+	      <ul class="off-canvas-list">
+	        <li><label class="label-small">Nom Prénom<br/>(type personne)</label></li>
+	        <li class="active"><a href="/">Accueil</a></li>
+	        <li><a href="/list/question">Liste questions</a></li>
+	        <li><a href="/list/questionnaire">Liste questionnaire</a></li>
+	        <li><a href="/logout">Se déconnecter</a></li>
+	      </ul>
+	    </aside>
+
 	{% block content %}
 
 	{% endblock %}
+			<a class="exit-off-canvas"></a>
+	   </div>
+	</div>
 
-	<script src="js/vendor/jquery.js"></script>
-	<script src="js/foundation.min.js"></script>
-	<script src="js/script.js"></script>
-	
-	{% block script %}
-
-	{% endblock %}
+	<script src="/js/vendor/jquery.js"></script>
+	<script src="/js/foundation.min.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/vendor/modernizr.js"></script>
+	<script>
+		$(document).foundation();
+	</script>
 </body> 
 </html>

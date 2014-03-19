@@ -1,31 +1,6 @@
 {% extends '../layout.html' %}
 
 {% block content %}
-<div class="off-canvas-wrap docs-wrap">
-  <div class="inner-wrap">
-    <nav class="tab-bar">
-      <section class="left-small">
-        <a class="left-off-canvas-toggle menu-icon"><span></span></a>
-      </section>
-
-      <section class="right tab-bar-section">
-        <h1 class="title">ATPA</h1>
-      </section>
-
-    </nav>
-
-    <aside class="left-off-canvas-menu">
-      <ul class="off-canvas-list">
-        <li>
-        	<label class="label-small">
-        		{{ name }}
-        	</label>
-        </li>
-        <li><a href="#">Accueil</a></li>
-        <li><a href="#">se déconnecter</a></li>
-      </ul>
-    </aside>
-
     <section class="main-section">
       <div class="row">
         <div class="small-12 columns">	<!-- body -->
@@ -148,15 +123,4 @@
         </div>
       </div>
     </section>
-
-<a class="exit-off-canvas"></a>
-
-  </div>
-</div>
-{% endblock %}
-
-{% block script %}
-<script>
-	$(document).foundation();
-</script>
 {% endblock %}
