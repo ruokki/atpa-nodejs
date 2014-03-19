@@ -23,59 +23,79 @@ exports.login = function(req, res){
  		// Récupère le contenu du formulaire
  		var formPost = req.body.student;
 
- 		// Récupère le model student.js dans le dossier ../models
- 		var student = require('../models/student');
+		// Vérification champ vide
+		if(formPost.id=="" || formPost.email=="") {
+			error = "Veuillez saisir vos informations de connexion.";
+			
+			// Rendu de la page login.html
+			res.render("login",{
+				title: "Connexion",
+				error: error
+			});
+		}
+		else {
+			// Récupère le model student.js dans le dossier ../models
+			var student = require('../models/student');
 
- 		/* Execute la fonction isStudentCorrect du model student
- 		 * La fonction de callback permet de récupérer les informations 
- 		 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
- 		 * récupérer ses informations, les traitements étant fait de façon 
- 		 * asynchrone
- 		 */
- 		student.isStudentCorrect(formPost.id, formPost.email, function(err, data){
- 			if(err) {
- 				error = "Mauvais couple identifiant/email";
+			/* Execute la fonction isStudentCorrect du model student
+			 * La fonction de callback permet de récupérer les informations 
+			 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
+			 * récupérer ses informations, les traitements étant fait de façon 
+			 * asynchrone
+			 */
+			student.isStudentCorrect(formPost.id, formPost.email, function(err, data){
+				if(err) {
+					error = "Mauvais couple identifiant/email";
+					res.render("login",{
+						title: "Connexion",
+						error: error
+					});
+				}
+				else {
 
- 				// Rendu de la page login.html
- 				res.render("login",{
- 					title: "Connexion",
- 					error: error
- 				});
- 			}
- 			else {
+					// Mise en session des éléments name, email et _id de 
+					// l'étudiant qui vient de se connecter
+					req.session.username = data.name;
+					req.session.email = data.email;
+					req.session.id = data._id;
+					req.session.status = "S";
 
- 				// Mise en session des éléments name, email et _id de 
- 				// l'étudiant qui vient de se connecter
- 				req.session.username = data.name;
- 				req.session.email = data.email;
- 				req.session.id = data._id;
- 				req.session.status = "S";
-
- 				// Redirection vers l'URL /addquestion
- 				res.redirect('/list/questionnaire');
- 			}
- 		});
+					// Redirection vers l'URL /addquestion
+					res.redirect('/list/questionnaire');
+				}
+			});
+		}
  	}
  	else if (req.body.teacher) {
 
  		console.log("Connexion professeur");
  		var formPost = req.body.teacher;
- 		var teacher = require('../models/teacher');
- 		teacher.isTeacherCorrect(formPost.id, formPost.passwd, function(err, data){
- 			if(err) {
- 				error = "Mauvais couple identifiant/mot de passe";
- 				res.render("login",{
- 					title: "Connexion",
- 					error: error
- 				});
- 			}
- 			else {
- 				req.session.username = data.name;
- 				req.session.id = data._id;
- 				req.session.status = "T";
- 				res.redirect('/list/questionnaire');
- 			}
- 		});
+		
+		if(formPost.id=="" || formPost.passwd=="") {
+			error = "Veuillez saisir vos informations de connexion.";
+			res.render("login",{
+				title: "Connexion",
+				error: error
+			});
+		}
+		else {
+			var teacher = require('../models/teacher');
+			teacher.isTeacherCorrect(formPost.id, formPost.passwd, function(err, data){
+				if(err) {
+					error = "Mauvais couple identifiant/mot de passe";
+					res.render("login",{
+						title: "Connexion",
+						error: error
+					});
+				}
+				else {
+					req.session.username = data.name;
+					req.session.id = data._id;
+					req.session.status = "T";
+					res.redirect('/list/questionnaire');
+				}
+			});
+		}
  	}
  };
 
