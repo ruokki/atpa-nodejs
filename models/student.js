@@ -1,14 +1,32 @@
 var mongoose = require('mongoose');
 
-exports.connectStudent = function(id, email){
+exports.isStudentCorrect = function(id, email){
 	var Students = mongoose.model('student');
-	console.log("id : " + id + ", email : " + email);
+	
 	Students.find({email: email, name: id}).exec(function(err, result){
 		if(err) {
 			console.log(err);
 		}
 		else {
-			console.log(result);
+			if(result.length === 1) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	});
+}
+
+exports.getInfoStudent = function(id, email) {
+
+	var Students = mongoose.model('student');
+	Students.find({email: email, name: id}).exec(function(err, result){
+		if(err) {
+			console.log(err);
+		}
+		else {
+			return result[0];
 		}
 	});
 }

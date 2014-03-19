@@ -18,6 +18,8 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.use(express.favicon());
+app.use(express.cookieParser());
+app.use(express.session({secret:'io16RBS50fhXLY5G867nqXkGOJ9hyeTF'}));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());

@@ -3,6 +3,7 @@
 ========================== */
 body{
 	background-color: #ffffff;
+	width: 100%;
 }
 
 h2{
@@ -13,22 +14,49 @@ h2{
 	display: none;
 }
 
-.center{
-
+.label-small{
+	font-size: 10px;
 }
 
-.btn-login{
-	margin: 5px auto;
+.container-marge{
+	margin: 5% auto;
 }
 
-
-.title{
-	margin-bottom: 5%; 
+.no-padding{
+	padding: 0;
 }
 
-.marge-input{
-	margin: 5px auto;
+.no-margin{
+	margin: auto 0;
 }
+
+.vert{
+	background: rgb(141,175,49) !important;
+}
+
+.orange{
+	background: #fc6305 !important;
+}
+
+.gris-clair{
+	background: rgb(209,211,207) !important;
+}
+
+.gris-fonce{
+	background: rgb(96,96,96) !important;
+}
+
+/* =============================
+	WRAP
+================================ */
+.docs-wrap{
+	height: 100%;
+}
+
+.inner-wrap{
+	height: 100%;
+}
+
 /* =============================
 	MAIN
 ============================== */
@@ -42,24 +70,20 @@ h2{
 
 
 /* =============================
-	Formulaire
+	Ajout question
 ============================== */
-
-/* enseignant */
-#form-enseignant{
-
+.btn-add{
+	font-size: 20px;
 }
 
-#form-enseignant form input{
-	margin: 5px auto;
+.panel-form{
+	margin-bottom: 15px !important;
+	padding: 10px 5px;
 }
 
-
-/* etudiant */
-#form-etudiant{
-
+.btn-envoi{
+	float: right;
+    margin-top: 15px;
 }
 
-#form-etudiant form input{
-	margin: 5px auto;
-}
+/*

@@ -1,42 +1,59 @@
 {% extends 'layout.html' %}
 {% block content %}
-	<section id="section-main" class="container">
-		<div class="">
-			<h1 class="text-center title">Connexion</h1>
-			<div class="col-md-8 col-md-offset-2">
-				<div class="col-md-6">
-					<a id="btn-login-etudiant" href="#" class="btn btn-primary form-control btn-login">Etudiant</a>
+	<section id="section-main" class="">
+			<div class="row">
+				<h1 class="text-center title">Connexion</h1>
+				{% if error %}
+				<div class="small-12 columns">
+					<div class="alert-box alert radius">
+						{{ error }}
+					</div>
 				</div>
-				<div class="col-md-6">
-					<a id="btn-login-enseignant" href="#" class="btn btn-default form-control btn-login">Enseignant</a>
+				{% endif %}
+				<div class="small-12 columns">
+					<div class="small-6 columns">
+						<a id="btn-login-etudiant" href="#" class="button expand">Etudiant</a>
+					</div>
+					<div class="small-6 columns">
+						<a id="btn-login-enseignant" href="#" class="button expand">Enseignant</a>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<section id="form-enseignant" class="col-md-6 col-md-offset-3">
-			<h2 class="text-center">Enseignant</h2>
-			<form method="post" action="" name="teacher">	
-				<div class="col-md-8 col-md-offset-2">	
-					<label class="hide">Identifiant</label>
-					<input type="text" name="teacher[id]" placeholder="Identifiant" class="form-control">
-					<label class="hide">Mot de passe</label>
-					<input type="password" name="teacher[password]" placeholder="Mot de passe" class="form-control">
-					<input id="subm-enseignant" type="submit" class="btn btn-primary form-control">
-				</div>
-			</form>
-		</section>
+			<section id="form-enseignant" class="row">
+				<div class="small-12 small-centered columns"> 
+					<h2 class="text-center">Enseignant</h2>
+					<form method="post" action="#">	
+						<div class="small-8 small-centered columns">	
+							<label class="hide">Identifiant</label>
+							<input type="text" placeholder="Identiant" name="teacher[id]">
+							<label class="hide">Mot de passe</label>
+							<input id="password" type="password" placeholder="Mot de passe" name="teacher[passwd]"></input>
+							
+							<input id="subm-enseignant" type="submit" class="button small">
+						
+						</div>
+					</form>
+				</div>	
+			</section>
 
-		<section id="form-etudiant" class="col-md-6 col-md-offset-3">
-			<h2 class="text-center">Etudiant</h2>
-			<form method="post" action="" name="student">
-				<div class="col-md-8 col-md-offset-2">
-					<label class="hide">Identifiant</label>
-					<input type="text" name="student[id]" placeholder="Identifiant" class="form-control">			
-					<label class="hide">Email</label>
-					<input type="text" name="student[email]" placeholder="Email" class="form-control">
-					<input id="subm-enseignant" type="submit" class="btn btn-primary form-control">
-				</div>
-			</form>
+			<section id="form-etudiant" class="row">
+
+				<div class="small-12 small-centered columns"> 
+					<h2 class="text-center">Etudiant</h2>
+					<form method="post" action="#">	
+						<div class="small-8 small-centered columns">	
+							<label class="hide">Identifiant</label>
+							<input type="text" placeholder="Identiant" name="student[id]">
+							<label class="hide">Mot de passe</label>
+							<input type="email" placeholder="Email" class="form-control" name="student[email]">
+							
+							<input id="subm-etudiant" type="submit" class="button small">
+							
+						</div>
+					</form>
+				</div>	
+
+			</section>
 		</section>
-	</section>
 {% endblock %}
