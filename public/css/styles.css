@@ -46,6 +46,25 @@ h2{
 	background: rgb(96,96,96) !important;
 }
 
+.red{
+	color: #CC0606;
+}
+
+.bleu{
+	color: #4372E0;
+}
+
+.btn-right{
+	float: right;
+}
+
+.right{
+	float: right;
+}
+
+.bold{
+	font-weight: bold;
+}
 /* =============================
 	WRAP
 ================================ */
@@ -86,4 +105,34 @@ h2{
     margin-top: 15px;
 }
 
-/*
+/* ===========================
+	Questionnaire
+=========================== */
+#timer {
+    background: none repeat scroll 0 0 #E5E5E5;
+    color: #FF0000;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+.check-reponse{
+	float: right;
+}
+
+.panel-list{
+	/* background: #fc6305; */
+	margin-bottom: 5px !important;
+	padding: 10px;
+
+}
+
+/* ========================
+	Question
+========================== */
+.btn-remove-question{
+	font-size: 20px;
+	margin: 8px 0 0 0;
+}
