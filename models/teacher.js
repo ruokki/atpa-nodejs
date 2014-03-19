@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-exports.isTeacherCorrect = function(id, pwd){
+exports.isTeacherCorrect = function(id, pwd, callback){
 	var crypto = require('crypto');
 	var Teachers = mongoose.model('teacher');
 	var cryptedPwd = crypto.createHash('sha256').update(pwd).digest('base64');
@@ -11,16 +11,16 @@ exports.isTeacherCorrect = function(id, pwd){
 		}
 		else {
 			if(result.length === 1) {
-				return true;
+				callback(null, result[0]);
 			}
 			else {
-				return false;
+				callback(true, null);
 			}
 		}
 	});
 }
 
-exports.getInfoTeacher = function(id, email) {
+exports.getInfoTeacher = function(id, pwd) {
 	var crypto = require('crypto');
 	var Teachers = mongoose.model('teacher');
 	var cryptedPwd = crypto.createHash('sha256').update(pwd).digest('base64');

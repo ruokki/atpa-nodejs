@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-exports.isStudentCorrect = function(id, email){
+exports.isStudentCorrect = function(id, email, callback){
 	var Students = mongoose.model('student');
 	
 	Students.find({email: email, name: id}).exec(function(err, result){
@@ -9,10 +9,10 @@ exports.isStudentCorrect = function(id, email){
 		}
 		else {
 			if(result.length === 1) {
-				return true;
+				callback(null, result[0]);
 			}
 			else {
-				return false;
+				callback(true, null);
 			}
 		}
 	});

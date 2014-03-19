@@ -1,0 +1,163 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="off-canvas-wrap docs-wrap">
+  <div class="inner-wrap">
+    <nav class="tab-bar">
+      <section class="left-small">
+        <a class="left-off-canvas-toggle menu-icon"><span></span></a>
+      </section>
+
+      <section class="right tab-bar-section">
+        <h1 class="title">ATPA</h1>
+      </section>
+
+    </nav>
+
+    <aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        <li>
+        	<label class="label-small">
+        		{{ name }}<br/>
+        		(type personne)
+        	</label>
+        </li>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">se déconnecter</a></li>
+      </ul>
+    </aside>
+
+    <section class="main-section">
+      <div class="row">
+        <div class="small-12 columns">	<!-- body -->
+        	<section id="section-main" class="container container-marge">
+				
+        		<div class="small-10 small-centered columns"> 
+					<h1 class="text-center ">Ajout question</h1>
+						<form role="form">
+							<div class="row panel panel-form">
+							    <div class="small-6  columns">
+							      <label>Catégorie
+							        <select>
+							          <option value=""></option>
+							          <option value=""></option>
+							          <option value=""></option>
+							          <option value=""></option>
+							        </select>
+							      </label>
+							    </div>
+							    <div class="small-6  columns">
+							      <label>Type question
+							        <select name="type">
+							          <option value="single">choix unique</option>
+							          <option value="multi">choix multiple</option>
+							        </select>
+							      </label>
+							    </div>
+						  	</div>
+					      	<div class="row panel panel-form">
+					      		<div class="small-12 columns">
+						      		<label class="hide">Question</label>
+							    	<textarea placeholder="Question" name="question"></textarea>
+						    	</div>
+					      	</div>
+					      	<div class="row">
+
+								<div class="small-12 panel">
+									<!--
+							      	<div class="row collapse">
+										<div class="small-1 columns">
+								          	<span class="prefix radius">
+								          		<a href="#"><i class="foundicon-minus red"></i></a>
+								          	</span>
+								        </div>
+								        <div class="small-9 columns">
+								          <input type="text" placeholder="Réponse possible" name="reponse1">
+								        </div>
+								        <div class="small-2 columns">
+								          	<span class="postfix radius gris-clair">
+								          		<input name="rep1" type="checkbox">
+								          	</span>
+								        </div>
+					      			</div>
+					      			<div class="row collapse">
+										<div class="small-1 columns">
+								          	<span class="prefix radius">
+								          		<a href="#"><i class="foundicon-minus red"></i></a>
+								          	</span>
+								        </div>
+								        <div class="small-9 columns">
+								          <input type="text" placeholder="Réponse possible" name="reponse1">
+								        </div>
+								        <div class="small-2 columns">
+								          	<span class="postfix radius gris-clair">
+								          		<input name="rep2" type="checkbox">
+								          	</span>
+								        </div>
+					      			</div>
+									-->
+									<div class="row collapse">
+										<div class="small-1 columns">
+								          	<span class="prefix radius">
+								          		<a href="#"><i class="foundicon-minus red"></i></a>
+								          	</span>
+								        </div>
+								        <div class="small-9 columns">
+								          <input type="text" placeholder="Réponse possible" name="reponse1">
+								        </div>
+								        <div class="small-2 columns">
+								          	<span class="postfix radius gris-clair">
+								          		<input name="rep" type="radio">
+								          	</span>
+								        </div>
+					      			</div>
+					      			<div class="row collapse">
+										<div class="small-1 columns">
+								          	<span class="prefix radius">
+								          		<a href="#"><i class="foundicon-minus red"></i></a>
+								          	</span>
+								        </div>
+								        <div class="small-9 columns">
+								          <input type="text" placeholder="Réponse possible" name="reponse1">
+								        </div>
+								        <div class="small-2 columns">
+								          	<span class="postfix radius gris-clair">
+								          		<input name="rep" type="radio">
+								          	</span>
+								        </div>
+					      			</div>
+
+								    <a class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
+					   			</div>
+
+						  	</div>
+
+						  	<div class="row panel panel-form">
+							    <div class="small-6  columns">
+							      <label>Timer
+							        <input type="number" name="timer" placeholder="en secondes">
+							      </label>
+							    </div>
+							    <div class="small-6  columns">
+							    	<input type="submit" class="button small btn-envoi" value="Ajouter">
+						    	</div>
+						  	</div>
+						</form>
+					</section>
+				</div>
+			</section>
+        </div>
+      </div>
+    </section>
+
+<a class="exit-off-canvas"></a>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	$(document).foundation();
+</script>
+{% endblock %}
