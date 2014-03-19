@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 
+/*
+ * Vérifie que le couple id/pwd existe dans la collection Teacher
+ */
 exports.isTeacherCorrect = function(id, pwd, callback){
 	var crypto = require('crypto');
 	var Teachers = mongoose.model('teacher');
@@ -20,17 +23,24 @@ exports.isTeacherCorrect = function(id, pwd, callback){
 	});
 }
 
-exports.getInfoTeacher = function(id, pwd) {
+/*
+ * Ajoute un professeur
+ */
+exports.addTeacher = function(id, pwd) {
 	var crypto = require('crypto');
-	var Teachers = mongoose.model('teacher');
+
 	var cryptedPwd = crypto.createHash('sha256').update(pwd).digest('base64');
+	var Teachers = mongoose.model('teacher');
 	
-	Teachers.find({password: cryptedPwd, name: id}).exec(function(err, result){
+	var newTeacher = new Teachers({
+		name: id,
+		password: cryptedPwd
+	});
+
+	newTeacher.save(function(err){
 		if(err) {
 			console.log(err);
 		}
-		else {
-			return result[0];
-		}
 	});
-}
+
+};

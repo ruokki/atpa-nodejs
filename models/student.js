@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 
+/*
+ * Vérifie que le couple id/email existe dans la collection Student
+ */
 exports.isStudentCorrect = function(id, email, callback){
 	var Students = mongoose.model('student');
 	
@@ -18,15 +21,21 @@ exports.isStudentCorrect = function(id, email, callback){
 	});
 }
 
-exports.getInfoStudent = function(id, email) {
-
+/*
+ * Ajoute un étudiant
+ */
+exports.addStudent = function(id, email) {
 	var Students = mongoose.model('student');
-	Students.find({email: email, name: id}).exec(function(err, result){
+	
+	var newStudent = new Students({
+		name: id,
+		email: email
+	});
+
+	newStudent.save(function(err){
 		if(err) {
 			console.log(err);
 		}
-		else {
-			return result[0];
-		}
 	});
-}
+
+};

@@ -5,6 +5,8 @@
 
 var express = require('express');
 var routes = require('./routes');
+var teacherRoutes = require('./routes/teacher');
+var studentRoutes = require('./routes/student');
 var http = require('http');
 var path = require('path');
 var swig = require('swig');
@@ -34,6 +36,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.login);
 app.post('/', routes.loginPost);
+app.get('/initializeDB', routes.initializeDB);
+
+app.get('/addquestion', teacherRoutes.addQuestion);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
