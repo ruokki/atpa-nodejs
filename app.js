@@ -44,6 +44,10 @@ app.get('/add/questionnaire', teacherRoutes.addQuestionnaire);
 app.get('/list/question', teacherRoutes.listQuestion);
 app.get('/list/questionnaire', teacherRoutes.listQuestionnaire);
 
+app.get('/stat', teacherRoutes.stat);
+
+app.get('/question/:id', studentRoutes.question);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

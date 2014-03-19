@@ -34,3 +34,12 @@ exports.listQuestionnaire = function(req, res) {
 		title: 'Liste des questionnaires'
 	})
 };
+
+/*
+ * GET stat page
+ */
+exports.stat = function(req,res) {
+	res.render('teacher/stat', {
+		title: 'Statistique'
+	});
+};
