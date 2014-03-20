@@ -2,6 +2,7 @@
  * GET addQuestion page
  */
 exports.addQuestion = function(req, res) {
+	console.log(req.session.idUser);
 	var category = require('../models/category');
 
 	category.getAllCategory(function(result){
@@ -18,10 +19,46 @@ exports.addQuestion = function(req, res) {
  * POST addQuestion page
  */
 exports.addQuestionPost = function(req, res) {
-	var category = require('../models/category');
+	var question = require('../models/question');
 
-	console.log(req.body);
+	// console.log(req.body);
+
+	var type = req.body.type;
+	var text = req.body.question;
+	var time = req.body.timer;
+	var idCat = req.body.category;
+
+	if(type === 'radio') {
+		var answers = req.body.reponse.radio;
+		var correct = req.body.radio.rep;
+	}
+	else if (type === 'checkbox') {
+		var answers = req.body.reponse.checkbox;
+		var correct = req.body.checkbox.rep;
+	}
+
+	var answersLength = answers.length;
+	var answersFinal = [];
+
+	correct = typeof(correct) === 'object' ? correct.toString() : correct;
+
+	for(var i = 0; i < answersLength; i++) {
+		var isCorrect = false;
+
+		if(correct.indexOf(i) > -1) {
+			isCorrect = true;
+		}
+
+		answersFinal.push({
+			name: answers[i],
+			correct: isCorrect
+		});
+	}
+
+	question.addQuestion(idCat, req.session.idUser, text, time, answersFinal);
+
 	res.redirect('/add/question');
+
 }
 
 /*

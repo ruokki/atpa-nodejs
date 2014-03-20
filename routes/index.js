@@ -57,8 +57,8 @@ exports.login = function(req, res){
 					// l'étudiant qui vient de se connecter
 					req.session.username = data.name;
 					req.session.email = data.email;
-					req.session.id = data._id;
-					req.session.status = "S";
+					req.session.idUser = data._id;
+					req.session.statusUser = "S";
 
 					// Redirection vers l'URL /addquestion
 					res.redirect('/list/questionnaire');
@@ -90,8 +90,8 @@ exports.login = function(req, res){
 				}
 				else {
 					req.session.username = data.name;
-					req.session.id = data._id;
-					req.session.status = "T";
+					req.session.idUser = data._id;
+					req.session.statusUser = "T";
 					res.redirect('/list/questionnaire');
 				}
 			});

@@ -22,8 +22,8 @@
 							    <div class="small-6  columns">
 							      <label>Type question
 							        <select name="type" id="sort-type">
-							          <option value="single">choix unique</option>
-							          <option value="multi">choix multiple</option>
+							          <option value="radio">choix unique</option>
+							          <option value="checkbox">choix multiple</option>
 							        </select>
 							      </label>
 							    </div>
@@ -148,11 +148,11 @@
 	    	            var obj = document.getElementById('sort-type').value;
 	    	            // alert("selected value"+obj);
 
-	    	            if(obj == "multi"){
+	    	            if(obj === "checkbox"){
 	    	             $("#input-radio").hide();
 	    	             $("#input-check").show();
 	    	            }
-	    	            else if(obj == "single"){
+	    	            else if(obj === "radio"){
 	    	             $("#input-check").hide();
 	    	             $("#input-radio").show();
 	    	            }
