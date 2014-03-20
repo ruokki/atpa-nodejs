@@ -24,7 +24,7 @@ exports.login = function(req, res){
  		var formPost = req.body.student;
 
 		// Vérification champ vide
-		if(formPost.id=="" || formPost.email=="") {
+		if(formPost.id === "" || formPost.email === "") {
 			error = "Veuillez saisir vos informations de connexion.";
 			
 			// Rendu de la page login.html
@@ -40,7 +40,7 @@ exports.login = function(req, res){
 			/* Execute la fonction isStudentCorrect du model student
 			 * La fonction de callback permet de récupérer les informations 
 			 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
-			 * récupérer ses informations, les traitements étant fait de façon 
+			 * récupérer ses informations, les traitements étant faits de façon 
 			 * asynchrone
 			 */
 			student.isStudentCorrect(formPost.id, formPost.email, function(err, data){
@@ -71,7 +71,7 @@ exports.login = function(req, res){
  		console.log("Connexion professeur");
  		var formPost = req.body.teacher;
 		
-		if(formPost.id=="" || formPost.passwd=="") {
+		if(formPost.id === "" || formPost.passwd === "") {
 			error = "Veuillez saisir vos informations de connexion.";
 			res.render("login",{
 				title: "Connexion",
