@@ -14,10 +14,9 @@
 						      		<div class="small-6  columns">
 							      <label>Catégorie
 							        <select>
-							          <option value=""></option>
-							          <option value=""></option>
-							          <option value=""></option>
-							          <option value=""></option>
+							          {% for category in categories -%}
+										<option value="{{category._id}}">{{ category.label }}</option>
+							          {%- endfor %}
 							        </select>
 							      </label>
 							    </div>

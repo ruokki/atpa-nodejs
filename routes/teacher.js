@@ -21,8 +21,13 @@ exports.addQuestionnaire = function(req, res) {
  * GET listQuestion page
  */
 exports.listQuestion = function(req, res) {
-	res.render('teacher/listQuestion', {
-		title: 'Liste des questions'
+	var category = require('../models/category');
+
+	category.getAllCategory(function(result){
+		res.render('teacher/listQuestion', {
+			title: 'Liste des questions',
+			categories: result
+		});
 	});
 }
 

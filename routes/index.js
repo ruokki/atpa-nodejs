@@ -85,11 +85,18 @@ exports.login = function(req, res){
 exports.initializeDB = function(req, res) {
 	var teacher = require('../models/teacher');
 	var student = require('../models/student');
+	var category = require('../models/category');
 
 	teacher.addTeacher('test', 'test');
 	teacher.addTeacher('toto', 'toto');
 	
 	student.addStudent('test', 'test@gmail.com');
 	student.addStudent('toto', 'toto@gmail.com');
+
+	category.addCategory('MySQL');
+	category.addCategory('PHP');
+	category.addCategory('HTML/CSS');
+	category.addCategory('Javascript');
+
 	res.redirect('/');
 }
