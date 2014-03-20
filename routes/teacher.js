@@ -2,10 +2,26 @@
  * GET addQuestion page
  */
 exports.addQuestion = function(req, res) {
-	res.render('teacher/addQuestion', {
-		title: 'Ajouter une question',
-		name: req.session.username
+	var category = require('../models/category');
+
+	category.getAllCategory(function(result){
+		var categories = result;
+		res.render('teacher/addQuestion', {
+			title: 'Ajouter une question',
+			name: req.session.username,
+			categories: categories
+		});
 	});
+}
+
+/*
+ * POST addQuestion page
+ */
+exports.addQuestionPost = function(req, res) {
+	var category = require('../models/category');
+
+	console.log(req.body);
+	res.redirect('/add/question');
 }
 
 /*

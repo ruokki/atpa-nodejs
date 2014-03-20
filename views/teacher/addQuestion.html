@@ -8,21 +8,20 @@
 				
         		<div class="small-10 small-centered columns"> 
 					<h1 class="text-center ">Ajout d'une question</h1>
-						<form role="form">
+						<form action="" method="post" name="addQuestion" role="form">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">
 							      <label>Catégorie
-							        <select>
-							          <option value=""></option>
-							          <option value=""></option>
-							          <option value=""></option>
-							          <option value=""></option>
+							        <select name="category">
+							          {% for category in categories -%}
+										<option value="{{category._id}}">{{ category.label }}</option>
+							          {%- endfor %}
 							        </select>
 							      </label>
 							    </div>
 							    <div class="small-6  columns">
 							      <label>Type question
-							        <select name="type">
+							        <select name="type" id="sort-type">
 							          <option value="single">choix unique</option>
 							          <option value="multi">choix multiple</option>
 							        </select>
@@ -35,75 +34,79 @@
 							    	<textarea placeholder="Question" name="question"></textarea>
 						    	</div>
 					      	</div>
+
 					      	<div class="row">
-
-								<div class="small-12 panel">
-									<!--
-							      	<div class="row collapse">
-										<div class="small-1 columns">
-								          	<span class="prefix radius">
-								          		<a href="#"><i class="foundicon-minus red"></i></a>
-								          	</span>
-								        </div>
-								        <div class="small-9 columns">
-								          <input type="text" placeholder="Réponse possible" name="reponse1">
-								        </div>
-								        <div class="small-2 columns">
-								          	<span class="postfix radius gris-clair">
-								          		<input name="rep1" type="checkbox">
-								          	</span>
-								        </div>
-					      			</div>
-					      			<div class="row collapse">
-										<div class="small-1 columns">
-								          	<span class="prefix radius">
-								          		<a href="#"><i class="foundicon-minus red"></i></a>
-								          	</span>
-								        </div>
-								        <div class="small-9 columns">
-								          <input type="text" placeholder="Réponse possible" name="reponse1">
-								        </div>
-								        <div class="small-2 columns">
-								          	<span class="postfix radius gris-clair">
-								          		<input name="rep2" type="checkbox">
-								          	</span>
-								        </div>
-					      			</div>
-									-->
-									<div class="row collapse">
-										<div class="small-1 columns">
-								          	<span class="prefix radius">
-								          		<a href="#"><i class="foundicon-minus red"></i></a>
-								          	</span>
-								        </div>
-								        <div class="small-9 columns">
-								          <input type="text" placeholder="Réponse possible" name="reponse1">
-								        </div>
-								        <div class="small-2 columns">
-								          	<span class="postfix radius gris-clair">
-								          		<input name="rep" type="radio">
-								          	</span>
-								        </div>
-					      			</div>
-					      			<div class="row collapse">
-										<div class="small-1 columns">
-								          	<span class="prefix radius">
-								          		<a href="#"><i class="foundicon-minus red"></i></a>
-								          	</span>
-								        </div>
-								        <div class="small-9 columns">
-								          <input type="text" placeholder="Réponse possible" name="reponse1">
-								        </div>
-								        <div class="small-2 columns">
-								          	<span class="postfix radius gris-clair">
-								          		<input name="rep" type="radio">
-								          	</span>
-								        </div>
+					      		<div class="small-12 panel">
+					      			<div id="input-check">
+									
+								      	<div class="row collapse input-multi">
+											<div class="small-1 columns">
+									          	<span class="prefix radius">
+									          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+									          	</span>
+									        </div>
+									        <div class="small-9 columns">
+									          <input type="text" placeholder="Réponse possible" name="reponse[checkbox]">
+									        </div>
+									        <div class="small-2 columns">
+									          	<span class="postfix radius gris-clair">
+									          		<input value="0" name="checkbox[rep]" type="checkbox">
+									          	</span>
+									        </div>
+						      			</div>
+						      			<div class="row collapse input-multi">
+											<div class="small-1 columns">
+									          	<span class="prefix radius">
+									          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+									          	</span>
+									        </div>
+									        <div class="small-9 columns">
+									          <input type="text" placeholder="Réponse possible" name="reponse[checkbox]">
+									        </div>
+									        <div class="small-2 columns">
+									          	<span class="postfix radius gris-clair">
+									          		<input value="1" name="checkbox[rep]" type="checkbox">
+									          	</span>
+									        </div>
+						      			</div>
+										<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
-								    <a class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
+					      			<div id="input-radio">
+					      				
+										<div class="row collapse input-single">
+											<div class="small-1 columns">
+									          	<span class="prefix radius">
+									          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+									          	</span>
+									        </div>
+									        <div class="small-9 columns">
+									          <input type="text" placeholder="Réponse possible" name="reponse[radio]">
+									        </div>
+									        <div class="small-2 columns">
+									          	<span class="postfix radius gris-clair">
+									          		<input name="radio[rep]" type="radio" value="0">
+									          	</span>
+									        </div>
+						      			</div>
+						      			<div class="row collapse input-single">
+											<div class="small-1 columns">
+									          	<span class="prefix radius">
+									          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+									          	</span>
+									        </div>
+									        <div class="small-9 columns">
+									          <input type="text" placeholder="Réponse possible" name="reponse[radio]">
+									        </div>
+									        <div class="small-2 columns">
+									          	<span class="postfix radius gris-clair">
+									          		<input name="radio[rep]" type="radio" value="1">
+									          	</span>
+									        </div>
+						      			</div>
+						      			<a id="add-single-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
+								    </div>
 					   			</div>
-
 						  	</div>
 
 						  	<div class="row panel panel-form">
@@ -123,4 +126,109 @@
         </div>
       </div>
     </section>
+{% endblock %}
+
+{% block script %}
+<script>
+	    	$("document").ready(function(){
+		    	$("#input-check").hide();
+		    	removeInputrep();
+		    	displayInputRep();
+		    	addInputrep();
+	    	});
+
+
+	    	/**
+	    	* Gestion de l'affichage des champs "réponse"
+	    	**/
+	    	function displayInputRep(){
+	    	$("#sort-type").change(function(event){
+	    	        // alert("Click event on Select has occurred!");
+	    	        $("option:selected", $(this)).each(function(){
+	    	            var obj = document.getElementById('sort-type').value;
+	    	            // alert("selected value"+obj);
+
+	    	            if(obj == "multi"){
+	    	             $("#input-radio").hide();
+	    	             $("#input-check").show();
+	    	            }
+	    	            else if(obj == "single"){
+	    	             $("#input-check").hide();
+	    	             $("#input-radio").show();
+	    	            }
+	    	            else{
+	    	             $("#input-check").hide();
+	    	             $("#input-radio").hide();
+	    	            }
+	    	        });
+	    	   });
+	    	}
+
+	    	/**
+	    	* Gestion de l'ajout des champs "réponse"
+	    	**/
+	    	function addInputrep(){
+		    	$("#add-single-rep").click(function(){
+
+		    	var nbInput = 0;
+		    	nbInput = $(".input-single").length;
+
+		    	var singleInput = '';
+		    	singleInput = '<div class="row collapse input-single">'
+		    	+'<div class="small-1 columns">'
+		    		+'<span class="prefix radius">'
+		    		+'<a class="remove-input" href="#">'
+		    			+'<i class="foundicon-remove red"></i>'
+		    		+'</a>'
+		    		+'</span>'
+		    	+'</div>'
+		    	+'<div class="small-9 columns">'
+		    		+'<input type="text" placeholder="Réponse possible" name="reponse[radio]">'
+		    	+'</div>'
+		    	+'<div class="small-2 columns">'
+		    		+'<span class="postfix radius gris-clair">'
+		    			+'<input name="radio[rep]" type="radio" value="'+nbInput+'">'
+		    		+'</span>'
+		    	+'</div>'
+		    	+'</div>';
+
+
+		    	$(singleInput).insertBefore(this);
+		    	removeInputrep();
+	    	});
+
+	    	$("#add-multi-rep").click(function(){
+		    	var nbInput = 0;
+		    	nbInput = $(".input-multi").length;
+
+		    	var multiInput = '<div class="row collapse input-multi">'
+		    		+'<div class="small-1 columns">'
+		    			+'<span class="prefix radius">'
+		    				+'<a class="remove-input" href="#">'
+		    					+'<i class="foundicon-remove red"></i>'
+		    				+'</a>'
+		    			+'</span>'
+		    		+'</div>'
+		    		+'<div class="small-9 columns">'
+		    			+'<input type="text" placeholder="Réponse possible" name="reponse[checkbox]">'
+		    		+'</div>'
+		    		+'<div class="small-2 columns">'
+		    			+'<span class="postfix radius gris-clair">'
+		    				+'<input name="checkbox[rep]" value="'+nbInput+'" type="checkbox">'
+		    			+'</span>'
+		    		+'</div>'
+		    	+'</div>';
+
+		    	$(multiInput).insertBefore(this);
+		    	removeInputrep();
+		    	});
+	    	}
+
+	    	function removeInputrep(){
+		    	$(".remove-input").off(".remove");
+		    	$(".remove-input").on("click.remove", function(){
+		    	$(this).parent().parent().parent().remove();
+		    	});
+	    	}
+</script>
 {% endblock %}

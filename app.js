@@ -39,6 +39,7 @@ app.post('/', routes.loginPost);
 app.get('/initializeDB', routes.initializeDB);
 
 app.get('/add/question', teacherRoutes.addQuestion);
+app.post('/add/question', teacherRoutes.addQuestionPost);
 app.get('/add/questionnaire', teacherRoutes.addQuestionnaire);
 
 app.get('/list/question', teacherRoutes.listQuestion);
