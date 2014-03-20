@@ -2,36 +2,43 @@
 
 {% block content %}
     <section class="main-section">
-      <div class="row">
-        <div class="small-12 columns">	<!-- body -->
-        	<section id="section-main" class="container container-marge">
-				
-        		<div class="small-10 small-centered columns"> 
-					<h1 class="text-center ">Statistique</h1>
-						<form role="form">
-							<div class="row">
-								
-							    <div class="small-12  columns no-padding panel panel-form">
-						      		<div class="small-6  columns">
-							        	<label>Question
-							        		<select>
-							        			<option></option>
-							        		</select>
-							        	</label>
+	      <div class="row">
+	        <div class="small-12 columns">	<!-- body -->
+	        	<section id="section-main" class="container container-marge">
+					
+	        		<div class="small-10 small-centered columns"> 
+						<h1 class="text-center ">Statistique</h1>
+							<form role="form">
+								<div class="row">
+									
+								    <div class="small-12  columns no-padding panel panel-form">
+							      		<div class="small-6  columns">
+								        	<label>Question
+								        		<select>
+								        			<option></option>
+								        		</select>
+								        	</label>
+								    	</div>
+								    </div>
+								   
+								   	<div class="small-12  columns no-padding panel panel-form">
+								   		<div class="right small-4 right">
+								   			<span class="bold">nombre de participants : <a class="nb-participant bleu">10</a></span>
+								   		</div>
+								   		<div>
+								   			<canvas id="myChart" width="400" height="340"></canvas>
+								   		</div>
 							    	</div>
-							    </div>
-							   
-							   	<div class="small-12  columns no-padding panel panel-form">
-							   		<div class="right small-4 right">
-							   			<span class="bold">nombre de participants : <a class="nb-participant bleu">10</a></span>
-							   		</div>
-						    	</div>
-						  	</div>
-						</form>
-					</section>
-				</div>
-			</section>
-        </div>
-      </div>
-    </section>
+							  	</div>
+							</form>
+						</section>
+					</div>
+				</section>
+	        </div>
+    	</div>
+   </section>
+{% endblock %}
+
+{% block script %}
+	<script src="/js/Chart.js"></script>
 {% endblock %}
