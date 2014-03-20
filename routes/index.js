@@ -106,6 +106,7 @@ exports.initializeDB = function(req, res) {
 	var teacher = require('../models/teacher');
 	var student = require('../models/student');
 	var category = require('../models/category');
+	var question = require('../models/question');
 
 	teacher.addTeacher('test', 'test');
 	teacher.addTeacher('toto', 'toto');
@@ -117,6 +118,48 @@ exports.initializeDB = function(req, res) {
 	category.addCategory('PHP');
 	category.addCategory('HTML/CSS');
 	category.addCategory('Javascript');
+
+	question.addQuestion(
+		1,
+		1,
+		"Combien font 2 + 2 ?",
+		30,
+		[
+			{
+				name: '4',
+				correct: true
+			},
+			{
+				name: '6',
+				correct: false
+			},
+			{
+				name: '8',
+				correct: false
+			}
+		]
+	);
+
+	question.addQuestion(
+		1,
+		1,
+		"Quelle est la capitale de la France ?",
+		30,
+		[
+			{
+				name: 'Paris',
+				correct: true
+			},
+			{
+				name: 'Londres',
+				correct: false
+			},
+			{
+				name: 'Rome',
+				correct: false
+			}
+		]
+	);
 
 	res.redirect('/');
 }

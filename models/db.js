@@ -57,10 +57,7 @@ var questionSchema = new Schema({
 		trim: true
 	},
 	time: Number,
-	answers: {
-		name : String,
-		correct: Boolean
-	}
+	answers: []
 });
 
 questionSchema.plugin(autoIncrement.plugin, 'question');
