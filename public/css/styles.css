@@ -136,3 +136,105 @@ h2{
 	font-size: 20px;
 	margin: 8px 0 0 0;
 }
+
+
+
+/* ======================
+	POPUP
+======================= */
+
+#pop-remove-confirm{
+	background: none repeat scroll 0 0 #222222;
+    color: #FFFFFF;
+    margin: 0 auto;
+    padding: 10px 5px;
+    text-align: center;
+    width: 215px;
+}
+
+.popup-center{
+ 	display: block;
+    opacity: 0.9;
+    position: absolute;
+    text-align: center;
+    top: 35%;
+    width: 100%;
+    z-index: 2;
+}
+
+.popup-titre{
+
+	margin: 5px 0 10px 0;
+}
+
+.popup-close{
+	color: #ffffff;
+	float: right;
+	margin-right: 5px; 
+}
+
+.btn-annule{
+	margin-right: 5px; 
+}
+
+.btn-confirm{
+	margin-left: 5px; 
+}
+
+
+
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (max-width : 321px) {
+
+    #pop-remove-confirm{
+		background: none repeat scroll 0 0 #222222;
+        color: #FFFFFF;
+        margin: 0 auto;
+        padding: 35px 5px;
+        text-align: center;
+  		width: 80%;
+	}
+
+	.popup-center{
+	    display: block;
+	    opacity: 0.9;
+	    position: absolute;
+	    text-align: center;
+	    top: 35%;
+	    width: 100%;
+	    z-index: 2;
+	    bottom: 0;
+	    opacity: 0.9;
+	    position: fixed;
+	    text-align: center;
+	    width: 100%;
+	    z-index: 2;
+	}
+
+	.popup-titre{
+	   margin: 10px 0 35px 0 !important;
+	   font-size: 40px !important;
+
+	}
+
+	.popup-close{
+		color: #ffffff;
+		float: right;
+		margin-right: 20px; 
+	}
+
+	.btn-annule{
+		margin-right: 15px !important; 
+		font-size: 45px !important;
+	    font-weight: bold !important;
+
+
+	}
+
+	.btn-confirm{
+		margin-left: 15px !important; 
+		font-size: 45px !important;
+	    font-weight: bold !important;
+	}
+}
