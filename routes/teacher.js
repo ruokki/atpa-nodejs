@@ -1,12 +1,22 @@
+/* -------------------------------------------------- */
+/*     Gestion des pages destinées à l'enseignant     */
+/* -------------------------------------------------- */
+
 /*
  * GET addQuestion page
+ * Affiche le formulaire d'ajout de question
  */
 exports.addQuestion = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var category = require('../models/category');
 
 	category.getAllCategory(function(result){
 		var categories = result;
-		res.render('teacher/addQuestion', {
+		res.render('teacher/questionForm', {
 			title: 'Ajouter une question',
 			name: req.session.username,
 			categories: categories
@@ -15,25 +25,84 @@ exports.addQuestion = function(req, res) {
 }
 
 /*
+ * GET editQuestion page
+ * Affiche le formulaire d'édition d'une question
+ */
+exports.editQuestion = function(req, res) {
+
+	// if(req.session.statusUser === 'S' || !req.session.statusUser) {
+	// 	res.redirect('/');
+	// }
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var idQuestion = req.params.id;
+	var idTeacher = req.session.idUser;
+
+	category.getAllCategory(function(result){
+		var categories = result;
+
+		question.getQuestion(idQuestion, idTeacher, function(err, data){
+			if(err) {
+				res.redirect('/add/question');
+			}
+			else {
+				var form = {
+					type: data.type,
+					answers: data.answers,
+					question: data.text,
+					timer: data.time,
+					category: data._id_cat
+				}
+
+				res.render('teacher/questionForm', {
+					title: 'Éditer une question',
+					name: req.session.username,
+					categories: categories,
+					form : form
+				});
+			}
+		});
+	});
+}
+
+/*
  * POST addQuestion page
+ * Vérifie que les champs ont bien été remplis
+ * Si oui, enregistre la question en base
+ * Si non, réaffiche le formulaire pré-rempli avec les erreurs à corriger
  */
 exports.addQuestionPost = function(req, res) {
+
+	// if(req.session.statusUser === 'S' || !req.session.statusUser) {
+	// 	res.redirect('/');
+	// }
+
 	var question = require('../models/question');
 
 	var errors = [];
-	var type = req.body.type;
+	// Type de question (choix multiple, choix unique)
+	var type = req.body.type; 
+
+	// Texte de la question
 	var text = req.body.question;
 	if(text === "") {
 		errors.push("Veuiller remplir le champ Question");
 	}
 
+	// Valeur du timer
 	var time = req.body.timer;
 	if(time === "") {
 		errors.push("Veuiller remplir le champ Timer");
 	}
+	else if (!time.match(/^[0-9]*$/)) {
+		errors.push("La valeur du champ Timer doit être un nombre");
+	}
 
+	// Index de la catégorie
 	var idCat = req.body.category;
 
+	// Récupére les réponses et leurs checkbox/radios associées
 	if(type === 'radio') {
 		var answers = req.body.reponse.radio;
 		var correct;
@@ -62,6 +131,7 @@ exports.addQuestionPost = function(req, res) {
 
 	correct = typeof(correct) === 'object' ? correct.toString() : correct;
 
+	// Parcours de la tableau contenant les questions
 	for(var i = 0; i < answersLength; i++) {
 		var isCorrect = false;
 
@@ -79,9 +149,13 @@ exports.addQuestionPost = function(req, res) {
 		});
 	}
 
+	/* 
+	 * Si aucune erreur, on enregistre en base et on redirige vers une autre page
+	 * Sinon, on réaffiche le formulaire pré-rempli avec les erreurs détectées
+	 */
 	if(!errors.length) {
 
-		question.addQuestion(idCat, req.session.idUser, text, time, answersFinal);
+		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal);
 
 		res.redirect('/add/question');
 	}
@@ -96,11 +170,9 @@ exports.addQuestionPost = function(req, res) {
 			answers: answersFinal
 		}
 
-		console.log(form);
-
 		category.getAllCategory(function(result){
 			var categories = result;
-			res.render('teacher/addQuestion', {
+			res.render('teacher/questionForm', {
 				title: 'Ajouter une question',
 				name: req.session.username,
 				categories: categories,
@@ -111,6 +183,8 @@ exports.addQuestionPost = function(req, res) {
 	}
 
 }
+
+
 
 /*
  * GET addQuestionnaire page

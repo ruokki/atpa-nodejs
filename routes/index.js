@@ -1,3 +1,6 @@
+/* ---------------------------------- */
+/*     Gestion des pages communes     */
+/* ---------------------------------- */
 
 /*
  * GET login page.
@@ -123,6 +126,7 @@ exports.initializeDB = function(req, res) {
 		1,
 		1,
 		"Combien font 2 + 2 ?",
+		'radio',
 		30,
 		[
 			{
@@ -144,6 +148,7 @@ exports.initializeDB = function(req, res) {
 		1,
 		1,
 		"Quelle est la capitale de la France ?",
+		'radio',
 		30,
 		[
 			{
@@ -156,6 +161,28 @@ exports.initializeDB = function(req, res) {
 			},
 			{
 				name: 'Rome',
+				correct: false
+			}
+		]
+	);
+
+	question.addQuestion(
+		1,
+		1,
+		"Donner au moins un moteur de recherche",
+		'checkbox',
+		30,
+		[
+			{
+				name: 'Google',
+				correct: true
+			},
+			{
+				name: 'Yahoo',
+				correct: true
+			},
+			{
+				name: 'Astalavista',
 				correct: false
 			}
 		]

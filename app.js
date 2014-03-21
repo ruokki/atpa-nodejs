@@ -34,19 +34,37 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/* ------------------------- */
+/*       Page de login       */
+/* ------------------------- */
 app.get('/', routes.login);
 app.post('/', routes.loginPost);
 app.get('/initializeDB', routes.initializeDB);
 
+
+/* ----------------------------- */
+/*     Gestion des questions     */
+/* ----------------------------- */
+app.get('/list/question', teacherRoutes.listQuestion);
 app.get('/add/question', teacherRoutes.addQuestion);
 app.post('/add/question', teacherRoutes.addQuestionPost);
-app.get('/add/questionnaire', teacherRoutes.addQuestionnaire);
+app.get('/edit/question/:id', teacherRoutes.editQuestion);
+//app.post('/edit/question/:id', teacherRoutes.editQuestionPost);
 
-app.get('/list/question', teacherRoutes.listQuestion);
+/* ---------------------------------- */
+/*     Gestion des questionnaires     */
+/* ---------------------------------- */
+app.get('/add/questionnaire', teacherRoutes.addQuestionnaire);
 app.get('/list/questionnaire', teacherRoutes.listQuestionnaire);
 
+/* -------------------- */
+/*     Statistiques     */
+/* -------------------- */
 app.get('/stat', teacherRoutes.stat);
 
+/* -------------------------- */
+/*     Page de l'étudiant     */
+/* -------------------------- */
 app.get('/question/:id', studentRoutes.question);
 
 http.createServer(app).listen(app.get('port'), function(){

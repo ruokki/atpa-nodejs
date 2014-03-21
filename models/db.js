@@ -51,6 +51,7 @@ var questionSchema = new Schema({
 	_id: Number,
 	_id_cat: {type: Number, ref: 'category'},
 	_id_teacher: {type : Number, ref: 'teacher'},
+	type : String,
 	text : {
 		type : String,
 		unique: true,
