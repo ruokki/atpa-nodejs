@@ -49,7 +49,7 @@ app.get('/list/question', teacherRoutes.listQuestion);
 app.get('/add/question', teacherRoutes.addQuestion);
 app.post('/add/question', teacherRoutes.addQuestionPost);
 app.get('/edit/question/:id', teacherRoutes.editQuestion);
-//app.post('/edit/question/:id', teacherRoutes.editQuestionPost);
+app.post('/edit/question/:id', teacherRoutes.editQuestionPost);
 
 /* ---------------------------------- */
 /*     Gestion des questionnaires     */

@@ -7,7 +7,7 @@
         	<section id="section-main" class="container container-marge">
 				
         		<div class="small-10 small-centered columns"> 
-					<h1 class="text-center ">Ajout d'une question</h1>
+					<h1 class="text-center ">{{ pageTitle }}</h1>
 					{% if errors %}
 					<div class="small-12 columns">
 						<div data-alert class="alert-box alert radius">
@@ -67,7 +67,7 @@
 		      								        </div>
 		      								        <div class="small-2 columns">
 		      								          	<span class="postfix radius gris-clair">
-		      								          		<input value="0" name="checkbox[rep]" type="checkbox" {% if checkbox.correct %}checked="checked"{% endif %}>
+		      								          		<input value="{{ loop.index0 }}" name="checkbox[rep]" type="checkbox" {% if checkbox.correct %}checked="checked"{% endif %}>
 		      								          	</span>
 		      								        </div>
 		      					      			</div>
@@ -129,7 +129,7 @@
 	      									        </div>
 	      									        <div class="small-2 columns">
 	      									          	<span class="postfix radius gris-clair">
-	      									          		<input name="radio[rep]" type="radio" value="0" {% if radio.correct == true %} checked="checked" {% endif %}>
+	      									          		<input name="radio[rep]" type="radio" value="{{ loop.index0 }}" {% if radio.correct == true %} checked="checked" {% endif %}>
 	      									          	</span>
 	      									        </div>
 	      						      			</div>
@@ -187,7 +187,7 @@
 							      </label>
 							    </div>
 							    <div class="small-6  columns">
-							    	<input type="submit" class="button small btn-envoi" value="Ajouter">
+							    	<input type="submit" class="button small btn-envoi" value="{{ valid }}">
 						    	</div>
 						  	</div>
 						</form>

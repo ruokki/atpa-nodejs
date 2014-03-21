@@ -46,3 +46,33 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) 
 	});
 
 };
+
+/*
+ * Met à jour une question
+ */
+ exports.updateQuestion = function(idQuestion, idCat, question, type, time, answers) {
+ 	var Questions = mongoose.model('question');
+ 	
+ 	// Model.update(condition, toUpdate, option, callback)
+ 	Questions.update({
+ 		_id: idQuestion
+ 	}, {
+ 		$set: {
+ 			_id_cat: idCat,
+ 			text: question,
+ 			time: time,
+ 			type: type,
+ 			answers: answers
+ 		}
+ 	}, 
+ 	{}, 
+ 	function(err, rowAffected, raw){
+ 		if(err) {
+ 			console.log(err);
+ 		}
+ 		else {
+ 			console.log("Nb Row affected : " + rowAffected);
+ 		}
+ 	});
+
+ };
