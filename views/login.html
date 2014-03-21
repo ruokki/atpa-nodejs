@@ -12,9 +12,10 @@
 			<div class="row">
 				<h1 class="text-center title">Connexion</h1>
 				{% if error %}
-				<div class="small-12 columns">
+				<div data-alert class="small-12 columns">
 					<div class="alert-box alert radius">
 						{{ error }}
+						<a href="#" class="close">&times;</a>
 					</div>
 				</div>
 				{% endif %}
@@ -66,7 +67,25 @@
 		</section>
 		<script src="/js/vendor/jquery.js"></script>
 		<script src="/js/foundation.min.js"></script>
-		<script src="/js/script.js"></script>
 		<script src="/js/vendor/modernizr.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(document).foundation();
+
+				$("#form-enseignant").hide();
+				$("#form-etudiant").hide();
+
+				$("#btn-login-etudiant").click(function(){
+					$("#form-enseignant").hide();
+					$("#form-etudiant").show("fast");
+				});
+
+				$("#btn-login-enseignant").click(function(){
+					$("#form-etudiant").hide();
+					$("#form-enseignant").show("fast");
+				});
+
+			});
+		</script>
 	</body>
 </html>

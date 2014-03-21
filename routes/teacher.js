@@ -2,7 +2,6 @@
  * GET addQuestion page
  */
 exports.addQuestion = function(req, res) {
-	console.log(req.session.idUser);
 	var category = require('../models/category');
 
 	category.getAllCategory(function(result){
@@ -21,20 +20,41 @@ exports.addQuestion = function(req, res) {
 exports.addQuestionPost = function(req, res) {
 	var question = require('../models/question');
 
-	// console.log(req.body);
-
+	var errors = [];
 	var type = req.body.type;
 	var text = req.body.question;
+	if(text === "") {
+		errors.push("Veuiller remplir le champ Question");
+	}
+
 	var time = req.body.timer;
+	if(time === "") {
+		errors.push("Veuiller remplir le champ Timer");
+	}
+
 	var idCat = req.body.category;
 
 	if(type === 'radio') {
 		var answers = req.body.reponse.radio;
-		var correct = req.body.radio.rep;
+		var correct;
+		if(req.body.radio) {
+			correct = req.body.radio.rep;
+		}
+		else {
+			correct = '';
+			errors.push("Veuiller choisir une bonne réponse");
+		}
 	}
 	else if (type === 'checkbox') {
 		var answers = req.body.reponse.checkbox;
-		var correct = req.body.checkbox.rep;
+		var correct;
+		if(req.body.checkbox) {
+			correct = req.body.checkbox.rep;
+		}
+		else {
+			correct = '';
+			errors.push("Veuiller choisir au moins une bonne réponse");
+		}
 	}
 
 	var answersLength = answers.length;
@@ -49,15 +69,46 @@ exports.addQuestionPost = function(req, res) {
 			isCorrect = true;
 		}
 
+		if(answers[i].trim() === '') {
+			errors.push('Veuiller remplir la question ' + (i + 1));
+		}
+
 		answersFinal.push({
 			name: answers[i],
 			correct: isCorrect
 		});
 	}
 
-	question.addQuestion(idCat, req.session.idUser, text, time, answersFinal);
+	if(!errors.length) {
 
-	res.redirect('/add/question');
+		question.addQuestion(idCat, req.session.idUser, text, time, answersFinal);
+
+		res.redirect('/add/question');
+	}
+	else {
+		var category = require('../models/category');
+
+		var form = {
+			question : text,
+			type: type,
+			category: idCat,
+			timer: time,
+			answers: answersFinal
+		}
+
+		console.log(form);
+
+		category.getAllCategory(function(result){
+			var categories = result;
+			res.render('teacher/addQuestion', {
+				title: 'Ajouter une question',
+				name: req.session.username,
+				categories: categories,
+				errors: errors,
+				form: form
+			});
+		});
+	}
 
 }
 

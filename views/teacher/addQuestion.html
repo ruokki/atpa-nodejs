@@ -8,22 +8,35 @@
 				
         		<div class="small-10 small-centered columns"> 
 					<h1 class="text-center ">Ajout d'une question</h1>
+					{% if errors %}
+					<div class="small-12 columns">
+						<div data-alert class="alert-box alert radius">
+							{% for error in errors -%}
+							<p>{{ error }}</p>
+							{%- endfor %}
+							<a href="#" class="close">&times;</a>
+						</div>
+					</div>
+					{% endif %}
 						<form action="" method="post" name="addQuestion" role="form">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">
 							      <label>Catégorie
 							        <select name="category">
 							          {% for category in categories -%}
-										<option value="{{category._id}}">{{ category.label }}</option>
+										<option value="{{category._id}}" 
+										{% if form && form.category == category._id %} selected="selected" {% endif %}>
+											{{ category.label }}
+										</option>
 							          {%- endfor %}
 							        </select>
 							      </label>
 							    </div>
 							    <div class="small-6  columns">
 							      <label>Type question
-							        <select name="type" id="sort-type">
-							          <option value="radio">choix unique</option>
-							          <option value="checkbox">choix multiple</option>
+							        <select name="type" id="sort-type" >
+							          <option value="radio" {% if form && form.type == 'radio' %} selected="selected"{% endif %}>choix unique</option>
+							          <option value="checkbox" {% if form && form.type == 'checkbox' %} selected="selected"{% endif %}>choix multiple</option>
 							        </select>
 							      </label>
 							    </div>
@@ -31,14 +44,36 @@
 					      	<div class="row panel panel-form">
 					      		<div class="small-12 columns">
 						      		<label class="hide">Question</label>
-							    	<textarea placeholder="Question" name="question"></textarea>
+							    	<textarea placeholder="Question" name="question">{% if form%}{{ form.question }}{% endif %}</textarea>
 						    	</div>
 					      	</div>
 
 					      	<div class="row">
 					      		<div class="small-12 panel">
-					      			<div id="input-check">
-									
+					      			<!--******************************-->
+									<!-- DIV D'AFFICHAGE DES CHECKBOX -->
+									<!--******************************-->
+					      				{% if form && form.type == 'checkbox' %}
+					      				<div id="input-check">
+					      					{% for checkbox in form.answers -%}
+		      							      	<div class="row collapse input-multi">
+		      										<div class="small-1 columns">
+		      								          	<span class="prefix radius">
+		      								          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+		      								          	</span>
+		      								        </div>
+		      								        <div class="small-9 columns">
+		      								          <input type="text" placeholder="Réponse possible" name="reponse[checkbox]" value="{{ checkbox.name }}">
+		      								        </div>
+		      								        <div class="small-2 columns">
+		      								          	<span class="postfix radius gris-clair">
+		      								          		<input value="0" name="checkbox[rep]" type="checkbox" {% if checkbox.correct %}checked="checked"{% endif %}>
+		      								          	</span>
+		      								        </div>
+		      					      			</div>
+					      					{%- endfor %}
+					      				{% else %}
+					      				<div id="input-check"  class="hide">
 								      	<div class="row collapse input-multi">
 											<div class="small-1 columns">
 									          	<span class="prefix radius">
@@ -69,11 +104,42 @@
 									          	</span>
 									        </div>
 						      			</div>
+						      			{% endif %}
 										<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
-					      			<div id="input-radio">
-					      				
+					      			<!--**********************************-->
+									<!-- FIN DIV D'AFFICHAGE DES CHECKBOX -->
+									<!--**********************************-->
+
+									<!--****************************-->
+									<!-- DIV D'AFFICHAGE DES RADIOS -->
+									<!--****************************-->
+					      				{% if form && form.type == 'radio' %}
+					      				<div id="input-radio">
+					      					{% for radio in form.answers -%}
+	      										<div class="row collapse input-single">
+	      											<div class="small-1 columns">
+	      									          	<span class="prefix radius">
+	      									          		<a class="remove-input" href="#"><i class="foundicon-remove red"></i></a>
+	      									          	</span>
+	      									        </div>
+	      									        <div class="small-9 columns">
+	      									          <input type="text" placeholder="Réponse possible" name="reponse[radio]" value="{{ radio.name }}">
+	      									        </div>
+	      									        <div class="small-2 columns">
+	      									          	<span class="postfix radius gris-clair">
+	      									          		<input name="radio[rep]" type="radio" value="0" {% if radio.correct == true %} checked="checked" {% endif %}>
+	      									          	</span>
+	      									        </div>
+	      						      			</div>
+					      					{%- endfor %}
+					      				{% else %}
+					      					{% if !form %}
+					      						<div id="input-radio">
+			      							{% else %}
+			      								<div id="input-radio" class="hide">
+					      					{% endif%}
 										<div class="row collapse input-single">
 											<div class="small-1 columns">
 									          	<span class="prefix radius">
@@ -104,15 +170,20 @@
 									          	</span>
 									        </div>
 						      			</div>
+						      			{% endif %}
 						      			<a id="add-single-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 								    </div>
+								    <!--********************************-->
+									<!-- FIN DIV D'AFFICHAGE DES RADIOS -->
+									<!--********************************-->
+
 					   			</div>
 						  	</div>
 
 						  	<div class="row panel panel-form">
 							    <div class="small-6  columns">
 							      <label>Timer
-							        <input type="number" name="timer" placeholder="en secondes">
+							        <input type="number" name="timer" placeholder="en secondes" value="{% if form %}{{ form.timer }}{% endif %}">
 							      </label>
 							    </div>
 							    <div class="small-6  columns">
@@ -131,7 +202,6 @@
 {% block script %}
 <script>
 	    	$("document").ready(function(){
-		    	$("#input-check").hide();
 		    	removeInputrep();
 		    	displayInputRep();
 		    	addInputrep();
