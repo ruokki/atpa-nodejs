@@ -474,11 +474,16 @@ exports.listQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
 
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+	
 	question.getAllQuestion(function(questionResult){
 		category.getAllCategory(function(categoryResult){
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
-				categories: categoryResult
+				categories: categoryResult,
+				questions: questionResult
 			});
 		});
 	});
