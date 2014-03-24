@@ -37,7 +37,7 @@
 									  {% for question in questions -%}
 										<tr id="{{question._id}}">
 									      <td value="{{question._id}}">{{ question.text }}</td>
-									      <td class="text-center"><a href="#"><i class="foundicon-minus red"></i></a></td>
+									      <td class="text-center"><a class="remove-questionnaire" href="#"><i class="foundicon-minus red"></i></a></td>
 									      <td class="text-center"><a href="/edit/question/{{question._id}}"><i class="foundicon-edit"></i></a></td>
 									    </tr>
 							          {%- endfor %}
