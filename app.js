@@ -74,6 +74,7 @@ app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/panelquestion', teacherRoutes.panelquestion);
+app.get('/waitsession', teacherRoutes.waitsession);
 
 
 /* -------------------------- */

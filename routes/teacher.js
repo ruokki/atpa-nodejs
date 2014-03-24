@@ -564,3 +564,9 @@ exports.panelquestion = function(req,res) {
 		title: 'Question'
 	});
 };
+
+exports.waitsession = function(req,res) {
+	res.render('teacher/waitsession', {
+		title: 'En attente'
+	});
+};
