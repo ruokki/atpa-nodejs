@@ -2,6 +2,12 @@
 /*     Gestion des pages destinées à l'enseignant     */
 /* -------------------------------------------------- */
 
+
+/* ---------------------------- */
+/*     Gestion des question     */
+/* ---------------------------- */
+
+
 /*
  * GET addQuestion page
  * Affiche le formulaire d'ajout de question
@@ -330,8 +336,15 @@ exports.addQuestionPost = function(req, res) {
 
 
 
+/* ---------------------------- */
+/*     Gestion des sessions     */
+/* ---------------------------- */
+
+
+
 /*
  * GET addSession page
+ * Affiche le formulaire d'ajout d'une session
  */
 exports.addSession = function(req, res) {
 	var question = require('../models/question');
@@ -346,6 +359,9 @@ exports.addSession = function(req, res) {
 
 /*
  * POST addSession page
+ * Enregistre les informations entrées dans le formulaire
+ * Si elles sont valides, on les enregistre en base
+ * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
  */
 exports.addSessionPost = function(req, res) {
 	var session = require('../models/session');
@@ -368,8 +384,30 @@ exports.addSessionPost = function(req, res) {
 			res.redirect('/add/session');
 		}
 	});
-
 };
+
+/*
+ * GET editSession page
+ * Affiche le formulaire d'édition d'une page
+ */
+exports.editSession = function(req, res) {
+	var question = require('../models/question');
+
+	var id = req.params.id;
+
+	question.getAllQuestion(function(questionResult){
+		res.render('teacher/sessionForm', {
+			title: 'Édition de la session',
+			questions: questionResult
+		});
+	});
+};
+
+
+
+/* ------------------- */
+/*     Partie /list    */
+/* ------------------- */
 
 /*
  * GET listQuestion page
@@ -396,6 +434,11 @@ exports.listSession = function(req, res) {
 		title: 'Liste des questionnaires'
 	})
 };
+
+
+/* ----------------------- */ 
+/*     Page statistique    */
+/* ----------------------- */ 
 
 /*
  * GET stat page

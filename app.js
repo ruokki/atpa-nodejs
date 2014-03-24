@@ -58,6 +58,7 @@ app.post('/edit/question/:id/:status', teacherRoutes.editQuestionPost);
 /* ---------------------------- */
 app.get('/add/session', teacherRoutes.addSession);
 app.post('/add/session', teacherRoutes.addSessionPost);
+app.get('/edit/session/:id', teacherRoutes.editSession);
 app.get('/list/session', teacherRoutes.listSession);
 
 /* -------------------- */
