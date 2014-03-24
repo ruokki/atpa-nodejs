@@ -18,6 +18,14 @@
 						</div>
 					</div>
 					{% endif %}
+					{% if status %}
+					<div class="small-12 columns">
+						<div data-alert class="alert-box success radius">
+							{{ status }}
+							<a href="#" class="close">&times;</a>
+						</div>
+					</div>
+					{% endif %}
 						<form action="" method="post" name="addQuestion" role="form">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">

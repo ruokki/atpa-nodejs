@@ -64,7 +64,7 @@ exports.login = function(req, res){
 					req.session.statusUser = "S";
 
 					// Redirection vers l'URL /addquestion
-					res.redirect('/list/questionnaire');
+					res.redirect('/list/session');
 				}
 			});
 		}
@@ -95,7 +95,7 @@ exports.login = function(req, res){
 					req.session.username = data.name;
 					req.session.idUser = data._id;
 					req.session.statusUser = "T";
-					res.redirect('/list/questionnaire');
+					res.redirect('/list/session');
 				}
 			});
 		}

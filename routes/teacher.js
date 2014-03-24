@@ -39,7 +39,18 @@ exports.editQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
+	var status;
 	var idTeacher = req.session.idUser;
+
+	if(req.params.status === 'saved') {
+		status = 'Votre question a bien été enregistrée';
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+	}
+	else {
+		status = false;
+	}
 
 	category.getAllCategory(function(result){
 		var categories = result;
@@ -61,6 +72,7 @@ exports.editQuestion = function(req, res) {
 					title: 'Éditer une question',
 					name: req.session.username,
 					categories: categories,
+					status: status,
 					form : form,
 					valid: 'Éditer',
 					pageTitle: 'Éditer une question'
@@ -136,7 +148,6 @@ exports.editQuestionPost = function(req, res) {
 	var answersFinal = [];
 
 	correct = typeof(correct) === 'object' ? correct.toString() : correct;
-	console.log(correct);
 
 	// Parcours de la tableau contenant les questions
 	for(var i = 0; i < answersLength; i++) {
@@ -162,9 +173,14 @@ exports.editQuestionPost = function(req, res) {
 	 */
 	if(!errors.length) {
 
-		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal);
-
-		res.redirect('/edit/question/' + idQuestion);
+		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, function(err, result){
+			if(err) {
+				res.redirect('/edit/question/' + idQuestion + '/error');
+			}
+			else {
+				res.redirect('/edit/question/' + idQuestion + '/saved');
+			}
+		});
 	}
 	else {
 		var category = require('../models/category');
@@ -315,9 +331,9 @@ exports.addQuestionPost = function(req, res) {
 
 
 /*
- * GET addQuestionnaire page
+ * GET addSession page
  */
-exports.addQuestionnaire = function(req, res) {
+exports.addSession = function(req, res) {
 	res.render('teacher/addQuestionnaire', {
 		title: 'Ajouter un questionnaire'
 	})
@@ -338,9 +354,9 @@ exports.listQuestion = function(req, res) {
 }
 
 /*
- * GET listQuestionnaire page
+ * GET listSession page
  */
-exports.listQuestionnaire = function(req, res) {
+exports.listSession = function(req, res) {
 	res.render('teacher/listQuestionnaire', {
 		title: 'Liste des questionnaires'
 	})
