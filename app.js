@@ -73,14 +73,12 @@ app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 /* -------------------------- */
 app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
-app.get('/session/prepare/:key', teacherRoutes.sessionPrepare)
 app.get('/panelquestion', teacherRoutes.panelquestion);
 
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
 /* -------------------------- */
-app.get('/session/:key', studentRoutes.question);
 app.get('/question/:id', studentRoutes.question);
 app.get('/student/waiting', studentRoutes.waiting);
 
