@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 /*
  * Récupère toutes les informations d'une question
  */
-exports.getQuestion = function(idQuestion, idTeacher, callback) {
+exports.getQuestion = function(idQuestion, callback) {
 	var Questions = mongoose.model('question');
 
 	Questions.find({
@@ -13,7 +13,6 @@ exports.getQuestion = function(idQuestion, idTeacher, callback) {
 			console.log(err);
 		}
 		else {
-			console.log(result);
 			if(result.length === 0) {
 				callback(true, null);
 			}
@@ -22,7 +21,7 @@ exports.getQuestion = function(idQuestion, idTeacher, callback) {
 			}
 		}
 	});
-}
+};
 
 /*
  * Ajoute une question
@@ -50,7 +49,7 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) 
 /*
  * Met à jour une question
  */
- exports.updateQuestion = function(idQuestion, idCat, question, type, time, answers) {
+ exports.updateQuestion = function(idQuestion, idCat, question, type, time, answers, callback) {
  	var Questions = mongoose.model('question');
  	
  	// Model.update(condition, toUpdate, option, callback)
@@ -69,10 +68,27 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) 
  	function(err, rowAffected, raw){
  		if(err) {
  			console.log(err);
+ 			callback(true, null);
  		}
  		else {
- 			console.log("Nb Row affected : " + rowAffected);
+ 			callback(null, rowAffected);
  		}
  	});
 
  };
+
+ /*
+  * Récupère la liste des questions
+  */
+exports.getAllQuestion = function(callback) {
+	var Questions = mongoose.model('question');
+
+	Questions.find({}).exec(function(err, result) {
+		if(err) {
+			console.log(err);
+		}
+		else {
+			callback(result);
+		}
+	});
+}

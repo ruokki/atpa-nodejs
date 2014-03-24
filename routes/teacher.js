@@ -2,6 +2,12 @@
 /*     Gestion des pages destinées à l'enseignant     */
 /* -------------------------------------------------- */
 
+
+/* ---------------------------- */
+/*     Gestion des question     */
+/* ---------------------------- */
+
+
 /*
  * GET addQuestion page
  * Affiche le formulaire d'ajout de question
@@ -39,12 +45,23 @@ exports.editQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
+	var status;
 	var idTeacher = req.session.idUser;
+
+	if(req.params.status === 'saved') {
+		status = 'Vos modifications ont bien été enregistrées';
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+	}
+	else {
+		status = false;
+	}
 
 	category.getAllCategory(function(result){
 		var categories = result;
 
-		question.getQuestion(idQuestion, idTeacher, function(err, data){
+		question.getQuestion(idQuestion, function(err, data){
 			if(err) {
 				res.redirect('/add/question');
 			}
@@ -61,6 +78,7 @@ exports.editQuestion = function(req, res) {
 					title: 'Éditer une question',
 					name: req.session.username,
 					categories: categories,
+					status: status,
 					form : form,
 					valid: 'Éditer',
 					pageTitle: 'Éditer une question'
@@ -136,7 +154,6 @@ exports.editQuestionPost = function(req, res) {
 	var answersFinal = [];
 
 	correct = typeof(correct) === 'object' ? correct.toString() : correct;
-	console.log(correct);
 
 	// Parcours de la tableau contenant les questions
 	for(var i = 0; i < answersLength; i++) {
@@ -162,9 +179,14 @@ exports.editQuestionPost = function(req, res) {
 	 */
 	if(!errors.length) {
 
-		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal);
-
-		res.redirect('/edit/question/' + idQuestion);
+		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, function(err, result){
+			if(err) {
+				res.redirect('/edit/question/' + idQuestion + '/error');
+			}
+			else {
+				res.redirect('/edit/question/' + idQuestion + '/saved');
+			}
+		});
 	}
 	else {
 		var category = require('../models/category');
@@ -314,37 +336,177 @@ exports.addQuestionPost = function(req, res) {
 
 
 
+/* ---------------------------- */
+/*     Gestion des sessions     */
+/* ---------------------------- */
+
+
+
 /*
- * GET addQuestionnaire page
+ * GET addSession page
+ * Affiche le formulaire d'ajout d'une session
  */
-exports.addQuestionnaire = function(req, res) {
-	res.render('teacher/addQuestionnaire', {
-		title: 'Ajouter un questionnaire'
-	})
+exports.addSession = function(req, res) {
+	var question = require('../models/question');
+
+	question.getAllQuestion(function(questionResult){
+		res.render('teacher/sessionForm', {
+			title: 'Créer une session',
+			questions: questionResult
+		});
+	});
 };
+
+/*
+ * POST addSession page
+ * Enregistre les informations entrées dans le formulaire
+ * Si elles sont valides, on les enregistre en base
+ * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
+ */
+exports.addSessionPost = function(req, res) {
+	var session = require('../models/session');
+	var question = require('../models/question');
+
+	var label = req.body.label;
+	var questions = req.body.questions;
+
+	session.addSession(label, questions, req.session.idUser, function(err){
+		if(err) {
+			question.getAllQuestion(function(questionResult) {
+				res.render('teacher/sessionForm', {
+					title: 'Créer une session',
+					questions: questionResult,
+					error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+				});
+			});
+		}
+		else {
+			res.redirect('/add/session');
+		}
+	});
+};
+
+/*
+ * GET editSession page
+ * Affiche le formulaire d'édition d'une page
+ */
+exports.editSession = function(req, res) {
+	var question = require('../models/question');
+	var session = require('../models/session');
+	var id = req.params.id;
+	var status;
+
+	if(req.params.status === 'saved') {
+		status = 'Vos modifications ont bien été enregistrées';
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+	}
+	else {
+		status = false;
+	}
+
+	session.getSession(id, function(err, result){
+		if(err) {
+			redirect('/add/session');
+		}
+		else {
+			var session = result[0];
+			question.getAllQuestion(function(questionResult){
+				res.render('teacher/sessionForm', {
+					title: 'Édition de la session',
+					questions: questionResult,
+					session: session,
+					status: status
+				});
+			});
+		}
+	});
+
+};
+
+/*
+ * POST editSession page
+ * Enregistre les informations entrées dans le formulaire
+ * Si elles sont valides, on update base
+ * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
+ */
+exports.editSessionPost = function(req, res) {
+	var session = require('../models/session');
+	var question = require('../models/question');
+
+	var label = req.body.label;
+	var questions = req.body.questions;
+	var id = req.params.id;
+
+	var sessionInfo = {
+		name : label,
+		questions: questions
+	};
+
+	session.updateSession(id, label, questions, function(err, rowAffected){
+		if(err) {
+			question.getAllQuestion(function(questionResult) {
+				res.render('teacher/sessionForm', {
+					title: 'Édition de la session',
+					questions: questionResult,
+					session: sessionInfo
+				});
+			});
+		}
+		else {
+			res.redirect('/edit/session/' + id + '/saved');
+		}
+	});
+};
+
+
+
+
+/* ------------------- */
+/*     Partie /list    */
+/* ------------------- */
 
 /*
  * GET listQuestion page
  */
 exports.listQuestion = function(req, res) {
 	var category = require('../models/category');
+	var question = require('../models/question');
 
-	category.getAllCategory(function(result){
-		res.render('teacher/listQuestion', {
-			title: 'Liste des questions',
-			categories: result
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+	
+	question.getAllQuestion(function(questionResult){
+		category.getAllCategory(function(categoryResult){
+			res.render('teacher/listQuestion', {
+				title: 'Liste des questions',
+				categories: categoryResult,
+				questions: questionResult
+			});
 		});
 	});
 }
 
 /*
- * GET listQuestionnaire page
+ * GET listSession page
  */
-exports.listQuestionnaire = function(req, res) {
-	res.render('teacher/listQuestionnaire', {
-		title: 'Liste des questionnaires'
-	})
+exports.listSession = function(req, res) {
+	var session = require('../models/session');
+
+	session.getAllSession(req.session.idUser, function(result){
+		res.render('teacher/listSession', {
+			title: 'Liste des sessions',
+			sessions : result
+		})
+	});
 };
+
+
+/* ----------------------- */ 
+/*     Page statistique    */
+/* ----------------------- */ 
 
 /*
  * GET stat page

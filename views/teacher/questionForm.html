@@ -8,16 +8,30 @@
 				
         		<div class="small-10 small-centered columns"> 
 					<h1 class="text-center ">{{ pageTitle }}</h1>
-					{% if errors %}
-					<div class="small-12 columns">
-						<div data-alert class="alert-box alert radius">
-							{% for error in errors -%}
-							<p>{{ error }}</p>
-							{%- endfor %}
+					<div class="row">
+						{% if errors %}
+						<div class="small-12 columns">
+							<div data-alert class="alert-box alert radius">
+							<ul>
+								{% for error in errors -%}
+								<li>{{ error }}</li>
+								{%- endfor %}
+							</ul>
 							<a href="#" class="close">&times;</a>
+							</div>
 						</div>
 					</div>
 					{% endif %}
+					<div class="row">
+						{% if status %}
+						<div class="small-12 columns">
+							<div data-alert class="alert-box success radius">
+								{{ status }}
+								<a href="#" class="close">&times;</a>
+							</div>
+						</div>
+						{% endif %}
+					</div>
 						<form action="" method="post" name="addQuestion" role="form">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">

@@ -34,21 +34,13 @@
 									    </tr>
 									  </thead>
 									  <tbody>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><a class="remove-questionnaire"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
+									  {% for question in questions -%}
+										<tr id="{{question._id}}">
+									      <td value="{{question._id}}">{{ question.text }}</td>
+									      <td class="text-center"><a href="#"><i class="foundicon-minus red"></i></a></td>
+									      <td class="text-center"><a href="/edit/question/{{question._id}}"><i class="foundicon-edit"></i></a></td>
 									    </tr>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><a class="remove-questionnaire"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
-									    </tr>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><aclass="remove-questionnaire"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
-									    </tr>
+							          {%- endfor %}
 									  </tbody>
 									</table>
 						    	</div>

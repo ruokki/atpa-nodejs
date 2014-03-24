@@ -49,13 +49,20 @@ app.get('/list/question', teacherRoutes.listQuestion);
 app.get('/add/question', teacherRoutes.addQuestion);
 app.post('/add/question', teacherRoutes.addQuestionPost);
 app.get('/edit/question/:id', teacherRoutes.editQuestion);
+app.get('/edit/question/:id/:status', teacherRoutes.editQuestion);
 app.post('/edit/question/:id', teacherRoutes.editQuestionPost);
+app.post('/edit/question/:id/:status', teacherRoutes.editQuestionPost);
 
-/* ---------------------------------- */
-/*     Gestion des questionnaires     */
-/* ---------------------------------- */
-app.get('/add/questionnaire', teacherRoutes.addQuestionnaire);
-app.get('/list/questionnaire', teacherRoutes.listQuestionnaire);
+/* ---------------------------- */
+/*     Gestion des sessions     */
+/* ---------------------------- */
+app.get('/list/session', teacherRoutes.listSession);
+app.get('/add/session', teacherRoutes.addSession);
+app.post('/add/session', teacherRoutes.addSessionPost);
+app.get('/edit/session/:id', teacherRoutes.editSession);
+app.get('/edit/session/:id/:status', teacherRoutes.editSession);
+app.post('/edit/session/:id', teacherRoutes.editSessionPost);
+app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
 /* -------------------- */
 /*     Statistiques     */
