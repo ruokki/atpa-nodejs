@@ -56,10 +56,13 @@ app.post('/edit/question/:id/:status', teacherRoutes.editQuestionPost);
 /* ---------------------------- */
 /*     Gestion des sessions     */
 /* ---------------------------- */
+app.get('/list/session', teacherRoutes.listSession);
 app.get('/add/session', teacherRoutes.addSession);
 app.post('/add/session', teacherRoutes.addSessionPost);
 app.get('/edit/session/:id', teacherRoutes.editSession);
-app.get('/list/session', teacherRoutes.listSession);
+app.get('/edit/session/:id/:status', teacherRoutes.editSession);
+app.post('/edit/session/:id', teacherRoutes.editSessionPost);
+app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
 /* -------------------- */
 /*     Statistiques     */

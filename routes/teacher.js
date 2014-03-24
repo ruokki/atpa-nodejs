@@ -49,7 +49,7 @@ exports.editQuestion = function(req, res) {
 	var idTeacher = req.session.idUser;
 
 	if(req.params.status === 'saved') {
-		status = 'Votre question a bien été enregistrée';
+		status = 'Vos modifications ont bien été enregistrées';
 	}
 	else if (req.params.status === 'error') {
 		status = 'Une erreur s\'est produite';
@@ -394,6 +394,17 @@ exports.editSession = function(req, res) {
 	var question = require('../models/question');
 	var session = require('../models/session');
 	var id = req.params.id;
+	var status;
+
+	if(req.params.status === 'saved') {
+		status = 'Vos modifications ont bien été enregistrées';
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+	}
+	else {
+		status = false;
+	}
 
 	session.getSession(id, function(err, result){
 		if(err) {
@@ -405,13 +416,50 @@ exports.editSession = function(req, res) {
 				res.render('teacher/sessionForm', {
 					title: 'Édition de la session',
 					questions: questionResult,
-					session: session
+					session: session,
+					status: status
 				});
 			});
 		}
 	});
 
 };
+
+/*
+ * POST editSession page
+ * Enregistre les informations entrées dans le formulaire
+ * Si elles sont valides, on update base
+ * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
+ */
+exports.editSessionPost = function(req, res) {
+	var session = require('../models/session');
+	var question = require('../models/question');
+
+	var label = req.body.label;
+	var questions = req.body.questions;
+	var id = req.params.id;
+
+	var sessionInfo = {
+		name : label,
+		questions: questions
+	};
+
+	session.updateSession(id, label, questions, function(err, rowAffected){
+		if(err) {
+			question.getAllQuestion(function(questionResult) {
+				res.render('teacher/sessionForm', {
+					title: 'Édition de la session',
+					questions: questionResult,
+					session: sessionInfo
+				});
+			});
+		}
+		else {
+			res.redirect('/edit/session/' + id + '/saved');
+		}
+	});
+};
+
 
 
 
