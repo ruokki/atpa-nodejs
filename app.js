@@ -34,13 +34,14 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-/* ------------------------- */
-/*       Page de login       */
-/* ------------------------- */
+
+/* ------------------------------------------- */
+/*       Page de login et de déconnexion       */
+/* ------------------------------------------- */
 app.get('/', routes.login);
 app.post('/', routes.loginPost);
 app.get('/initializeDB', routes.initializeDB);
-
+app.get('/disconnect', routes.disconnect);
 
 /* ----------------------------- */
 /*     Gestion des questions     */
@@ -73,6 +74,7 @@ app.get('/stat', teacherRoutes.stat);
 /*     Page de l'étudiant     */
 /* -------------------------- */
 app.get('/question/:id', studentRoutes.question);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

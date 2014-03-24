@@ -27,9 +27,10 @@
 						      		<table>
 									  <thead>
 									    <tr>
-									      <th width="700">Questionnaire</th>
+									      <th width="650">Session</th>
 									      <th width="50">Supprimer</th>
 									      <th width="50">Modifier</th>
+									      <th width="50">Lancer</th>
 									    </tr>
 									  </thead>
 									  <tbody>
@@ -38,6 +39,7 @@
 										    <td>{{ session.name }}</td>
 										    <td class="text-center"><a class="remove-questionnaire" ><i class="foundicon-minus red"></i></a></td>
 										    <td class="text-center"><a href="/edit/session/{{session._id}}"><i class="foundicon-edit"></i></a></td>
+										    <td class="text-center"><a href=""><i class="foundicon-clock green"></i></a></td>
 										  </tr>
 									  {%- endfor %}
 									  </tbody>

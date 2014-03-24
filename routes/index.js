@@ -7,9 +7,18 @@
  */
 
 exports.login = function(req, res){
-  res.render("login", {
-  	title: "Connexion"
-  });
+	var disconnect;
+	if(req.session.disconnect) {
+		disconnect = true;
+		req.session.disconnect = null;
+	}
+	else {
+		disconnect = false;
+	}
+	res.render("login", {
+		title: "Connexion",
+		disconnect: disconnect
+	});
 };
 
 /*
@@ -101,6 +110,19 @@ exports.login = function(req, res){
 		}
  	}
  };
+
+ /*
+  * Déconnexion
+  * Destruction de la session
+  */
+exports.disconnect = function(req, res) {
+	req.session.username = null;
+	req.session.idUser = null;
+	req.session.statusUser = null;
+	req.session.email = null	;
+	req.session.disconnect = true;
+	res.redirect('/');
+};
 
 /*
  * Initialisation de la base avec des valeurs
