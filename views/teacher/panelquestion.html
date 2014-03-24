@@ -1,0 +1,27 @@
+{% extends '../layout.html' %}
+{% block content %}
+    <section class="main-section">
+      <div class="row">
+        <div class="small-12 columns">	<!-- body -->
+        	<section id="section-main" class="container container-marge">
+				
+        		<div class="small-10 small-centered columns text-center"> 
+        			
+					
+					<h2>Quelle est la capitale de la France ?</h2>
+					<div id="timer" class="timer-large">
+			      		<span></span>
+			      	</div>
+				</div>
+			</section>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+<script>
+	$(document).foundation();
+</script>
+<script src="/js/timer.js"></script>
+{% endblock %}

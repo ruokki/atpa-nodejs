@@ -557,21 +557,10 @@ exports.stat = function(req,res) {
 	});
 };
 
-/*
-<<<<<<< HEAD
- * GET 
- */
 
-exports.sessionPrepare = function(req, res) {
-	if(req.session.statusUser === 'S' || !req.session.statusUser) {
-		res.redirect('/');
-	}
-=======
- * GET panel question page
- */
+
 exports.panelquestion = function(req,res) {
 	res.render('teacher/panelquestion', {
 		title: 'Question'
 	});
->>>>>>> ajout page panel question + page waiting + timer
 };

@@ -73,21 +73,17 @@ app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 /* -------------------------- */
 app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
-<<<<<<< HEAD
 app.get('/session/prepare/:key', teacherRoutes.sessionPrepare)
-=======
 app.get('/panelquestion', teacherRoutes.panelquestion);
->>>>>>> ajout page panel question + page waiting + timer
+
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
 /* -------------------------- */
-<<<<<<< HEAD
 app.get('/session/:key', studentRoutes.question);
-=======
 app.get('/question/:id', studentRoutes.question);
 app.get('/student/waiting', studentRoutes.waiting);
->>>>>>> ajout page panel question + page waiting + timer
+
 
 
 http.createServer(app).listen(app.get('port'), function(){
