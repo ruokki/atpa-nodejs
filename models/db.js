@@ -65,15 +65,13 @@ questionSchema.plugin(autoIncrement.plugin, 'question');
 connection.model('question', questionSchema);
 
 /* ------------------------ */
-/* Collection Questionnaire */
+/* Collection Session */
 /* ------------------------ */
-var questionnaireSchema = new Schema({
+var sessionSchema = new Schema({
 	_id: Number,
 	name : {type : String, unique : true},
-	questions: {
-		_id_question: {type: Number, ref: 'question'}
-	}
+	questions: [{type: Number, ref: 'question'}]
 });
 
-questionnaireSchema.plugin(autoIncrement.plugin, 'questionnaire');
-connection.model('questionnaire', questionnaireSchema);
+sessionSchema.plugin(autoIncrement.plugin, 'session');
+connection.model('session', sessionSchema);

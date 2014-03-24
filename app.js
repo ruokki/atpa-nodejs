@@ -57,6 +57,7 @@ app.post('/edit/question/:id/:status', teacherRoutes.editQuestionPost);
 /*     Gestion des sessions     */
 /* ---------------------------- */
 app.get('/add/session', teacherRoutes.addSession);
+app.post('/add/session', teacherRoutes.addSessionPost);
 app.get('/list/session', teacherRoutes.listSession);
 
 /* -------------------- */

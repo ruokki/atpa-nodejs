@@ -337,11 +337,38 @@ exports.addSession = function(req, res) {
 	var question = require('../models/question');
 
 	question.getAllQuestion(function(questionResult){
-		console.log(questionResult);
 		res.render('teacher/sessionForm', {
-			title: 'Liste des questions'
+			title: 'Créer une session',
+			questions: questionResult
 		});
 	});
+};
+
+/*
+ * POST addSession page
+ */
+exports.addSessionPost = function(req, res) {
+	var session = require('../models/session');
+	var question = require('../models/question');
+
+	var label = req.body.label;
+	var questions = req.body.questions;
+
+	session.addSession(label, questions, function(err){
+		if(err) {
+			question.getAllQuestion(function(questionResult) {
+				res.render('teacher/sessionForm', {
+					title: 'Créer une session',
+					questions: questionResult,
+					error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+				});
+			});
+		}
+		else {
+			res.redirect('/add/session');
+		}
+	});
+
 };
 
 /*
@@ -352,7 +379,6 @@ exports.listQuestion = function(req, res) {
 	var question = require('../models/question');
 
 	question.getAllQuestion(function(questionResult){
-		console.log(questionResult);
 		category.getAllCategory(function(categoryResult){
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
