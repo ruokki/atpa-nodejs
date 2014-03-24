@@ -392,15 +392,25 @@ exports.addSessionPost = function(req, res) {
  */
 exports.editSession = function(req, res) {
 	var question = require('../models/question');
-
+	var session = require('../models/session');
 	var id = req.params.id;
 
-	question.getAllQuestion(function(questionResult){
-		res.render('teacher/sessionForm', {
-			title: 'Édition de la session',
-			questions: questionResult
-		});
+	session.getSession(id, function(err, result){
+		if(err) {
+			redirect('/add/session');
+		}
+		else {
+			var session = result[0];
+			question.getAllQuestion(function(questionResult){
+				res.render('teacher/sessionForm', {
+					title: 'Édition de la session',
+					questions: questionResult,
+					session: session
+				});
+			});
+		}
 	});
+
 };
 
 
