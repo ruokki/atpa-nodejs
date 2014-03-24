@@ -50,10 +50,6 @@ h2{
 	color: #CC0606;
 }
 
-.green {
-	color: #00c305;
-}
-
 .bleu{
 	color: #4372E0;
 }
@@ -113,7 +109,23 @@ h2{
 	Questionnaire
 =========================== */
 #timer {
-    background: none repeat scroll 0 0 #E5E5E5;
+    
+}
+
+#timer span{
+	
+}
+
+.timer-large{
+	width: 150px;
+	height: 150px;
+	border: 10px solid #008cba;
+	border-radius: 50%;
+	margin: 0 auto;
+}
+
+.timer-small{
+	background: none repeat scroll 0 0 #E5E5E5;
     color: #FF0000;
     float: right;
     font-size: 20px;
@@ -121,6 +133,8 @@ h2{
     margin: 5px 0;
     padding: 10px;
 }
+
+
 
 .check-reponse{
 	float: right;
@@ -241,4 +255,28 @@ h2{
 		font-size: 45px !important;
 	    font-weight: bold !important;
 	}
+}
+
+#img-loading{
+	margin: 25px 0;
+}
+
+.logo-atpa{
+	text-align: center;
+	margin: 0 auto;
+}
+
+.logo-atpa img{
+	min-width: 75px;
+	width: 20%;
+	margin: 15px 0 30px 0;
+}
+
+
+
+/* ======================
+	Element Foundation
+========================= */
+button{
+	background: #008cba;
 }

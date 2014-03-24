@@ -49,9 +49,9 @@ exports.addQuestion = function(req, res) {
  */
 exports.editQuestion = function(req, res) {
 
-	// if(req.session.statusUser === 'S' || !req.session.statusUser) {
-	// 	res.redirect('/');
-	// }
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
 
 	var category = require('../models/category');
 	var question = require('../models/question');
@@ -108,9 +108,9 @@ exports.editQuestion = function(req, res) {
 exports.editQuestionPost = function(req, res) {
 
 	
-	// if(req.session.statusUser === 'S' || !req.session.statusUser) {
-	// 	res.redirect('/');
-	// }
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
 
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
@@ -233,9 +233,9 @@ exports.editQuestionPost = function(req, res) {
  */
 exports.addQuestionPost = function(req, res) {
 
-	// if(req.session.statusUser === 'S' || !req.session.statusUser) {
-	// 	res.redirect('/');
-	// }
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
 
 	var question = require('../models/question');
 
@@ -358,6 +358,11 @@ exports.addQuestionPost = function(req, res) {
  * Affiche le formulaire d'ajout d'une session
  */
 exports.addSession = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var question = require('../models/question');
 
 	question.getAllQuestion(function(questionResult){
@@ -375,6 +380,11 @@ exports.addSession = function(req, res) {
  * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
  */
 exports.addSessionPost = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var session = require('../models/session');
 	var question = require('../models/question');
 
@@ -402,6 +412,11 @@ exports.addSessionPost = function(req, res) {
  * Affiche le formulaire d'édition d'une page
  */
 exports.editSession = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var question = require('../models/question');
 	var session = require('../models/session');
 	var id = req.params.id;
@@ -443,6 +458,11 @@ exports.editSession = function(req, res) {
  * Sinon on réaffiche le formulaire avec une alert contenant les erreurs
  */
 exports.editSessionPost = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var session = require('../models/session');
 	var question = require('../models/question');
 
@@ -506,6 +526,10 @@ exports.listQuestion = function(req, res) {
 exports.listSession = function(req, res) {
 	var session = require('../models/session');
 
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	session.getAllSession(req.session.idUser, function(result){
 		res.render('teacher/listSession', {
 			title: 'Liste des sessions',
@@ -523,7 +547,31 @@ exports.listSession = function(req, res) {
  * GET stat page
  */
 exports.stat = function(req,res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	res.render('teacher/stat', {
 		title: 'Statistique'
 	});
+};
+
+/*
+<<<<<<< HEAD
+ * GET 
+ */
+
+exports.sessionPrepare = function(req, res) {
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+=======
+ * GET panel question page
+ */
+exports.panelquestion = function(req,res) {
+	res.render('teacher/panelquestion', {
+		title: 'Question'
+	});
+>>>>>>> ajout page panel question + page waiting + timer
 };
