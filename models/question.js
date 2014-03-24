@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 /*
  * Récupère toutes les informations d'une question
  */
-exports.getQuestion = function(idQuestion, idTeacher, callback) {
+exports.getQuestion = function(idQuestion, callback) {
 	var Questions = mongoose.model('question');
 
 	Questions.find({
@@ -21,7 +21,7 @@ exports.getQuestion = function(idQuestion, idTeacher, callback) {
 			}
 		}
 	});
-}
+};
 
 /*
  * Ajoute une question
@@ -76,3 +76,19 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) 
  	});
 
  };
+
+ /*
+  * Récupère la liste des questions
+  */
+exports.getAllQuestion = function(callback) {
+	var Questions = mongoose.model('question');
+
+	Questions.find({}).exec(function(err, result) {
+		if(err) {
+			console.log(err);
+		}
+		else {
+			callback(result);
+		}
+	});
+}

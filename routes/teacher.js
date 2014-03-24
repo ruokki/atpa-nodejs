@@ -55,7 +55,7 @@ exports.editQuestion = function(req, res) {
 	category.getAllCategory(function(result){
 		var categories = result;
 
-		question.getQuestion(idQuestion, idTeacher, function(err, data){
+		question.getQuestion(idQuestion, function(err, data){
 			if(err) {
 				res.redirect('/add/question');
 			}
@@ -334,9 +334,14 @@ exports.addQuestionPost = function(req, res) {
  * GET addSession page
  */
 exports.addSession = function(req, res) {
-	res.render('teacher/addQuestionnaire', {
-		title: 'Ajouter un questionnaire'
-	})
+	var question = require('../models/question');
+
+	question.getAllQuestion(function(questionResult){
+		console.log(questionResult);
+		res.render('teacher/sessionForm', {
+			title: 'Liste des questions'
+		});
+	});
 };
 
 /*
@@ -344,11 +349,15 @@ exports.addSession = function(req, res) {
  */
 exports.listQuestion = function(req, res) {
 	var category = require('../models/category');
+	var question = require('../models/question');
 
-	category.getAllCategory(function(result){
-		res.render('teacher/listQuestion', {
-			title: 'Liste des questions',
-			categories: result
+	question.getAllQuestion(function(questionResult){
+		console.log(questionResult);
+		category.getAllCategory(function(categoryResult){
+			res.render('teacher/listQuestion', {
+				title: 'Liste des questions',
+				categories: categoryResult
+			});
 		});
 	});
 }
