@@ -12,15 +12,18 @@
 							<div class="row">
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6  columns">
-							      <label>Catégorie
-							        <select>
-							        	<option value="-1">Toutes les catégories</option>
-							          {% for category in categories -%}
-										<option value="{{category._id}}">{{ category.label }}</option>
-							          {%- endfor %}
-							        </select>
-							      </label>
-							    </div>
+									    <label>Catégorie
+									        <select>
+									        	<option value="-1">Toutes les catégories</option>
+									    	    {% for category in categories -%}
+												<option value="{{category._id}}">{{ category.label }}</option>
+									        	{%- endfor %}
+									        </select>
+									    </label>
+							    	</div>
+								    <div class="small-6 columns">
+								    	<a href="/add/category" class="button btn-right small">Ajouter une catégorie</a>
+								    </div>
 							    </div>
 							   
 							   	<div class="small-12  columns no-padding panel panel-form">

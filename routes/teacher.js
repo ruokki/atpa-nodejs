@@ -3,6 +3,17 @@
 /* -------------------------------------------------- */
 
 
+/*
+ * GET welcome page
+ * Affiche la page d'accueil
+ */
+exports.welcome = function(req, res) {
+	res.render('index', {
+		title : 'Accueil'
+	})
+}
+
+
 /* ---------------------------- */
 /*     Gestion des question     */
 /* ---------------------------- */

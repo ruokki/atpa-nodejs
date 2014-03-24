@@ -65,10 +65,11 @@ app.get('/edit/session/:id/:status', teacherRoutes.editSession);
 app.post('/edit/session/:id', teacherRoutes.editSessionPost);
 app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
-/* -------------------- */
-/*     Statistiques     */
-/* -------------------- */
+/* -------------------------- */
+/*     Page du professeur     */
+/* -------------------------- */
 app.get('/stat', teacherRoutes.stat);
+app.get('/welcome', teacherRoutes.welcome);
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
