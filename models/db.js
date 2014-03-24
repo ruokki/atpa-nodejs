@@ -69,6 +69,7 @@ connection.model('question', questionSchema);
 /* ------------------------ */
 var sessionSchema = new Schema({
 	_id: Number,
+	_id_teacher: {type: Number, ref: 'teacher'},
 	name : {type : String, unique : true},
 	key: {type: String, unique: true, min: 5, max: 5},
 	questions: [{type: Number, ref: 'question'}]

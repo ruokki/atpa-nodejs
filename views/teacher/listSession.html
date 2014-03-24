@@ -5,11 +5,8 @@
       <div class="row">
         <div class="small-12 columns">	<!-- body -->
         	<section id="section-main" class="container container-marge">
-        		
-
-
         		<div class="small-10 small-centered columns"> 
-					<h1 class="text-center ">Liste des questionnaires</h1>
+					<h1 class="text-center ">Liste des sessions</h1>
 						<form role="form">
 							<div class="row">
 								<!--
@@ -36,25 +33,17 @@
 									    </tr>
 									  </thead>
 									  <tbody>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><a class="remove-questionnaire" ><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
-									    </tr>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><a class="remove-questionnaire"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
-									    </tr>
-									    <tr>
-									      <td>Question hkiufghkisjf ?</td>
-									      <td class="text-center"><a class="remove-questionnaire"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href=""><i class="foundicon-edit"></i></a></td>
-									    </tr>
+									  {% for session in sessions -%}
+										  <tr>
+										    <td>{{ session.name }}</td>
+										    <td class="text-center"><a class="remove-questionnaire" ><i class="foundicon-minus red"></i></a></td>
+										    <td class="text-center"><a href="/edit/session/{{session._id}}"><i class="foundicon-edit"></i></a></td>
+										  </tr>
+									  {%- endfor %}
 									  </tbody>
 									</table>
 						    	</div>
-						    	<a href="#" class="btn-right button small">Ajouter</a>
+						    	<a href="/add/session" class="btn-right button small">Ajouter</a>
 						  	</div>
 						</form>
 					</section>

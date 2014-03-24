@@ -3,14 +3,15 @@ var mongoose = require('mongoose');
 /*
  * Ajout d'une session
  */
-exports.addSession = function(label, questions, callback) {
+exports.addSession = function(label, questions, idTeacher, callback) {
 	var Session = mongoose.model('session');
 
 	var newSession = new Session({
 		name: label,
-		questions: questions
+		questions: questions,
+		_id_teacher: idTeacher
 	});
-
+	
 	var thos = this;
 
 	this.randomAlreadyExist(randomCallback);
@@ -106,3 +107,19 @@ exports.getSession = function(id, callback) {
  	});
 
  };
+
+ /*
+  * Récupère l'ensemble des sessions d'un professeur
+  */
+exports.getAllSession = function(idTeacher, callback) {
+	var Sessions = mongoose.model('session');
+
+	Sessions.find({_id: idTeacher }).exec(function(err, result){
+		if(err) {
+			console.log(err);
+		}
+		else {
+			callback(result);
+		}
+	});
+};

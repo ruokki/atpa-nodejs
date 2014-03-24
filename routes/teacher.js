@@ -370,7 +370,7 @@ exports.addSessionPost = function(req, res) {
 	var label = req.body.label;
 	var questions = req.body.questions;
 
-	session.addSession(label, questions, function(err){
+	session.addSession(label, questions, req.session.idUser, function(err){
 		if(err) {
 			question.getAllQuestion(function(questionResult) {
 				res.render('teacher/sessionForm', {
@@ -488,9 +488,14 @@ exports.listQuestion = function(req, res) {
  * GET listSession page
  */
 exports.listSession = function(req, res) {
-	res.render('teacher/listQuestionnaire', {
-		title: 'Liste des questionnaires'
-	})
+	var session = require('../models/session');
+
+	session.getAllSession(req.session.idUser, function(result){
+		res.render('teacher/listSession', {
+			title: 'Liste des sessions',
+			sessions : result
+		})
+	});
 };
 
 
