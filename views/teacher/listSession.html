@@ -72,26 +72,5 @@
 {% endblock %}
 
 {% block script %}
-	<script type="text/javascript">
-	$("document").ready(function(){
-
-		$(".popup-center").hide();
-
-
-
-		$(".remove-questionnaire").click(function(){
-			$(".popup-center").show();
-		});
-
-		$(".popup-close").click(function(){
-			$(this).parent().parent().hide();
-		});
-
-		$(".btn-annule").click(function(){
-			$(this).parent().parent().hide();
-		});
-
-	});
-
-	</script>
+	<script type="text/javascript" src="/js/DeleteQuestion.js"></script>
 {% endblock %}
