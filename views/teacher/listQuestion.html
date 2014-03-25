@@ -79,7 +79,10 @@
 			var questions = $("#question-table tbody tr");
 			questions.each(function(index, elem) {
 				var elemCategory = $(elem).data("category");
-				if(elemCategory == categorie) {
+				if(($('#selectCat').val())== -1){
+					$(elem).show();
+				}
+				else if(elemCategory == categorie) {
 					$(elem).show();
 				}
 				else {
