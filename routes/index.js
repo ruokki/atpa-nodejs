@@ -36,7 +36,7 @@ exports.login = function(req, res){
  		var formPost = req.body.student;
 
 		// Vérification champ vide
-		if(formPost.id === "" || formPost.email === "") {
+		if(formPost.id === "" || formPost.key === "") {
 			error = "Veuillez saisir vos informations de connexion.";
 			
 			// Rendu de la page login.html
@@ -55,25 +55,33 @@ exports.login = function(req, res){
 			 * récupérer ses informations, les traitements étant faits de façon 
 			 * asynchrone
 			 */
-			student.isStudentCorrect(formPost.id, formPost.email, function(err, data){
+			student.isStudentCorrect(formPost.id, function(err, data){
 				if(err) {
-					error = "Mauvais couple identifiant/email";
+					error = "Identifiant incorrect";
 					res.render("login",{
 						title: "Connexion",
 						error: error
 					});
 				}
 				else {
-
-					// Mise en session des éléments name, email et _id de 
+					// Mise en session des éléments name et _id de 
 					// l'étudiant qui vient de se connecter
 					req.session.username = data.name;
-					req.session.email = data.email;
 					req.session.idUser = data._id;
 					req.session.statusUser = "S";
 
-					// Redirection vers l'URL /addquestion
-					res.redirect('/list/session');
+					var app = require('../app');
+					if(!app.application.enabled(formPost.key)) {
+						error = "Session incorrect ou indisponible";
+						res.render("login",{
+							title: "Connexion",
+							error: error
+						});
+					}
+					else {
+						// Redirection vers l'URL /student/waiting/:key
+						res.redirect('/session/connected/' + formPost.key);
+					}
 				}
 			});
 		}

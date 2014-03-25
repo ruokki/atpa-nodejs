@@ -15,7 +15,10 @@ exports.question = function(req,res) {
  * GET accueil page
  */
 exports.waiting = function(req,res) {
-	res.render('student/waiting', {
-		title: 'atpa'
+	var app = require('../app');
+	var key = req.params.key;
+	res.render('student/connected', {
+		student: req.session.username,
+		title: 'En attente - étudiant'
 	});
 };

@@ -1,0 +1,38 @@
+{% extends '../layout.html' %}
+{% block content %}
+    <section class="main-section">
+      <div class="row">
+        <div class="small-12 columns">	<!-- body -->
+        	<section id="section-main" class="container container-marge">
+				
+        		<div class="small-10 small-centered columns text-center"> 
+        			
+					
+					<h2>{{ session.name }}</h2>
+					<h2>Clé : {{ session.key }}</h2>
+					<div class="logo-atpa"><img src="/img/ATPA.png"></div>
+					<div>
+						<a class="button large" href="#">Lancer</a>
+						<p>Nombre d'étudiants connectés: <span id="nbCo"></span></p>
+					</div>
+				</div>
+			</section>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	$(document).foundation();
+
+	var socket = io.connect('http://localhost/teacher');
+
+	socket.on('connectStudent', function(data){
+
+	})
+
+</script>
+
+{% endblock %}
