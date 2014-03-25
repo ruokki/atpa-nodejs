@@ -6,7 +6,7 @@
         	<section id="section-main" class="container container-marge">
 				
         		<div class="small-10 small-centered columns"> 
-					<h1 class="text-center ">{{ title }}</h1>
+					<h1 class="text-center ">{{ pageTitle }}</h1>
 						<form role="form" method="post" action="">
 						{% if status %}
 							<div class="row">
@@ -30,6 +30,7 @@
 							    </div>
 						{% else %}
 							<div class="row">
+								<a class="button tiny" href="/list/session">retour</a>
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6 columns">
 							        	<input type="text" placeholder="Label de la session" name="label">
