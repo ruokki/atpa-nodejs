@@ -73,6 +73,12 @@ app.get('/edit/session/:id/:status', teacherRoutes.editSession);
 app.post('/edit/session/:id', teacherRoutes.editSessionPost);
 app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
+/* ---------------------------- 
+	gestion des catégories
+----------------------------- */
+app.get('/list/categorie', teacherRoutes.listCategorie);
+
+
 /* -------------------------- */
 /*     Page du professeur     */
 /* -------------------------- */
