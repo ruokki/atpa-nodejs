@@ -84,6 +84,10 @@ app.get('/session/waitConnection/:key', teacherRoutes.waitConnection);
 app.get('/question/:id', studentRoutes.question);
 app.get('/session/connected/:key', studentRoutes.waiting);
 
+/* -------------------- */
+/*     Requête AJAX     */
+/* -------------------- */
+app.post('/ajax/getQuestion',teacherRoutes.ajaxQuestion)
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -5,7 +5,7 @@
         <div class="small-12 columns">	<!-- body -->
         	<section id="section-main" class="container container-marge">
 				
-        		<div class="small-10 small-centered columns text-center"> 
+        		<div id="container" class="small-10 small-centered columns text-center"> 
         			
 					
 					<h2>{{ session.name }}</h2>
@@ -30,6 +30,8 @@
 	var socket = io.connect('http://localhost');
 	var key = $("#key").text();
 	var nbCo = $("#nbCo");
+	var container = $("#container");
+	var indexQuestion;
 
 	nbCo.text(0);
 
@@ -40,6 +42,22 @@
 	$("#go").click(function(e){
 		e.preventDefault();
 		socket.emit('launchQuestion');
+		container.fadeOut(500, function(){
+			container.empty();
+		});
+		indexQuestion = 0;
+		$.ajax({
+			url: '/ajax/getQuestion',
+			type: 'post',
+			data: {
+				key: key,
+				indexQuestion: indexQuestion
+			},
+			success: function(data) {
+
+			}
+		})
+
 	})
 
 </script>

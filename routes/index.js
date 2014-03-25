@@ -86,6 +86,7 @@ exports.login = function(req, res){
 							});			
 						}
 						else {
+							req.session.sessionUser = formPost.key;
 							// Redirection vers l'URL /student/waiting/:key
 							res.redirect('/session/connected/' + formPost.key);
 						}
