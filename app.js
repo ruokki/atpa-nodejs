@@ -58,6 +58,10 @@ app.get('/edit/question/:id/:status', teacherRoutes.editQuestion);
 app.post('/edit/question/:id', teacherRoutes.editQuestionPost);
 app.post('/edit/question/:id/:status', teacherRoutes.editQuestionPost);
 
+app.get('/suppr/question/:id', teacherRoutes.supprQuestion);
+
+
+
 /* ---------------------------- */
 /*     Gestion des sessions     */
 /* ---------------------------- */
