@@ -1,12 +1,19 @@
-$(function() {
-  	var cpt = 30;
+$("document").ready(function(){
+	timer();
+});
+
+
+function timer(){
+  	var cpt = 5;	// valeur à changer 
+  	$("#timer span").text(cpt);
 	setInterval(function(){
 	    if(cpt > 0){
 	    	--cpt;
 	  		$("#timer span").text(cpt);
 	    }
 	    else{
-	    	return false;
+	    	
+	    	return;
 	    }
 	}, 1000);
-});
+}
