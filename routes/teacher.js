@@ -373,6 +373,7 @@ exports.addSession = function(req, res) {
 	question.getAllQuestion(function(questionResult){
 		res.render('teacher/sessionForm', {
 			title: 'Créer une session',
+			pageTitle: 'Créer une session',
 			questions: questionResult
 		});
 	});
@@ -401,6 +402,7 @@ exports.addSessionPost = function(req, res) {
 			question.getAllQuestion(function(questionResult) {
 				res.render('teacher/sessionForm', {
 					title: 'Créer une session',
+					pageTitle: 'Créer une session',
 					questions: questionResult,
 					error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
 				});
@@ -446,6 +448,7 @@ exports.editSession = function(req, res) {
 			question.getAllQuestion(function(questionResult){
 				res.render('teacher/sessionForm', {
 					title: 'Édition de la session',
+					pageTitle: 'Édition de la session',
 					questions: questionResult,
 					session: session,
 					status: status
@@ -485,6 +488,7 @@ exports.editSessionPost = function(req, res) {
 			question.getAllQuestion(function(questionResult) {
 				res.render('teacher/sessionForm', {
 					title: 'Édition de la session',
+					pageTitle: 'Édition de la session',
 					questions: questionResult,
 					session: sessionInfo
 				});
@@ -518,6 +522,7 @@ exports.listQuestion = function(req, res) {
 		category.getAllCategory(function(categoryResult){
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
+				pageTitle: 'Liste des questions',
 				categories: categoryResult,
 				questions: questionResult
 			});
@@ -538,6 +543,7 @@ exports.listSession = function(req, res) {
 	session.getAllSession(req.session.idUser, function(result){
 		res.render('teacher/listSession', {
 			title: 'Liste des sessions',
+			pageTitle: 'Liste des sessions',
 			sessions : result
 		})
 	});
@@ -558,7 +564,8 @@ exports.stat = function(req,res) {
 	}
 
 	res.render('teacher/stat', {
-		title: 'Statistique'
+		title: 'Statistique',
+		pageTitle: 'Statistique'
 	});
 };
 
@@ -569,7 +576,8 @@ exports.stat = function(req,res) {
  */
 exports.panelquestion = function(req,res) {
 	res.render('teacher/panelquestion', {
-		title: 'Question'
+		title: 'Question',
+		pageTitle: 'Question'
 	});
 };
 
@@ -591,6 +599,7 @@ exports.waitConnection = function(req,res) {
 		app.application.enable(key);
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
+			pageTitle: 'En attente - professeur',
 			session: result[0]
 		});
 	});
