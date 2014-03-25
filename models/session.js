@@ -114,7 +114,7 @@ exports.getSession = function(id, callback) {
 exports.getAllSession = function(idTeacher, callback) {
 	var Sessions = mongoose.model('session');
 
-	Sessions.find({_id: idTeacher }).exec(function(err, result){
+	Sessions.find({_id_teacher: idTeacher }).exec(function(err, result){
 		if(err) {
 			console.log(err);
 		}

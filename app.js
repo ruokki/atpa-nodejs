@@ -84,21 +84,17 @@ app.get('/session/waitConnection/:key', teacherRoutes.waitConnection);
 app.get('/question/:id', studentRoutes.question);
 app.get('/session/connected/:key', studentRoutes.waiting);
 
-exports.application = app;
-
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
 var sockets = io.listen(server);
+var activeSession = [];
 
-var socketStudent = sockets.of('/student');
-var socketTeacher = sockets.of('/teacher');
-
-socketStudent.on('connection', function(socket){
-
+sockets.on('connection', function(socket){
+	console.log(activeSession);
 });
 
-socketTeacher.on('connection', function(socket){
-
-});
+exports.application = app;
+exports.activeSession = activeSession;
