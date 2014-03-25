@@ -9,7 +9,10 @@
 					<img src="/img/ATPA.png" alt="ATPA">
 					<div id="loading-box">
 						<img id="img-loading" src="/img/ajax-loader.gif" >
-						<p id="msg-loading">En attente du lancement de la session</p>
+						<p id="msg-loading">
+							En attente du lancement de 
+							{% if type === 'session' %}la session{% elseif type === 'question' %}la question{% endif %}
+						</p>
 						<input type="hidden" name="username" value="{{student}}" id="username">
 						<input type="hidden" name="key" value="{{key}}" id="key">
 					</div>
@@ -22,14 +25,9 @@
 
 {% block script %}
 	<script src="/socket.io/socket.io.js"></script>
-	<script>
-
-		var socket = io.connect('http://localhost');
-		var key = $("#key").val();
-		var user = $("#username").val();
-
-		socket.emit("newStudent", {key: key, user: user });
-
-
-	</script>
+	{% if type === 'session' %}
+	<script src="/js/socket-student-session.js"></script>
+	{% elseif type === 'question' %}
+	<script src="/js/socket-student-question.js"></script>
+	{% endif %}
 {% endblock %}

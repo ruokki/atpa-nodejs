@@ -34,7 +34,6 @@ exports.login = function(req, res){
 
  		// Récupère le contenu du formulaire
  		var formPost = req.body.student;
-
 		// Vérification champ vide
 		if(formPost.id === "" || formPost.key === "") {
 			error = "Veuillez saisir vos informations de connexion.";
@@ -49,50 +48,73 @@ exports.login = function(req, res){
 			// Récupère le model student.js dans le dossier ../models
 			var student = require('../models/student');
 
-			/* Execute la fonction isStudentCorrect du model student
-			 * La fonction de callback permet de récupérer les informations 
-			 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
-			 * récupérer ses informations, les traitements étant faits de façon 
-			 * asynchrone
-			 */
-			student.isStudentCorrect(formPost.id, function(err, data){
-				if(err) {
-					error = "Identifiant incorrect";
-					res.render("login",{
-						title: "Connexion",
-						error: error
-					});
-				}
-				else {
-					// Mise en session des éléments name et _id de 
-					// l'étudiant qui vient de se connecter
-					req.session.username = data.name;
-					req.session.idUser = data._id;
-					req.session.statusUser = "S";
+			if(!formPost.type) {
+				res.render("login",{
+					title: "Connexion",
+					error: "Veuiller choisir un type de connexion"
+				});		
+			}
+			else {
 
-					var app = require('../app');
-					if(!app.application.enabled(formPost.key)) {
-						error = "Session incorrect ou indisponible";
+				/* Execute la fonction isStudentCorrect du model student
+				 * La fonction de callback permet de récupérer les informations 
+				 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
+				 * récupérer ses informations, les traitements étant faits de façon 
+				 * asynchrone
+				 */
+				student.isStudentCorrect(formPost.id, function(err, data){
+					if(err) {
+						error = "Identifiant incorrect";
 						res.render("login",{
 							title: "Connexion",
 							error: error
 						});
 					}
 					else {
-						if(app.activeSession[formPost.key].indexOf(data.name) > -1){
-							res.render("login",{
-								title: "Connexion",
-								error: "Identifiant déjà connecté sur une session"
-							});			
+						var type = formPost.type;
+						// Mise en session des éléments name et _id de 
+						// l'étudiant qui vient de se connecter
+						req.session.username = data.name;
+						req.session.idUser = data._id;
+						req.session.statusUser = "S";
+
+						var app = require('../app');
+
+						if(type === 'session') {
+							if(!app.application.enabled(formPost.key)) {
+								error = "Session incorrect ou indisponible";
+								res.render("login",{
+									title: "Connexion",
+									error: error
+								});
+							}
+							else {
+								if(app.activeSession[formPost.key].indexOf(data.name) > -1){
+									res.render("login",{
+										title: "Connexion",
+										error: "Identifiant déjà connecté sur une session"
+									});			
+								}
+								else {
+									req.session.sessionUser = formPost.key;
+									res.redirect('/' + type + '/' + formPost.key);
+								}
+							}
 						}
-						else {
-							req.session.sessionUser = formPost.key;
-							// Redirection vers l'URL /student/waiting/:key
-							res.redirect('/session/connected/' + formPost.key);
+						else if (type === 'question') {
+							if(app.activeQuestion[formPost.key].connected.indexOf(data.name) > -1) {
+								res.render("login",{
+									title: "Connexion",
+									error: "Identifiant déjà connecté à une question avec ce professeur"
+								});			
+							}
+							else {
+								res.redirect('/' + type + '/' + formPost.key);
+							}
 						}
 					}
-				}
-			});
+				});
+			}
 		}
  	}
  	else if (req.body.teacher) {

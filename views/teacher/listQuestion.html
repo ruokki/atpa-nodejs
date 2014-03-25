@@ -30,9 +30,10 @@
 						      		<table id="question-table">
 									  <thead>
 									    <tr>
-									      <th width="700">Question</th>
+									      <th width="650">Question</th>
 									      <th width="50">Supprimer</th>
 									      <th width="50">Modifier</th>
+									      <th width="50">Lancer</th>
 									    </tr>
 									  </thead>
 									  <tbody>
@@ -41,6 +42,7 @@
 									      <td value="{{question._id}}">{{ question.text }}</td>
 									      <td class="text-center"><a class="remove-questionnaire" href="#"><i class="foundicon-minus red"></i></a></td>
 									      <td class="text-center"><a href="/edit/question/{{question._id}}"><i class="foundicon-edit"></i></a></td>
+									      <td class="text-center"><a href="/question/waitConnection/{{question._id}}"><i class="foundicon-clock green"></i></a></td>
 									    </tr>
 							          {%- endfor %}
 									  </tbody>

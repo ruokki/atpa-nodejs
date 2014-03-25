@@ -74,15 +74,19 @@ app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 /* -------------------------- */
 app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
-app.get('/panelquestion', teacherRoutes.panelquestion);
-app.get('/session/waitConnection/:key', teacherRoutes.waitConnection);
+app.get('/session/waitConnection/:key', teacherRoutes.waitSession);
+app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
 
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
 /* -------------------------- */
-app.get('/question/:id', studentRoutes.question);
-app.get('/session/connected/:key', studentRoutes.waiting);
+app.get('/session/:key', studentRoutes.waitingSession);
+app.get('/question/:key', studentRoutes.waitingQuestion);
+
+/* Exemple page question */
+app.get('/question/student/exemple', studentRoutes.question);
+app.get('/question/teacher/exemple', teacherRoutes.panelquestion);
 
 /* -------------------- */
 /*     Requête AJAX     */
@@ -97,8 +101,9 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 // Initailisation de la variable contenant toutes les sessions actives
 var sockets = io.listen(server);
 var activeSession = [];
+var activeQuestion = [];
 
-sockets.on('connection', function(socket){
+sockets.of('/session').on('connection', function(socket){
 
 	// Connection d'un nouvel étudiant
 	socket.on('newStudent', function(data){
@@ -110,5 +115,18 @@ sockets.on('connection', function(socket){
 	});
 });
 
+sockets.of('/question').on('connection', function(socket){
+	// Connection d'un nouvel étudiant
+	console.log(activeQuestion);
+	socket.on('newStudent', function(data){
+		var connected = activeQuestion[data.teacher].connected;
+		if(connected.indexOf(data.user) === -1) {
+			connected.push(data.user);
+		}
+		socket.broadcast.emit('studentConnected', connected.length);
+	});
+});
+
 exports.application = app;
 exports.activeSession = activeSession;
+exports.activeQuestion = activeQuestion;

@@ -52,9 +52,7 @@
 							<input type="text" placeholder="Identifiant" name="teacher[id]">
 							<label class="hide">Mot de passe</label>
 							<input id="password" type="password" placeholder="Mot de passe" name="teacher[passwd]"></input>
-							
 							<input id="subm-enseignant" type="submit" class="button small" value="Se connecter">
-						
 						</div>
 					</form>
 				</div>	
@@ -65,12 +63,21 @@
 				<div class="small-12 small-centered columns"> 
 					<h2 class="text-center">Étudiant</h2>
 					<form method="post" action="#">	
-						<div class="small-8 small-centered columns">	
+						<div class="small-8 small-centered columns">
+							<div class="row">
+								<div class="small-6 columns">
+									<input type="radio" name="student[type]" value="session" checked id="session">
+									<label for="session">Session</label>
+								</div>
+								<div class="small-6 columns">
+									<input type="radio" name="student[type]" value="question" id="question">
+									<label for="question">Question unique</label>
+								</div>
+							</div>
 							<label class="hide">Identifiant</label>
 							<input type="text" placeholder="Identifiant" name="student[id]">
 							<label class="hide">Mot de passe</label>
-							<input type="text" placeholder="Clé de la session" class="form-control" name="student[key]">
-							
+							<input type="text" placeholder="Clé d'accès à la session" class="form-control" id="keyStudent" name="student[key]">
 							<input id="subm-etudiant" type="submit" class="button small" value="Se connecter">
 							
 						</div>
@@ -97,6 +104,17 @@
 				$("#btn-login-enseignant").click(function(){
 					$("#form-etudiant").hide();
 					$("#form-enseignant").show("fast");
+				});
+
+				var keyStudent = $("#keyStudent");
+
+				$("#question, #session").change(function(e){
+					if($(this).val() === "question") {
+						keyStudent.attr("placeholder", "Nom du professeur");
+					}
+					else if ($(this).val() === "session") {
+						keyStudent.attr("placeholder", "Clé d'accès à la session");
+					}
 				});
 
 			});

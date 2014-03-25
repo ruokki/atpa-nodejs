@@ -582,10 +582,10 @@ exports.panelquestion = function(req,res) {
 };
 
 /*
- * GET waitConnection page
+ * GET waitSession page
  * Affiche la page avant le lancement d'une session
  */
-exports.waitConnection = function(req,res) {
+exports.waitSession = function(req,res) {
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -606,6 +606,30 @@ exports.waitConnection = function(req,res) {
 	});
 };
 
+/*
+ * GET waitQuestion page
+ * Affiche la page avant le lancement d'une question
+ */
+exports.waitQuestion = function(req,res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+	var question = require('../models/question');
+	var app = require('../app');
+
+	question.getQuestion(req.params.key, function(err, result){
+		app.activeQuestion[req.session.username] = {
+			question: req.params.key,
+			connected: []
+		};
+		res.render('teacher/waitConnection', {
+			title: 'En attente - professeur',
+			pageTitle: 'En attente - professeur',
+			question: result
+		});
+	});
+};
 
 /* ------------ */
 /*     AJAX     */

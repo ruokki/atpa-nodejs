@@ -12,14 +12,29 @@ exports.question = function(req,res) {
 };
 
 /*
- * GET accueil page
+ * GET waitingSession page
  */
-exports.waiting = function(req,res) {
+exports.waitingSession = function(req,res) {
 	var app = require('../app');
 	var key = req.params.key;
 	res.render('student/connected', {
+		type: 'session',
 		student: req.session.username,
 		key: key,
+		title: 'En attente - étudiant'
+	});
+};
+
+/*
+ * GET waitingQuestion page
+ */
+exports.waitingQuestion = function(req,res) {
+	var app = require('../app');
+	var teacher = req.params.key;
+	res.render('student/connected', {
+		type: 'question',
+		student: req.session.username,
+		key: teacher,
 		title: 'En attente - étudiant'
 	});
 };
