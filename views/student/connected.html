@@ -9,7 +9,8 @@
 					<img src="/img/ATPA.png" alt="ATPA">
 					<div id="loading-box">
 						<img id="img-loading" src="/img/ajax-loader.gif" >
-						<p id="msg-loading">en attente d'une session</p>
+						<p id="msg-loading">En attente d'une session</p>
+						<input type="hidden" name="username" value="{{student}}" id="username">
 					</div>
 				</div>
 			</section>
@@ -19,10 +20,14 @@
 {% endblock %}
 
 {% block script %}
-	<script type="text/javascript">
-		$("document").ready(function(){
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
 
+		var socket = io.connect('http://localhost/student');
 
-		});
+		socket.on('connectSuccess', function(data){
+			
+		})
+
 	</script>
 {% endblock %}

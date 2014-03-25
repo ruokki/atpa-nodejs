@@ -13,7 +13,6 @@ exports.isTeacherCorrect = function(id, pwd, callback){
 			console.log(err);
 		}
 		else {
-			console.log(result);
 			if(result.length === 1) {
 				callback(null, result[0]);
 			}

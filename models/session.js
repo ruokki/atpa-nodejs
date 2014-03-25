@@ -123,3 +123,24 @@ exports.getAllSession = function(idTeacher, callback) {
 		}
 	});
 };
+
+/*
+ * Récupère une session par sa clé
+ */
+exports.getSessionByKey = function(key, callback) {
+	var Session = mongoose.model('session');
+
+	Session.find({key: key}).exec(function(err, result){
+		if(err) {
+			console.log(err);
+		}
+		else {
+			if(result.length === 1) {
+				callback(null, result);
+			}
+			else {
+				callback(true, null);
+			}
+		}
+	});
+}
