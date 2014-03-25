@@ -1,0 +1,81 @@
+{% extends '../layout.html' %}
+	
+{% block content %}
+    <section class="main-section">
+      <div class="row">
+
+        <div class="small-12 columns">	<!-- body -->
+        	<section id="section-main" class="container container-marge">
+				
+        		<div class="small-10 small-centered columns"> 
+					<h1 class="text-center ">{{ pageTitle }}</h1>
+						<form role="form">
+							<div class="row">
+								<a class="button tiny" href="/welcome">retour</a>
+   
+							   	<div class="small-12  columns no-padding panel panel-form">
+
+						      		<table id="question-table">
+									  <thead>
+									    <tr>
+									      <th width="700">Categorie</th>
+									      <th width="50">Supprimer</th>
+									      <th width="50">Modifier</th>
+									    </tr>
+									  </thead>
+									  <tbody>
+
+									  {% for category in categories -%}
+										<tr id="{{category._id}}" data-category="{{categoriy._id_cat}}" >
+									      <td>{{ category.label }}</td>
+									      <td class="text-center"><a class="remove-categorie" href="#"><i class="foundicon-minus red"></i></a></td>
+									      <td class="text-center"><a href="/edit/categoriy/{{categoriy._id}}"><i class="foundicon-edit"></i></a></td>
+									    </tr>
+							          {%- endfor %}
+									  </tbody>
+									</table>
+						    	</div>
+						    	<a href="/add/categorie" class="btn-right button small">Ajouter</a>
+						  	</div>
+						</form>
+					</section>
+				</div>
+			</section>
+        </div>
+      </div>
+    </section>
+    
+   
+    
+    <div class="popup-center">
+      <div id="pop-remove-confirm">	
+          <a class="popup-close" href="#close">×</a>
+          <p class="popup-titre">Voulez vous supprimer ?</p>
+          <a class="tiny button btn-annule" href="#">Non</a>	
+          <a class="tiny button btn-confirm" href="/suppr/">Oui</a>
+      </div>
+	</div>
+    
+
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="/js/DeleteCategorie.js"></script>
+	<script type="text/javascript">
+		
+		$('#selectCat').change(function(){
+			var categorie= $(this).val();
+			var questions = $("#question-table tbody tr");
+			questions.each(function(index, elem) {
+				var elemCategory = $(elem).data("category");
+				if(elemCategory == categorie) {
+					$(elem).show();
+				}
+				else {
+					$(elem).hide();	
+				}
+			});			
+		});
+		
+    </script>
+{% endblock %} 

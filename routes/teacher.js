@@ -355,10 +355,6 @@ exports.addQuestionPost = function(req, res) {
 
 
 
-
-
-
-
 exports.supprQuestion = function(req, res) {
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
@@ -619,6 +615,30 @@ exports.listSession = function(req, res) {
 		})
 	});
 };
+
+
+/*
+ * GET listCategorie page
+ */
+exports.listCategorie = function(req, res) {
+	var category = require('../models/category');
+	var question = require('../models/question');
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+	
+
+	category.getAllCategory(function(categoryResult){
+		res.render('teacher/listCategorie', {
+			title: 'Liste des categories',
+			pageTitle: 'Liste des categories',
+			categories: categoryResult,
+		});
+	});
+}
+
+
 
 
 /* ----------------------- */ 
