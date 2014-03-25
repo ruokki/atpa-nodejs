@@ -51,7 +51,7 @@ h2{
 }
 
 .bleu{
-	color: #4372E0;
+	color: #008CBA;
 }
 
 .btn-right{
@@ -112,16 +112,20 @@ h2{
     
 }
 
-#timer span{
-	
+.timer-large{
+	border: 15px solid #008CBA;
+    border-radius: 50%;
+    height: 170px;
+    margin: 30px auto;
+    width: 170px;
 }
 
-.timer-large{
-	width: 150px;
-	height: 150px;
-	border: 10px solid #008cba;
-	border-radius: 50%;
-	margin: 0 auto;
+.timer-large span{
+	color: #008CBA;
+    display: block;
+    font-size: 45px;
+    font-weight: bold;
+    margin: 50px 0;
 }
 
 .timer-small{
@@ -132,6 +136,15 @@ h2{
     font-weight: bold;
     margin: 5px 0;
     padding: 10px;
+}
+
+#timer-msg{
+ 	color: #008CBA;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 15px auto;
+    padding: 10px 0;
+    text-align: center;
 }
 
 
