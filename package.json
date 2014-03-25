@@ -10,6 +10,7 @@
     "swig": "*",
     "mongoose" : "*",
     "mongoose-auto-increment": "*",
-    "randomstring" : "*"
+    "randomstring" : "*",
+    "socket.io" : "*"
   }
 }

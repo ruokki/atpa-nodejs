@@ -8,6 +8,11 @@
  * Affiche la page d'accueil
  */
 exports.welcome = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	res.render('index', {
 		title : 'Accueil'
 	})
@@ -558,15 +563,35 @@ exports.stat = function(req,res) {
 };
 
 
-
+/*
+ * GET panelquestion page
+ * Affiche les question d'une session en cours
+ */
 exports.panelquestion = function(req,res) {
 	res.render('teacher/panelquestion', {
 		title: 'Question'
 	});
 };
 
-exports.waitsession = function(req,res) {
-	res.render('teacher/waitsession', {
-		title: 'En attente'
+/*
+ * GET waitConnection page
+ * Affiche la page avant le lancement d'une session
+ */
+exports.waitConnection = function(req,res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var session = require('../models/session');
+	var app = require('../app');
+	var key = req.params.key;
+
+	session.getSessionByKey(key, function(err, result){
+		app.application.enable(key);
+		res.render('teacher/waitConnection', {
+			title: 'En attente - professeur',
+			session: result[0]
+		});
 	});
 };

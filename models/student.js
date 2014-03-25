@@ -3,10 +3,10 @@ var mongoose = require('mongoose');
 /*
  * Vérifie que le couple id/email existe dans la collection Student
  */
-exports.isStudentCorrect = function(id, email, callback){
+exports.isStudentCorrect = function(id, callback){
 	var Students = mongoose.model('student');
 	
-	Students.find({email: email, name: id}).exec(function(err, result){
+	Students.find({name: id}).exec(function(err, result){
 		if(err) {
 			console.log(err);
 		}

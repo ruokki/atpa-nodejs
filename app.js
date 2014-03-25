@@ -9,6 +9,7 @@ var teacherRoutes = require('./routes/teacher');
 var studentRoutes = require('./routes/student');
 var http = require('http');
 var path = require('path');
+var io = require('socket.io');
 var swig = require('swig');
 var db = require('./models/db');
 
@@ -74,17 +75,31 @@ app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/panelquestion', teacherRoutes.panelquestion);
-app.get('/waitsession', teacherRoutes.waitsession);
+app.get('/session/waitConnection/:key', teacherRoutes.waitConnection);
 
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
 /* -------------------------- */
 app.get('/question/:id', studentRoutes.question);
-app.get('/student/waiting', studentRoutes.waiting);
+app.get('/session/connected/:key', studentRoutes.waiting);
 
 
+exports.application = app;
 
-http.createServer(app).listen(app.get('port'), function(){
+
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+var sockets = io.listen(server);
+
+var socketStudent = sockets.of('/student');
+var socketTeacher = sockets.of('/teacher');
+
+socketStudent.on('connection', function(socket){
+
+});
+
+socketTeacher.on('connection', function(socket){
+
 });
