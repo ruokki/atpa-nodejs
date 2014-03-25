@@ -597,9 +597,7 @@ exports.waitConnection = function(req,res) {
 
 	session.getSessionByKey(key, function(err, result){
 		app.application.enable(key);
-		app.activeSession[key] = {
-			connected: []
-		};
+		app.activeSession[key] = [];
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',

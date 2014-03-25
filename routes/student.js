@@ -19,6 +19,7 @@ exports.waiting = function(req,res) {
 	var key = req.params.key;
 	res.render('student/connected', {
 		student: req.session.username,
+		key: key,
 		title: 'En attente - étudiant'
 	});
 };

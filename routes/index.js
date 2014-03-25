@@ -79,8 +79,16 @@ exports.login = function(req, res){
 						});
 					}
 					else {
-						// Redirection vers l'URL /student/waiting/:key
-						res.redirect('/session/connected/' + formPost.key);
+						if(app.activeSession[formPost.key].indexOf(data.name) > -1){
+							res.render("login",{
+								title: "Connexion",
+								error: "Identifiant déjà connecté sur une session"
+							});			
+						}
+						else {
+							// Redirection vers l'URL /student/waiting/:key
+							res.redirect('/session/connected/' + formPost.key);
+						}
 					}
 				}
 			});
