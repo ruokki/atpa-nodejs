@@ -1,12 +1,11 @@
-// JavaScript Document
 $("document").ready(function(){
 
 	$(".popup-center").hide();
 
-	$(".remove-questionnaire").click(function(){
+	$(".remove-categorie").click(function(){
 		$(".popup-center").show();
-		var idQuestion = $(this).parent().parent().attr("id");
-		$(".btn-confirm").attr("href", "/suppr/question/"+idQuestion);
+		var idCategorie = $(this).parent().parent().attr("id");
+		$(".btn-confirm").attr("href", "/suppr/categorie/"+idCategorie);
 
 	});
 

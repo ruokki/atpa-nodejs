@@ -352,6 +352,72 @@ exports.addQuestionPost = function(req, res) {
 
 
 
+
+
+
+exports.supprQuestion = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var idQuestion = req.params.id;
+	var status;
+	var idTeacher = req.session.idUser;
+
+	if(req.params.status === 'saved') {
+		status = 'La question a bien été supprimmée';
+		console.log(status);
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+		console.log(status);
+	}
+	else {
+		status = false;
+	}
+
+
+	question.getQuestion(idQuestion, function(err){
+		if(err) {
+			res.redirect('/list/question');
+		}
+		else {
+			question.removeQuestion(idQuestion, function(err, result){
+				// à ameliorer
+				if(err) {
+					res.redirect('/list/question/');
+					console.log("erreur de supression");
+				}
+				else {
+					res.redirect('/list/question/');
+				}
+			});
+		}
+	});
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ---------------------------- */
 /*     Gestion des sessions     */
 /* ---------------------------- */
@@ -519,6 +585,7 @@ exports.listQuestion = function(req, res) {
 	}
 	
 	question.getAllQuestion(function(questionResult){
+		console.log(questionResult);
 		category.getAllCategory(function(categoryResult){
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
@@ -548,6 +615,30 @@ exports.listSession = function(req, res) {
 		})
 	});
 };
+
+
+/*
+ * GET listCategorie page
+ */
+exports.listCategorie = function(req, res) {
+	var category = require('../models/category');
+	var question = require('../models/question');
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+	
+
+	category.getAllCategory(function(categoryResult){
+		res.render('teacher/listCategorie', {
+			title: 'Liste des categories',
+			pageTitle: 'Liste des categories',
+			categories: categoryResult,
+		});
+	});
+}
+
+
 
 
 /* ----------------------- */ 

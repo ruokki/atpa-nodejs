@@ -92,3 +92,25 @@ exports.getAllQuestion = function(callback) {
 		}
 	});
 }
+
+
+/*
+ * Supprime une question
+ */
+ exports.removeQuestion = function(idQuestion, callback) {
+ 	var Questions = mongoose.model('question');
+ 	
+ 	Questions.remove({
+ 		_id: idQuestion
+ 	}, 
+ 	function(err, rowAffected, raw){
+ 		if(err) {
+ 			console.log(err);
+ 			callback(true, null);
+ 		}
+ 		else {
+ 			callback(null, rowAffected);
+ 		}
+ 	});
+
+ };
