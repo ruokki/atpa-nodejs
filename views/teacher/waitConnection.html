@@ -5,14 +5,14 @@
         <div class="small-12 columns">	<!-- body -->
         	<section id="section-main" class="container container-marge">
 				
-        		<div class="small-10 small-centered columns text-center"> 
+        		<div id="container" class="small-10 small-centered columns text-center"> 
         			
 					
 					<h2>{{ session.name }}</h2>
-					<h2>Clé : {{ session.key }}</h2>
+					<h2>Clé : <span id="key">{{ session.key }}</span></h2>
 					<div class="logo-atpa"><img src="/img/ATPA.png"></div>
 					<div>
-						<a class="button large" href="#">Lancer</a>
+						<button class="large" type="button" id="go">Lancer</button>
 						<p>Nombre d'étudiants connectés: <span id="nbCo"></span></p>
 					</div>
 				</div>
@@ -28,6 +28,37 @@
 	$(document).foundation();
 
 	var socket = io.connect('http://localhost');
+	var key = $("#key").text();
+	var nbCo = $("#nbCo");
+	var container = $("#container");
+	var indexQuestion;
+
+	nbCo.text(0);
+
+	socket.on('studentConnected', function(data){
+		nbCo.text(data);
+	});
+
+	$("#go").click(function(e){
+		e.preventDefault();
+		socket.emit('launchQuestion');
+		container.fadeOut(500, function(){
+			container.empty();
+		});
+		indexQuestion = 0;
+		$.ajax({
+			url: '/ajax/getQuestion',
+			type: 'post',
+			data: {
+				key: key,
+				indexQuestion: indexQuestion
+			},
+			success: function(data) {
+
+			}
+		})
+
+	})
 
 </script>
 

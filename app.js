@@ -88,16 +88,30 @@ app.get('/session/waitConnection/:key', teacherRoutes.waitConnection);
 app.get('/question/:id', studentRoutes.question);
 app.get('/session/connected/:key', studentRoutes.waiting);
 
+/* -------------------- */
+/*     Requête AJAX     */
+/* -------------------- */
+app.post('/ajax/getQuestion',teacherRoutes.ajaxQuestion)
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
+// Création du serveurr web-socket
+// Initailisation de la variable contenant toutes les sessions actives
 var sockets = io.listen(server);
 var activeSession = [];
 
 sockets.on('connection', function(socket){
-	console.log(activeSession);
+
+	// Connection d'un nouvel étudiant
+	socket.on('newStudent', function(data){
+		if(activeSession[data.key].indexOf(data.user) === -1) {
+			activeSession[data.key].push(data.user);
+		}
+
+		socket.broadcast.emit('studentConnected', activeSession[data.key].length);
+	});
 });
 
 exports.application = app;
