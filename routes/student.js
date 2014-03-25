@@ -10,3 +10,12 @@ exports.question = function(req,res) {
 		title: 'Réponse'
 	});
 };
+
+/*
+ * GET accueil page
+ */
+exports.waiting = function(req,res) {
+	res.render('student/waiting', {
+		title: 'atpa'
+	});
+};

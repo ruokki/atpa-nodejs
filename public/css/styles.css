@@ -50,12 +50,8 @@ h2{
 	color: #CC0606;
 }
 
-.green {
-	color: #00c305;
-}
-
 .bleu{
-	color: #4372E0;
+	color: #008CBA;
 }
 
 .btn-right{
@@ -113,7 +109,27 @@ h2{
 	Questionnaire
 =========================== */
 #timer {
-    background: none repeat scroll 0 0 #E5E5E5;
+    
+}
+
+.timer-large{
+	border: 15px solid #008CBA;
+    border-radius: 50%;
+    height: 170px;
+    margin: 30px auto;
+    width: 170px;
+}
+
+.timer-large span{
+	color: #008CBA;
+    display: block;
+    font-size: 45px;
+    font-weight: bold;
+    margin: 50px 0;
+}
+
+.timer-small{
+	background: none repeat scroll 0 0 #E5E5E5;
     color: #FF0000;
     float: right;
     font-size: 20px;
@@ -121,6 +137,17 @@ h2{
     margin: 5px 0;
     padding: 10px;
 }
+
+#timer-msg{
+ 	color: #008CBA;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 15px auto;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
 
 .check-reponse{
 	float: right;
@@ -241,4 +268,28 @@ h2{
 		font-size: 45px !important;
 	    font-weight: bold !important;
 	}
+}
+
+#img-loading{
+	margin: 25px 0;
+}
+
+.logo-atpa{
+	text-align: center;
+	margin: 0 auto;
+}
+
+.logo-atpa img{
+	min-width: 75px;
+	width: 20%;
+	margin: 15px 0 30px 0;
+}
+
+
+
+/* ======================
+	Element Foundation
+========================= */
+button{
+	background: #008cba;
 }

@@ -11,8 +11,8 @@
 							<div class="row">
 							    <div class="small-12  columns no-padding">
 							      <h3>Ceci est un question ?</h3>
-							      <div id="timer">
-							      	<span>3:56</span>
+							      <div id="timer" class="timer-small">
+							      	<span></span>
 							      </div>
 							    </div>
 							   
@@ -64,4 +64,7 @@
         </div>
       </div>
     </section>
+{% endblock %}
+{% block script %}
+<script src="/js/timer.js"></script>
 {% endblock %}

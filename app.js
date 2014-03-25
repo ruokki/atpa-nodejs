@@ -12,6 +12,9 @@ var path = require('path');
 var swig = require('swig');
 var db = require('./models/db');
 
+// Sessions de questions en cours
+var activeSessions = [];
+
 var app = express();
 
 // all environments
@@ -65,15 +68,21 @@ app.get('/edit/session/:id/:status', teacherRoutes.editSession);
 app.post('/edit/session/:id', teacherRoutes.editSessionPost);
 app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
-/* -------------------- */
-/*     Statistiques     */
-/* -------------------- */
+/* -------------------------- */
+/*     Page du professeur     */
+/* -------------------------- */
 app.get('/stat', teacherRoutes.stat);
+app.get('/welcome', teacherRoutes.welcome);
+app.get('/panelquestion', teacherRoutes.panelquestion);
+app.get('/waitsession', teacherRoutes.waitsession);
+
 
 /* -------------------------- */
 /*     Page de l'étudiant     */
 /* -------------------------- */
 app.get('/question/:id', studentRoutes.question);
+app.get('/student/waiting', studentRoutes.waiting);
+
 
 
 http.createServer(app).listen(app.get('port'), function(){

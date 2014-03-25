@@ -104,7 +104,7 @@ exports.login = function(req, res){
 					req.session.username = data.name;
 					req.session.idUser = data._id;
 					req.session.statusUser = "T";
-					res.redirect('/list/session');
+					res.redirect('/welcome');
 				}
 			});
 		}

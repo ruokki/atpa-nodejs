@@ -25,7 +25,7 @@
 							        	<input type="text" placeholder="Label de la session" name="label" value="{{session.name}}">
 							    	</div>
 							    	<div class="small-6 columns">
-							    		<input type="submit" class="btn-right button small" value="Ajouter">
+							    		<input type="submit" class="btn-right button small" value="Modifier">
 							    	</div>
 							    </div>
 						{% else %}
@@ -60,6 +60,18 @@
 										{%- endfor %}
 									  </tbody>
 									</table>
+									<div class="row">
+										<div class="small-12 columns">
+											<ul class="button-group right">
+												<li>
+													<a href="/list/question" class="button small">Gestion des questions</a>
+												</li>
+												<li>
+													<a href="/add/question" class="button small">Ajouter une question</a>
+												</li>
+											</ul>
+										</div>
+									</div>
 						    	</div>
 						  	</div>
 						</form>
