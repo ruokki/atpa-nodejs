@@ -141,7 +141,8 @@ sockets.of('/question').on('connection', function(socket){
 	});
 
 	socket.on('answer', function(data){
-		
+		console.log(data);
+		socket.broadcast.emit("answerStudent");
 	})
 });
 

@@ -12,7 +12,17 @@ socket.on("startStudent", function(html){
 				 .fadeIn(250);
 		$("#submit-answer").click(function(e){
 			e.preventDefault();
-			var answer = $(":checked").val();
+			var checked = $(":checked");
+			var answer;
+			if(checked.length > 1) {
+				answer = [];
+				checked.each(function(index, elem){
+					answer.push($(elem).val());
+				});
+			}
+			else {
+				answer = checked.val();
+			}
 			socket.emit("answer", {answer: answer});
 		});
 	});

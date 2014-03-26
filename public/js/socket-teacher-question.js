@@ -3,6 +3,7 @@ var socket = io.connect('http://localhost/question');
 var teacher = $("#teacher").val();
 var nbCo = $("#nbCo");
 var container = $("#container");
+var nbRep;
 
 nbCo.text(0);
 
@@ -22,4 +23,9 @@ $("#go").click(function(e){
 socket.on("startTeacher", function(html){
 	container.append(html);
 	container.fadeIn(500);
+	nbRep = $("#nbRep");
+});
+
+socket.on("answerStudent", function(){
+	nbRep.text(parseInt(nbRep.text()) + 1);
 });
