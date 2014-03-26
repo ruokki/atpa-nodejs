@@ -4,7 +4,7 @@ $("document").ready(function(){
 
 
 function timer(){
-  	var cpt = 5;	// valeur à changer 
+  	var cpt = $("#value-timer").val();
   	$("#timer span").text(cpt);
 	setInterval(function(){
 	    if(cpt > 0){

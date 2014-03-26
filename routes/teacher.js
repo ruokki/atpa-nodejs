@@ -585,7 +585,6 @@ exports.listQuestion = function(req, res) {
 	}
 	
 	question.getAllQuestion(function(questionResult){
-		console.log(questionResult);
 		category.getAllCategory(function(categoryResult){
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
@@ -717,31 +716,8 @@ exports.waitQuestion = function(req,res) {
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',
-			question: result
+			question: result,
+			teacher: req.session.username
 		});
 	});
-};
-
-/* ------------ */
-/*     AJAX     */
-/* ------------ */
-
-/*
- * POST ajaxQuestion
- * Récupère les infos d'une question et envoie le HTML à la requête
- */
-exports.ajaxQuestion = function(req,res) {
-	if(req.xhr) {
-		var question = require('../models/question');
-		var session = require('../models/session');
-		var key = req.body.key;
-		var indexQuestion = req.body.indexQuestion;
-
-		session.getSessionByKey(key, function(err, result){
-			var questions = result[0].questions;
-			console.log(questions);
-		});
-
-		res.send(200, req.body.key);
-	}
 };

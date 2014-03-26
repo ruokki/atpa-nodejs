@@ -1,71 +1,29 @@
-{% extends '../layout.html' %}
-{% block content %}
-    <section class="main-section">
-      <div class="row">
-        <div class="small-12 columns">	<!-- body -->
-        	<section id="section-main" class="container container-marge">
-				
-        		<div class="small-10 small-centered columns"> 
-					<h1 class="text-center ">Questionnaire</h1>
-						<form role="form">
-							<div class="row">
-								<a class="button tiny">retour</a>
-							    <div class="small-12  columns no-padding">
-							      <h3>Ceci est un question ?</h3>
-							      <div id="timer" class="timer-small">
-							      	<span></span>
-							      </div>
-							    </div>
-							   
-						  	</div>
+<div class="small-10 small-centered columns"> 
+	<form role="form">
+		<div class="row">
+		    <div class="small-12  columns no-padding">
+		      <h3>{{question.text}}</h3>
+		    </div>
+		   
+	  	</div>
 
-					      	<div class="row panel panel-form">
-					      	<!--
-					      		<div class="small-12 columns">
-									<div class="row">					      			
-						      		<label>1 ère réponse
-							    	<input class="check-reponse" type="radio"  name="rep1" value="rep1"></label>
-							    	</div>
-									<div class="row">
-							    	<label>2 eme réponse
-							    	<input class="check-reponse" type="radio"  name="rep2" value="rep2"></label>
-							    	</div>
-									
-						    	</div>
-						    	-->
-						    	<div class="small-12 columns">
-									<div class="row">					      			
-						      		<label>1 ère réponse
-							    	<input class="check-reponse" type="radio"  name="rep" value="rep1"></label>
-							    	</div>
-									<div class="row">
-							    	<label>2 eme réponse
-							    	<input class="check-reponse" type="radio"  name="rep" value="rep2"></label>
-							    	</div>
-							    	<div class="row">
-									<label>3 eme réponse
-							    	<input class="check-reponse" type="radio"  name="rep" value="rep2"></label>
-							    	</div>
-							    	<div class="row">
-							    	<label>4 eme réponse
-							    	<input class="check-reponse" type="radio"  name="rep" value="rep2"></label>
-							    	</div>
-						    	</div>
-					      	</div>
-					      	
-						  	<div class="row">
-						    	<input type="submit" class="button small btn-envoi" value="Valider">			   	
-						  	</div>
-
-						
-						</form>
-					</section>
-				</div>
-			</section>
-        </div>
-      </div>
-    </section>
-{% endblock %}
-{% block script %}
+      	<div class="row panel panel-form">
+	    	<div class="small-12 columns">
+    		{% for answer in question.answers -%}
+				<div class="row">					      			
+		      		<label>
+		      			{{answer.name}}
+			    		<input class="check-reponse" type="{{question.type}}"  name="rep" data-correct="{{answser.correct}}" value="{{loop.index0}}" >
+			    	</label>
+		    	</div>
+    		{%- endfor %}
+    		<input type="hidden" id="value-timer" value="{{question.timer}}">
+	    	</div>
+      	</div>
+      	
+	  	<div class="row">
+	  		<button type="button" id="submit-answer" class="small btn-envoi">Répondre</button>
+	  	</div>
+	</form>
+</div>
 <script src="/js/timer.js"></script>
-{% endblock %}

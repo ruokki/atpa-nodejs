@@ -1,0 +1,22 @@
+<section class="main-section">
+  <div class="row">
+    <div class="small-12 columns">	<!-- body -->
+    	<section id="section-main" class="container container-marge">
+			
+    		<div class="small-10 small-centered columns text-center"> 
+    			
+				
+				<h2>{{question.text}}</h2>
+				<input type="hidden" id="value-timer" value="{{question.time}}">
+				<div id="timer" class="timer-large">
+		      		<span></span>
+		      	</div>
+		      	<p id="timer-msg"></p>
+		      	<p>Nombre d'étudiant ayant répondu: <span id="nbRep" class="bleu bold">0</span></p>
+		      	<a href="" id="btn-stat" class="button large">Résultat</a>
+			</div>
+		</section>
+    </div>
+  </div>
+</section>
+<script src="/js/timer.js"></script>

@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var teacherRoutes = require('./routes/teacher');
 var studentRoutes = require('./routes/student');
+var websocketRoutes = require('./routes/websocket');
 var http = require('http');
 var path = require('path');
 var io = require('socket.io');
@@ -98,11 +99,6 @@ app.get('/question/:key', studentRoutes.waitingQuestion);
 app.get('/question/student/exemple', studentRoutes.question);
 app.get('/question/teacher/exemple', teacherRoutes.panelquestion);
 
-/* -------------------- */
-/*     Requête AJAX     */
-/* -------------------- */
-app.post('/ajax/getQuestion',teacherRoutes.ajaxQuestion)
-
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
@@ -127,7 +123,6 @@ sockets.of('/session').on('connection', function(socket){
 
 sockets.of('/question').on('connection', function(socket){
 	// Connection d'un nouvel étudiant
-	console.log(activeQuestion);
 	socket.on('newStudent', function(data){
 		var connected = activeQuestion[data.teacher].connected;
 		if(connected.indexOf(data.user) === -1) {
@@ -135,6 +130,19 @@ sockets.of('/question').on('connection', function(socket){
 		}
 		socket.broadcast.emit('studentConnected', connected.length);
 	});
+
+	socket.on("startQuestion", function(data){
+		var idQuestion = activeQuestion[data.teacher].question;
+		websocketRoutes.wsQuestion(idQuestion, function(teacherHTML, studentHTML){
+			socket.broadcast.emit("startStudent", studentHTML);
+			socket.broadcast.emit("startTeacher", teacherHTML);
+			socket.emit("startTeacher", teacherHTML);
+		});
+	});
+
+	socket.on('answer', function(data){
+		
+	})
 });
 
 exports.application = app;
