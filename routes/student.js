@@ -17,11 +17,16 @@ exports.question = function(req,res) {
 exports.waitingSession = function(req,res) {
 	var app = require('../app');
 	var key = req.params.key;
+	var usernameStudent = req.session.username;
+
+
 	res.render('student/connected', {
 		type: 'session',
 		student: req.session.username,
 		key: key,
-		title: 'En attente - étudiant'
+		title: 'En attente - étudiant',
+		username: usernameStudent
+
 	});
 };
 
@@ -31,10 +36,12 @@ exports.waitingSession = function(req,res) {
 exports.waitingQuestion = function(req,res) {
 	var app = require('../app');
 	var teacher = req.params.key;
+	var usernameStudent = req.session.username;
 	res.render('student/connected', {
 		type: 'question',
 		student: req.session.username,
 		key: teacher,
-		title: 'En attente - étudiant'
+		title: 'En attente - étudiant',
+		username: usernameStudent
 	});
 };
