@@ -66,6 +66,8 @@ exports.editQuestion = function(req, res) {
 
 	var category = require('../models/category');
 	var question = require('../models/question');
+	var teacher = require('../models/teacher');
+
 	var idQuestion = req.params.id;
 	var status;
 	var idTeacher = req.session.idUser;
@@ -94,19 +96,44 @@ exports.editQuestion = function(req, res) {
 					answers: data.answers,
 					question: data.text,
 					timer: data.time,
-					category: data._id_cat
+					category: data._id_cat,
 				}
 
-				res.render('teacher/questionForm', {
-					title: 'Éditer une question',
-					name: req.session.username,
-					categories: categories,
-					status: status,
-					form : form,
-					valid: 'Éditer',
-					pageTitle: 'Éditer une question',
-					username : usernameteacher,
+
+				// recuperation de l'id
+				var idTeachQuestion = data._id_teacher	// recupe l'id du teacher de la question
+				
+
+			 	teacher.getNameTeacher(idTeachQuestion, function(err, data){
+			 		var nameTeachQuestion = "";
+					if(err) {
+						console.log("erreur getname");
+					}
+					else {
+						
+						
+						nameTeachQuestion = data.name;
+
+						console.log(nameTeachQuestion);
+
+						res.render('teacher/questionForm', {
+							title: 'Éditer une question',
+							name: req.session.username,
+							categories: categories,
+							status: status,
+							form : form,
+							valid: 'Éditer',
+							pageTitle: 'Éditer une question',
+							username : usernameteacher,
+							usernameQuestion : nameTeachQuestion,
+						});
+
+					}
+					
 				});
+
+
+				
 			}
 		});
 	});
