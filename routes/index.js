@@ -81,35 +81,45 @@ exports.login = function(req, res){
 						var app = require('../app');
 
 						if(type === 'session') {
-							if(!app.application.enabled(formPost.key)) {
-								error = "Session incorrect ou indisponible";
+							if(app.roomSession.indexOf(formPost.key) === -1) {
+								error = "Clé de session incorrect";
 								res.render("login",{
 									title: "Connexion",
 									error: error
 								});
 							}
 							else {
-								if(app.activeSession[formPost.key].indexOf(data.name) > -1){
+								if(app.connectedToSession[formPost.key].indexOf(data.name) > -1){
 									res.render("login",{
 										title: "Connexion",
 										error: "Identifiant déjà connecté sur une session"
-									});			
+									});
 								}
 								else {
+									app.connectedToSession[formPost.key].push(req.session.username);
 									req.session.sessionUser = formPost.key;
 									res.redirect('/' + type + '/' + formPost.key);
 								}
 							}
 						}
 						else if (type === 'question') {
-							if(app.activeQuestion[formPost.key].connected.indexOf(data.name) > -1) {
+							if(app.roomQuestion.indexOf(formPost.key) === -1) {
 								res.render("login",{
 									title: "Connexion",
-									error: "Identifiant déjà connecté à une question avec ce professeur"
-								});			
+									error: "Nom du professeur incorrect"
+								});
 							}
 							else {
-								res.redirect('/' + type + '/' + formPost.key);
+								if(app.connectedToQuestion[formPost.key].indexOf(data.name) > -1) {
+									res.render("login",{
+										title: "Connexion",
+										error: "Identifiant déjà connecté à une question avec ce professeur"
+									});
+								}
+								else {
+									app.connectedToQuestion[formPost.key].push(req.session.username);
+									res.redirect('/' + type + '/' + formPost.key);
+								}
 							}
 						}
 					}
