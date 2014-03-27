@@ -625,8 +625,7 @@ exports.listCategorie = function(req, res) {
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
-	}
-	
+	}	
 
 	category.getAllCategory(function(categoryResult){
 		res.render('teacher/listCategorie', {
@@ -637,6 +636,91 @@ exports.listCategorie = function(req, res) {
 	});
 }
 
+
+
+
+/*
+ * POST addCategorie page
+ * Affiche le formulaire d'ajout de categorie
+ */
+exports.addCategorie = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var labelCategorie = req.body.lblcategorie;
+	var status;
+	var idTeacher = req.session.idUser;
+
+
+	console.log(labelCategorie);
+	if(labelCategorie != ""){
+		category.addCategory(labelCategorie);
+		res.redirect("/list/categorie/");
+
+		/*
+		category.addCategory(labelCategorie, function(err, result){
+			if(err) {
+				console.log("erreur d'ajout");
+			}
+			else {
+				console.log("ok");
+			}
+		});
+		*/
+
+	}
+	else{
+		console.log("erreur");
+	}
+
+}
+
+
+
+/*
+ * GET supprCategorie
+ */
+exports.supprCategorie = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var idCategorie = req.params.id;
+	var status;
+	var idTeacher = req.session.idUser;
+
+	/*
+	if(req.params.status === 'saved') {
+		status = 'La categorie a bien été supprimmée';
+		console.log(status);
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+		console.log(status);
+	}
+	else {
+		status = false;
+	}
+	*/
+
+	// a ameliorer
+	category.removeCategory(idCategorie, function(err, result){
+		if(err) {
+			res.redirect('/list/categorie/');
+			console.log("erreur de supression");
+		}
+		else {
+			res.redirect('/list/categorie/');
+		}
+	});
+}
 
 
 

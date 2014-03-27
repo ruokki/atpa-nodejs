@@ -18,9 +18,8 @@
 						      		<table id="question-table">
 									  <thead>
 									    <tr>
-									      <th width="700">Categorie</th>
+									      <th width="750">Categorie</th>
 									      <th width="50">Supprimer</th>
-									      <th width="50">Modifier</th>
 									    </tr>
 									  </thead>
 									  <tbody>
@@ -29,13 +28,12 @@
 										<tr id="{{category._id}}" data-category="{{categoriy._id_cat}}" >
 									      <td>{{ category.label }}</td>
 									      <td class="text-center"><a class="remove-categorie" href="#"><i class="foundicon-minus red"></i></a></td>
-									      <td class="text-center"><a href="/edit/categoriy/{{categoriy._id}}"><i class="foundicon-edit"></i></a></td>
 									    </tr>
 							          {%- endfor %}
 									  </tbody>
 									</table>
 						    	</div>
-						    	<a href="/add/categorie" class="btn-right button small">Ajouter</a>
+						    	<a href="#" id="addCategorie" class="btn-right button small">Ajouter</a>
 						  	</div>
 						</form>
 					</section>
@@ -47,20 +45,45 @@
     
    
     
-    <div class="popup-center">
-      <div id="pop-remove-confirm">	
+    <div id="pop-remove-confirm" class="popup-center">
+      <div>	
           <a class="popup-close" href="#close">×</a>
           <p class="popup-titre">Voulez vous supprimer ?</p>
-          <a class="tiny button btn-annule" href="#">Non</a>	
           <a class="tiny button btn-confirm" href="/suppr/">Oui</a>
+          <a class="tiny button btn-annule" href="#">Non</a>	  
       </div>
+  	</div>
+
+
+	<div id="pop-addCategorie" class="popup-center">
+		<div class="pop-bodyCategorie">
+			<a class="popup-close" href="#close">×</a>
+	      	<p class="popup-titre">Ajout d'une catégorie</p>
+	      	<form action="/add/categorie/" method="POST">
+		      	<div class="row">
+		      		<div class="small-10 small-offset-1 columns">
+				      <div class="row collapse">
+				        <div class="small-8 columns">
+				          <input id="lblcategorie" type="text" placeholder="Label de la categorie" name="lblcategorie">
+				        </div>
+				        <div class="small-4 columns">
+				          <input type="submit" id="btn-addCategorie" class="button postfix" href="#" value="Ajouter">
+				        </div>
+				      </div>
+				    </div>
+	          	</div>
+          	</form>
+          	<p id="msgaddConfirm"></p>
+  		</div>
 	</div>
-    
+
+
+
 
 {% endblock %}
 
 {% block script %}
-	<script type="text/javascript" src="/js/DeleteCategorie.js"></script>
+	<script type="text/javascript" src="/js/listCategorie.js"></script>
 	<script type="text/javascript">
 		
 		$('#selectCat').change(function(){
