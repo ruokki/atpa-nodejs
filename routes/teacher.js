@@ -2,7 +2,6 @@
 /*     Gestion des pages destinées à l'enseignant     */
 /* -------------------------------------------------- */
 
-
 /*
  * GET welcome page
  * Affiche la page d'accueil
@@ -13,8 +12,13 @@ exports.welcome = function(req, res) {
 		res.redirect('/');
 	}
 
+	var teacher = require('../models/teacher'); 
+	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
+
 	res.render('index', {
-		title : 'Accueil'
+		title : 'Accueil',
+		username : usernameteacher
 	})
 }
 
@@ -35,6 +39,7 @@ exports.addQuestion = function(req, res) {
 	}
 
 	var category = require('../models/category');
+	var usernameteacher = req.session.username;
 
 	category.getAllCategory(function(result){
 		var categories = result;
@@ -43,7 +48,8 @@ exports.addQuestion = function(req, res) {
 			name: req.session.username,
 			categories: categories,
 			valid: "Ajouter",
-			pageTitle: 'Ajouter une question'
+			pageTitle: 'Ajouter une question',
+			username : usernameteacher
 		});
 	});
 }
@@ -60,9 +66,12 @@ exports.editQuestion = function(req, res) {
 
 	var category = require('../models/category');
 	var question = require('../models/question');
+	var teacher = require('../models/teacher');
+
 	var idQuestion = req.params.id;
 	var status;
 	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
 
 	if(req.params.status === 'saved') {
 		status = 'Vos modifications ont bien été enregistrées';
@@ -87,18 +96,44 @@ exports.editQuestion = function(req, res) {
 					answers: data.answers,
 					question: data.text,
 					timer: data.time,
-					category: data._id_cat
+					category: data._id_cat,
 				}
 
-				res.render('teacher/questionForm', {
-					title: 'Éditer une question',
-					name: req.session.username,
-					categories: categories,
-					status: status,
-					form : form,
-					valid: 'Éditer',
-					pageTitle: 'Éditer une question'
+
+				// recuperation de l'id
+				var idTeachQuestion = data._id_teacher	// recupe l'id du teacher de la question
+				
+
+			 	teacher.getNameTeacher(idTeachQuestion, function(err, data){
+			 		var nameTeachQuestion = "";
+					if(err) {
+						console.log("erreur getname");
+					}
+					else {
+						
+						
+						nameTeachQuestion = data.name;
+
+						console.log(nameTeachQuestion);
+
+						res.render('teacher/questionForm', {
+							title: 'Éditer une question',
+							name: req.session.username,
+							categories: categories,
+							status: status,
+							form : form,
+							valid: 'Éditer',
+							pageTitle: 'Éditer une question',
+							username : usernameteacher,
+							usernameQuestion : nameTeachQuestion,
+						});
+
+					}
+					
 				});
+
+
+				
 			}
 		});
 	});
@@ -119,6 +154,7 @@ exports.editQuestionPost = function(req, res) {
 
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
+	var usernameteacher = req.session.username;
 
 	var errors = [];
 	// Type de question (choix multiple, choix unique)
@@ -224,7 +260,8 @@ exports.editQuestionPost = function(req, res) {
 				errors: errors,
 				form: form,
 				valid: 'Modifier',
-				pageTitle: 'Éditer une question'
+				pageTitle: 'Éditer une question',
+				username : usernameteacher
 			});
 		});
 	}
@@ -243,6 +280,7 @@ exports.addQuestionPost = function(req, res) {
 	}
 
 	var question = require('../models/question');
+	var usernameteacher = req.session.username;
 
 	var errors = [];
 	// Type de question (choix multiple, choix unique)
@@ -343,7 +381,9 @@ exports.addQuestionPost = function(req, res) {
 				errors: errors,
 				form: form,
 				valid: 'Ajouter',
-				pageTitle: 'Ajouter une question'
+				pageTitle: 'Ajouter une question',
+				username : usernameteacher
+
 			});
 		});
 	}
@@ -366,6 +406,7 @@ exports.supprQuestion = function(req, res) {
 	var idQuestion = req.params.id;
 	var status;
 	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
 
 	if(req.params.status === 'saved') {
 		status = 'La question a bien été supprimmée';
@@ -435,12 +476,14 @@ exports.addSession = function(req, res) {
 	}
 
 	var question = require('../models/question');
+	var usernameteacher = req.session.username;
 
 	question.getAllQuestion(function(questionResult){
 		res.render('teacher/sessionForm', {
 			title: 'Créer une session',
 			pageTitle: 'Créer une session',
-			questions: questionResult
+			questions: questionResult,
+			username : usernameteacher
 		});
 	});
 };
@@ -459,9 +502,9 @@ exports.addSessionPost = function(req, res) {
 
 	var session = require('../models/session');
 	var question = require('../models/question');
-
 	var label = req.body.label;
 	var questions = req.body.questions;
+	var usernameteacher = req.session.username;
 
 	session.addSession(label, questions, req.session.idUser, function(err){
 		if(err) {
@@ -494,6 +537,7 @@ exports.editSession = function(req, res) {
 	var session = require('../models/session');
 	var id = req.params.id;
 	var status;
+	var usernameteacher = req.session.username;
 
 	if(req.params.status === 'saved') {
 		status = 'Vos modifications ont bien été enregistrées';
@@ -543,6 +587,7 @@ exports.editSessionPost = function(req, res) {
 	var label = req.body.label;
 	var questions = req.body.questions;
 	var id = req.params.id;
+	var usernameteacher = req.session.username;
 
 	var sessionInfo = {
 		name : label,
@@ -556,7 +601,7 @@ exports.editSessionPost = function(req, res) {
 					title: 'Édition de la session',
 					pageTitle: 'Édition de la session',
 					questions: questionResult,
-					session: sessionInfo
+					session: sessionInfo,
 				});
 			});
 		}
@@ -579,6 +624,7 @@ exports.editSessionPost = function(req, res) {
 exports.listQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
+	var usernameteacher = req.session.username;
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -590,7 +636,8 @@ exports.listQuestion = function(req, res) {
 				title: 'Liste des questions',
 				pageTitle: 'Liste des questions',
 				categories: categoryResult,
-				questions: questionResult
+				questions: questionResult,
+				username : usernameteacher
 			});
 		});
 	});
@@ -601,6 +648,7 @@ exports.listQuestion = function(req, res) {
  */
 exports.listSession = function(req, res) {
 	var session = require('../models/session');
+	var usernameteacher = req.session.username;
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -610,7 +658,8 @@ exports.listSession = function(req, res) {
 		res.render('teacher/listSession', {
 			title: 'Liste des sessions',
 			pageTitle: 'Liste des sessions',
-			sessions : result
+			sessions : result,
+			username : usernameteacher
 		})
 	});
 };
@@ -622,21 +671,99 @@ exports.listSession = function(req, res) {
 exports.listCategorie = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
+	var usernameteacher = req.session.username;
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
-	}
-	
+	}	
 
 	category.getAllCategory(function(categoryResult){
 		res.render('teacher/listCategorie', {
 			title: 'Liste des categories',
 			pageTitle: 'Liste des categories',
 			categories: categoryResult,
+			username : usernameteacher
 		});
 	});
 }
 
+
+
+
+/*
+ * POST addCategorie page
+ * Affiche le formulaire d'ajout de categorie
+ */
+exports.addCategorie = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var labelCategorie = req.body.lblcategorie;
+	var status;
+	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
+
+
+	console.log(labelCategorie);
+	if(labelCategorie != ""){
+		category.addCategory(labelCategorie);
+		res.redirect("/list/categorie/");
+
+
+	}
+	else{
+		console.log("erreur");
+	}
+
+}
+
+
+
+/*
+ * GET supprCategorie
+ */
+exports.supprCategorie = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
+	var category = require('../models/category');
+	var question = require('../models/question');
+	var idCategorie = req.params.id;
+	var status;
+	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
+
+	/*
+	if(req.params.status === 'saved') {
+		status = 'La categorie a bien été supprimmée';
+		console.log(status);
+	}
+	else if (req.params.status === 'error') {
+		status = 'Une erreur s\'est produite';
+		console.log(status);
+	}
+	else {
+		status = false;
+	}
+	*/
+
+	// a ameliorer
+	category.removeCategory(idCategorie, function(err, result){
+		if(err) {
+			res.redirect('/list/categorie/');
+			console.log("erreur de supression");
+		}
+		else {
+			res.redirect('/list/categorie/');
+		}
+	});
+}
 
 
 
@@ -648,6 +775,7 @@ exports.listCategorie = function(req, res) {
  * GET stat page
  */
 exports.stat = function(req,res) {
+	var usernameteacher = req.session.username;
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -655,7 +783,8 @@ exports.stat = function(req,res) {
 
 	res.render('teacher/stat', {
 		title: 'Statistique',
-		pageTitle: 'Statistique'
+		pageTitle: 'Statistique',
+		username: usernameteacher
 	});
 };
 
@@ -665,9 +794,12 @@ exports.stat = function(req,res) {
  * Affiche les question d'une session en cours
  */
 exports.panelquestion = function(req,res) {
+	var usernameteacher = req.session.username;
+
 	res.render('teacher/panelquestion', {
 		title: 'Question',
-		pageTitle: 'Question'
+		pageTitle: 'Question',
+		username: usernameteacher
 	});
 };
 
@@ -677,6 +809,7 @@ exports.panelquestion = function(req,res) {
  */
 exports.waitSession = function(req,res) {
 
+
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
 	}
@@ -684,6 +817,7 @@ exports.waitSession = function(req,res) {
 	var session = require('../models/session');
 	var app = require('../app');
 	var key = req.params.key;
+	var usernameteacher = req.session.username;
 
 	session.getSessionByKey(key, function(err, result){
 		app.roomSession.push(req.session.username);
@@ -692,7 +826,8 @@ exports.waitSession = function(req,res) {
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',
-			session: result[0]
+			session: result[0],
+			username: usernameteacher
 		});
 	});
 };
@@ -708,6 +843,7 @@ exports.waitQuestion = function(req,res) {
 	}
 	var question = require('../models/question');
 	var app = require('../app');
+	var usernameteacher = req.session.username;
 
 	question.getQuestion(req.params.key, function(err, result){
 		app.roomQuestion.push(req.session.username);
@@ -717,7 +853,8 @@ exports.waitQuestion = function(req,res) {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',
 			question: result,
-			teacher: req.session.username
+			teacher: req.session.username,	// a verifier
+			username: usernameteacher
 		});
 	});
 };

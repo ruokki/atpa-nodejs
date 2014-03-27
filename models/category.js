@@ -33,3 +33,24 @@ exports.getAllCategory = function(callback) {
 		}
 	});
 }
+
+
+/*
+ * Supprime une categorie
+ */
+ exports.removeCategory = function(idCategory, callback) {
+ 	var Categories = mongoose.model('category');
+ 	
+ 	Categories.remove({
+ 		_id: idCategory
+ 	}, 
+ 	function(err, rowAffected, raw){
+ 		if(err) {
+ 			console.log(err);
+ 			callback(true, null);
+ 		}
+ 		else {
+ 			callback(null, rowAffected);
+ 		}
+ 	});
+ };

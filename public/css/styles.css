@@ -178,13 +178,23 @@ h2{
 	POPUP
 ======================= */
 
-#pop-remove-confirm{
+#pop-remove-confirm div{
 	background: none repeat scroll 0 0 #222222;
     color: #FFFFFF;
     margin: 0 auto;
     padding: 10px 5px;
     text-align: center;
     width: 215px;
+}
+
+#pop-addCategorie .pop-bodyCategorie{
+	background: none repeat scroll 0 0 #222222;
+    color: #FFFFFF;
+    margin: 0 auto;
+    min-width: 215px;
+    padding: 1%;
+    text-align: center;
+    width: 35%;
 }
 
 .popup-center{
@@ -197,9 +207,13 @@ h2{
     z-index: 2;
 }
 
-.popup-titre{
-
+#pop-remove-confirm div .popup-titre{
 	margin: 5px 0 10px 0;
+}
+
+#pop-addCategorie div .popup-titre{
+	font-size: 21px;
+    margin: 10px 0;
 }
 
 .popup-close{
@@ -218,11 +232,17 @@ h2{
 
 
 
+#msgaddConfirm{
+	color: #FC6305;
+    font-size: 15px;
+    text-align: left;
+}
+
 
 /* Smartphones (landscape) ----------- */
 @media only screen and (max-width : 321px) {
 
-    #pop-remove-confirm{
+    #pop-remove-confirm div{
 		background: none repeat scroll 0 0 #222222;
         color: #FFFFFF;
         margin: 0 auto;
@@ -231,7 +251,7 @@ h2{
   		width: 80%;
 	}
 
-	.popup-center{
+	#pop-remove-confirm{
 	    display: block;
 	    opacity: 0.9;
 	    position: absolute;

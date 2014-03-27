@@ -42,5 +42,28 @@ exports.addTeacher = function(id, pwd) {
 			console.log(err);
 		}
 	});
+};
 
+
+/*
+ * Récupère le nom d'un enseignant
+ */
+exports.getNameTeacher = function(idTeacher, callback) {
+	var Teachers = mongoose.model('teacher');
+
+	Teachers.find({
+		_id: idTeacher
+	}).select('name').exec(function(err, result){
+		if(err) {
+			console.log(err);
+		}
+		else {
+			if(result.length === 0) {
+				callback(true, null);
+			}
+			else {
+				callback(null, result[0]);
+			}
+		}
+	});
 };
