@@ -244,7 +244,9 @@
 							    	<input type="submit" class="button small btn-envoi" value="{{ valid }}">
 						    	</div>
 						  	</div>
-						  	<p>Question édité par: {{ usernameQuestion }}</p>
+						  	{% if usernameQuestion %}
+						  	<p>Question éditée par: {{ usernameQuestion }}</p>
+						  	{% endif %}
 						</form>
 					</section>
 				</div>
