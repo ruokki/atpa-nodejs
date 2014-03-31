@@ -37,7 +37,7 @@
 									  </thead>
 									  <tbody>
 									  {% for session in sessions -%}
-										  <tr>
+										  <tr id="{{ session.id }}" >
 										    <td>{{ session.name }}</td>
 										    <td class="text-center"><a class="remove-questionnaire" ><i class="foundicon-minus red"></i></a></td>
 										    <td class="text-center"><a href="/edit/session/{{session._id}}"><i class="foundicon-edit"></i></a></td>
@@ -47,6 +47,7 @@
 
 									  </tbody>
 									</table>
+
 						    	</div>
 						    	<a href="/add/session" class="btn-right button small">Ajouter</a>
 						  	</div>
@@ -75,5 +76,5 @@
 {% endblock %}
 
 {% block script %}
-	<script type="text/javascript" src="/js/DeleteQuestion.js"></script>
+	<script type="text/javascript" src="/js/DeleteSession.js"></script>
 {% endblock %}

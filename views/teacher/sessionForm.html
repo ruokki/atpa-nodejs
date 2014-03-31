@@ -41,16 +41,19 @@
 							    </div>
 					    {% endif %}
 							   	<div class="small-12  columns no-padding panel panel-form">
-						      		<table>
+  						
+						      		<table class="table-liste">
 									  <thead>
 									    <tr>
 									      <th width="700">Question</th>
 									      <th width="50">Ajout</th>
 									    </tr>
 									  </thead>
-									  <tbody>
+									  <tbody id="sortable" class="ui-sortable">
 									  	{% for question in questions -%}
-									    <tr>
+
+
+									    <tr class="item-session">
 								      		<td>{{ question.text }}</td>
 								      		<td class="text-center">
 										      	<input type="checkbox" name="questions" 
@@ -58,9 +61,36 @@
 										       	value="{{ question._id }}"/>
 								       		</td>
 									    </tr>
+
+
 										{%- endfor %}
 									  </tbody>
 									</table>
+
+
+							<!--
+								<ul id="sortable" class="ui-sortable liste-question">
+									<div class="small-12">
+										<div class="small-10">Question</div>
+										<div class="small-2">Ajout</div>
+									</div>
+									{% for question in questions -%}
+
+										<li class="small-12">
+											<div class="small-10">{{ question.text }}</div>
+											<div class="small-2"><input type="checkbox" name="questions" 
+										       	{% if session && (question._id in session.questions) %}checked="checked"{% endif %}
+										       	value="{{ question._id }}"/></div>
+										</li>
+									{%- endfor %}
+								</ul>
+								
+							-->
+
+
+
+
+
 									<div class="row">
 										<div class="small-12 columns">
 											<ul class="button-group right">
@@ -82,4 +112,18 @@
         </div>
       </div>
     </section>
+{% endblock %}
+
+
+{% block script %}
+ 	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
+
+	<script>
+
+		$('#sortable').sortable();
+
+
+	</script>
+
 {% endblock %}

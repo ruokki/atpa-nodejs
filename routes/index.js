@@ -82,6 +82,7 @@ exports.login = function(req, res){
 
 						if(type === 'session') {
 							if(app.roomSession.indexOf(formPost.key) === -1) {
+								console.log(app.roomSession); // undified , test
 								error = "Clé de session incorrect";
 								res.render("login",{
 									title: "Connexion",

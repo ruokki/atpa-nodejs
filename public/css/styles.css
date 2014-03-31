@@ -38,6 +38,10 @@ h2{
 	background: #fc6305 !important;
 }
 
+.color-orange{
+	color: #fc6305;
+}
+
 .gris-clair{
 	background: rgb(209,211,207) !important;
 }
@@ -227,6 +231,16 @@ h2{
     z-index: 2;
 }
 
+#pop-remove-confirm{
+	background: none repeat scroll 0 0 #222222;
+    color: #FFFFFF;
+    margin: 0 auto;
+    min-width: 215px;
+    padding: 1%;
+    text-align: center;
+    width: 25%;
+}
+
 #pop-remove-confirm div .popup-titre{
 	margin: 5px 0 10px 0;
 }
@@ -343,4 +357,28 @@ h2{
 ========================= */
 button{
 	background: #008cba;
+}
+
+
+/* =======================
+	Creer une session
+========================== */
+
+.table-liste{
+	background: #e5e5e5;
+}
+
+.liste-question{
+	list-style-type: none;
+	padding: 0;
+}
+
+
+.item-session{
+	background: #e5e5e5 !important;
+	border: 1px solid #000;
+}
+
+.item-session td{
+	/* background: #e5e5e5; */
 }

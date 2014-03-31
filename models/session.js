@@ -108,6 +108,31 @@ exports.getSession = function(id, callback) {
 
  };
 
+
+ /*
+ * Supprime une session
+ */
+ exports.removeSession = function(idSession, callback) {
+ 	var Sessions = mongoose.model('session');
+ 	
+ 	Sessions.remove({
+ 		_id: idSession
+ 	}, 
+ 	function(err, rowAffected, raw){
+ 		if(err) {
+ 			console.log(err);
+ 			callback(true, null);
+ 		}
+ 		else {
+ 			callback(null, rowAffected);
+ 		}
+ 	});
+
+ };
+
+
+
+
  /*
   * Récupère l'ensemble des sessions d'un professeur
   */
@@ -128,6 +153,7 @@ exports.getAllSession = function(idTeacher, callback) {
  * Récupère une session par sa clé
  */
 exports.getSessionByKey = function(key, callback) {
+
 	var Session = mongoose.model('session');
 
 	Session.find({key: key}).exec(function(err, result){
