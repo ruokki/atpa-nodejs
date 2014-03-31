@@ -53,7 +53,7 @@
 							        <select name="type" id="sort-type" >
 							          <option value="radio" {% if form && form.type == 'radio' %} selected="selected"{% endif %}>choix unique</option>
 							          <option value="checkbox" {% if form && form.type == 'checkbox' %} selected="selected"{% endif %}>choix multiple</option>
-							          <option value="libre" {% if form && form.type == 'libre' %} selected="selected"{% endif %}>choix libre</option>
+							          <option value="libre" {% if form && form.type == 'libre' %} selected="selected"{% endif %}>réponse libre</option>
 							        </select>
 							      </label>
 							    </div>
@@ -137,18 +137,16 @@
 
 									{% if form && form.type == 'libre' %}
 					      				<div id="input-libre">
-					      					{% for libre in form.answers -%}
 		      							      	<div class="row collapse input-multi">
 		      								        <div class="small-12 columns">
-		      								         <textarea id="repLibre" name="reponse[libre]" placeholder="Entrer une réponse libre"></textarea>
+		      								         <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question"/>
 		      								        </div>
 		      					      			</div>
-					      					{%- endfor %}
 					      				{% else %}
 					      				<div id="input-libre"  class="hide">
 						      			<div class="row collapse input-multi">	
 									        <div class="small-12 columns">
-									          <textarea id="repLibre" name="reponse[libre]" placeholder="Entrer une réponse libre"></textarea> 
+									          <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question"/>
 									        </div>
 						      			</div>
 						      			{% endif %}

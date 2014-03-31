@@ -333,41 +333,41 @@ exports.addQuestionPost = function(req, res) {
 		}
 	}
 	else if (type === 'libre') {
-		var answers = req.body.reponse.libre;
-			var correct;
-			/*
-			console.log("libre : " + req.body.libre);
-			if(req.body.libre) {
-				correct = req.body.libre.rep;
-			}
-			else {
-				correct = '';
-				errors.push("Veuiller entrer une réponse");
-			}
-			*/
+		var answers = req.body.libre;
+		if(answers === "" ) {
+			errors.push("Veuiller donner une réponse à la question");
+		}
 	}
 
-	var answersLength = answers.length;
-	var answersFinal = [];
+	if(type !== 'libre') {
+		var answersLength = answers.length;
+		var answersFinal = [];
 
-	correct = typeof(correct) === 'object' ? correct.toString() : correct;
+		correct = typeof(correct) === 'object' ? correct.toString() : correct;
 
-	// Parcours de la tableau contenant les questions
-	for(var i = 0; i < answersLength; i++) {
-		var isCorrect = false;
+		// Parcours de la tableau contenant les questions
+		for(var i = 0; i < answersLength; i++) {
+			var isCorrect = false;
 
-		if(correct.indexOf(i) > -1) {
-			isCorrect = true;
+			if(correct.indexOf(i) > -1) {
+				isCorrect = true;
+			}
+
+			if(answers[i].trim() === '') {
+				errors.push('Veuiller remplir la question ' + (i + 1));
+			}
+
+			answersFinal.push({
+				name: answers[i],
+				correct: isCorrect
+			});
 		}
-
-		if(answers[i].trim() === '') {
-			errors.push('Veuiller remplir la question ' + (i + 1));
-		}
-
-		answersFinal.push({
-			name: answers[i],
-			correct: isCorrect
-		});
+	}
+	else {
+		answersFinal = [{
+			name : answers,
+			correct : true
+		}];
 	}
 
 	/* 
