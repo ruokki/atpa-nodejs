@@ -150,7 +150,8 @@ sockets.on('connection', function(socket){
 	});
 
 	socket.on("endQuestion", function(teacher){
-		socket.emit("endQuestion", answerQuestion);
+		socket.emit("endQuestion", answerQuestion[teacher]);
+		socket.broadcast.to(teacher).emit("endQuestion", answerQuestion[teacher]);
 	});
 
 });

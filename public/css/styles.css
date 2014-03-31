@@ -116,10 +116,6 @@ h2{
 /* ===========================
 	Questionnaire
 =========================== */
-#timer {
-    
-}
-
 .timer-large{
 	border: 15px solid #008CBA;
     border-radius: 50%;
@@ -166,6 +162,30 @@ h2{
 	margin-bottom: 5px !important;
 	padding: 10px;
 
+}
+
+#answers, #myChart {
+	float:left;
+}
+
+#answers {
+	display: inline-block;
+	width: 50%;
+	list-style: none;
+}
+
+#answers li {
+	display: inline-block;
+	width:100%;
+}
+
+#answers .legend {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 16px;
+    margin-top: 4px;
+    margin-right: 6px;
 }
 
 /* ========================

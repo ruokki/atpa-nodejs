@@ -7,7 +7,6 @@
  * Affiche la page d'accueil
  */
 exports.welcome = function(req, res) {
-
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
 	}
