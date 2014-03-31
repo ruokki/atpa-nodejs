@@ -38,6 +38,10 @@ h2{
 	background: #fc6305 !important;
 }
 
+.color-orange{
+	color: #fc6305;
+}
+
 .gris-clair{
 	background: rgb(209,211,207) !important;
 }
@@ -323,4 +327,28 @@ h2{
 ========================= */
 button{
 	background: #008cba;
+}
+
+
+/* =======================
+	Creer une session
+========================== */
+
+.table-liste{
+	background: #e5e5e5;
+}
+
+.liste-question{
+	list-style-type: none;
+	padding: 0;
+}
+
+
+.item-session{
+	background: #e5e5e5 !important;
+	border: 1px solid #000;
+}
+
+.item-session td{
+	/* background: #e5e5e5; */
 }

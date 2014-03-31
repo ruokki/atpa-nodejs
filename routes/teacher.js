@@ -110,8 +110,6 @@ exports.editQuestion = function(req, res) {
 						console.log("erreur getname");
 					}
 					else {
-						
-						
 						nameTeachQuestion = data.name;
 
 						console.log(nameTeachQuestion);
@@ -127,13 +125,10 @@ exports.editQuestion = function(req, res) {
 							username : usernameteacher,
 							usernameQuestion : nameTeachQuestion,
 						});
-
 					}
 					
 				});
 
-
-				
 			}
 		});
 	});
