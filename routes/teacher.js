@@ -196,6 +196,17 @@ exports.editQuestionPost = function(req, res) {
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
 	}
+	else if (type === 'libre') {
+		var answers = req.body.reponse.libre;
+		var correct;
+		if(req.body.checkbox) {
+			correct = req.body.libre.rep;
+		}
+		else {
+			correct = '';
+			errors.push("Veuiller choisir entrer une réponse");
+		}
+	}
 
 	var answersLength = answers.length;
 	var answersFinal = [];
@@ -321,6 +332,20 @@ exports.addQuestionPost = function(req, res) {
 			correct = '';
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
+	}
+	else if (type === 'libre') {
+		var answers = req.body.reponse.libre;
+			var correct;
+			/*
+			console.log("libre : " + req.body.libre);
+			if(req.body.libre) {
+				correct = req.body.libre.rep;
+			}
+			else {
+				correct = '';
+				errors.push("Veuiller entrer une réponse");
+			}
+			*/
 	}
 
 	var answersLength = answers.length;

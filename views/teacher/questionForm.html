@@ -53,6 +53,7 @@
 							        <select name="type" id="sort-type" >
 							          <option value="radio" {% if form && form.type == 'radio' %} selected="selected"{% endif %}>choix unique</option>
 							          <option value="checkbox" {% if form && form.type == 'checkbox' %} selected="selected"{% endif %}>choix multiple</option>
+							          <option value="libre" {% if form && form.type == 'libre' %} selected="selected"{% endif %}>choix libre</option>
 							        </select>
 							      </label>
 							    </div>
@@ -112,7 +113,7 @@
 									          	</span>
 									        </div>
 									        <div class="small-9 columns">
-									          <input type="text" placeholder="Réponse possible" name="reponse[checkbox]">
+									          <input type="text" placeholder="Réponse possible" name="reponseLibre">
 									        </div>
 									        <div class="small-2 columns">
 									          	<span class="postfix radius gris-clair">
@@ -121,12 +122,46 @@
 									        </div>
 						      			</div>
 						      			{% endif %}
-										<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
-					      			<!--**********************************-->
-									<!-- FIN DIV D'AFFICHAGE DES CHECKBOX -->
-									<!--**********************************-->
+					      			<!--****************************-->
+									<!-- FIN D'AFFICHAGE DES CHECKBOX -->
+									<!--****************************-->
+
+
+
+
+									<!--****************************-->
+									<!-- DIV D'AFFICHAGE DES REP LIBRE -->
+									<!--****************************-->
+
+									{% if form && form.type == 'libre' %}
+					      				<div id="input-libre">
+					      					{% for libre in form.answers -%}
+		      							      	<div class="row collapse input-multi">
+		      								        <div class="small-12 columns">
+		      								         <textarea id="repLibre" name="reponse[libre]" placeholder="Entrer une réponse libre"></textarea>
+		      								        </div>
+		      					      			</div>
+					      					{%- endfor %}
+					      				{% else %}
+					      				<div id="input-libre"  class="hide">
+						      			<div class="row collapse input-multi">	
+									        <div class="small-12 columns">
+									          <textarea id="repLibre" name="reponse[libre]" placeholder="Entrer une réponse libre"></textarea> 
+									        </div>
+						      			</div>
+						      			{% endif %}
+										
+					      			</div>
+
+
+
+
+									<!--****************************-->
+									<!-- FIN D'AFFICHAGE DES REP LIBRE -->
+									<!--****************************-->
+
 
 									<!--****************************-->
 									<!-- DIV D'AFFICHAGE DES RADIOS -->
@@ -189,9 +224,14 @@
 						      			{% endif %}
 						      			<a id="add-single-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 								    </div>
+
+
 								    <!--********************************-->
-									<!-- FIN DIV D'AFFICHAGE DES RADIOS -->
+									<!-- FIN D'AFFICHAGE REPONSE RADIO -->
 									<!--********************************-->
+
+
+
 
 					   			</div>
 						  	</div>
@@ -236,16 +276,25 @@
 	    	            // alert("selected value"+obj);
 
 	    	            if(obj === "checkbox"){
+	            		 $("#input-libre").hide();
 	    	             $("#input-radio").hide();
 	    	             $("#input-check").show();
 	    	            }
 	    	            else if(obj === "radio"){
+	    	           	 $("#input-libre").hide();
 	    	             $("#input-check").hide();
 	    	             $("#input-radio").show();
+	    	            }
+	    	            else if(obj === "libre"){
+	    	            	
+    	            		$("#input-check").hide();
+    	             		$("#input-radio").hide();
+    	             		$("#input-libre").show();
 	    	            }
 	    	            else{
 	    	             $("#input-check").hide();
 	    	             $("#input-radio").hide();
+	    	             $("#input-libre").hide();
 	    	            }
 	    	        });
 	    	   });
