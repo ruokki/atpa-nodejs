@@ -11,7 +11,7 @@ h2{
 }
 
 .hide{
-	display: none;
+	display: none !important;
 }
 
 .label-small{
@@ -202,13 +202,24 @@ h2{
 	POPUP
 ======================= */
 
+#pop-fin-question  div{
+	background: none repeat scroll 0 0 #222222;
+    color: #FFFFFF;
+    margin: 0 auto;
+    min-width: 215px;
+    padding: 1%;
+    text-align: center;
+    width: 30%;
+}
+
 #pop-remove-confirm div{
 	background: none repeat scroll 0 0 #222222;
     color: #FFFFFF;
     margin: 0 auto;
-    padding: 10px 5px;
+    min-width: 215px;
+    padding: 1%;
     text-align: center;
-    width: 215px;
+    width: 25%;
 }
 
 #pop-addCategorie .pop-bodyCategorie{
@@ -230,7 +241,7 @@ h2{
     width: 100%;
     z-index: 2;
 }
-
+/*
 #pop-remove-confirm{
 	background: none repeat scroll 0 0 #222222;
     color: #FFFFFF;
@@ -239,6 +250,11 @@ h2{
     padding: 1%;
     text-align: center;
     width: 25%;
+}*/
+
+#pop-fin-question div .popup-titre{
+	font-size: 30px;
+	margin: 10px 0 15px 0;
 }
 
 #pop-remove-confirm div .popup-titre{
