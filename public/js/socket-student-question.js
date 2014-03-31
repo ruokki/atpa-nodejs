@@ -64,4 +64,5 @@ socket.on("startQuestion", function(question){
 
 socket.on("endQuestion", function(){
 	$("#submit-answer, input").attr("disabled", "disabled");
+	$("#pop-fin-question").removeClass("hide");
 });
