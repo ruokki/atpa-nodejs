@@ -11,8 +11,6 @@ exports.addSession = function(label, questions, idTeacher, callback) {
 		questions: questions,
 		_id_teacher: idTeacher
 	});
-	
-	var thos = this;
 
 	this.randomAlreadyExist(randomCallback);
 
@@ -22,16 +20,15 @@ exports.addSession = function(label, questions, idTeacher, callback) {
 		}
 		else {
 			newSession.key = key;
-			newSession.save(function(err){
+			newSession.save(function(err, insertedSession){
 				if(err) {
 					console.log(err);
-					callback(false);
+					callback(true, insertedSession);
 				}
 				else {
-					callback(true);
+					callback(false, insertedSession);
 				}
 			});
-			callback(true);
 		}
 	}
 };

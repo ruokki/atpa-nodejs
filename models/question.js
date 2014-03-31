@@ -26,7 +26,7 @@ exports.getQuestion = function(idQuestion, callback) {
 /*
  * Ajoute une question
  */
-exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) {
+exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, callback) {
 	var Questions = mongoose.model('question');
 	
 	var newQuestion= new Questions({
@@ -38,9 +38,12 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers) 
 		answers: answers
 	});
 
-	newQuestion.save(function(err){
+	newQuestion.save(function(err, insertedQuestion){
 		if(err) {
 			console.log(err);
+		}
+		else {
+			callback(insertedQuestion);
 		}
 	});
 

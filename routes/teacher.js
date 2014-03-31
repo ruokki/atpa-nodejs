@@ -376,9 +376,9 @@ exports.addQuestionPost = function(req, res) {
 	 */
 	if(!errors.length) {
 
-		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal);
-
-		res.redirect('/add/question');
+		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal, function(insertedQuestion){
+			res.redirect('/edit/question/' + insertedQuestion._id + '/saved');
+		});
 	}
 	else {
 		var category = require('../models/category');
@@ -523,7 +523,7 @@ exports.addSessionPost = function(req, res) {
 	var questions = req.body.questions;
 	var usernameteacher = req.session.username;
 
-	session.addSession(label, questions, req.session.idUser, function(err){
+	session.addSession(label, questions, req.session.idUser, function(err, insertedSession){
 		if(err) {
 			question.getAllQuestion(function(questionResult) {
 				res.render('teacher/sessionForm', {
@@ -535,7 +535,7 @@ exports.addSessionPost = function(req, res) {
 			});
 		}
 		else {
-			res.redirect('/add/session');
+			res.redirect('/edit/session/' + insertedSession._id + '/saved');
 		}
 	});
 };
@@ -782,8 +782,6 @@ exports.addCategorie = function(req, res) {
 	var idTeacher = req.session.idUser;
 	var usernameteacher = req.session.username;
 
-
-	console.log(labelCategorie);
 	if(labelCategorie != ""){
 		category.addCategory(labelCategorie);
 		res.redirect("/list/categorie/");

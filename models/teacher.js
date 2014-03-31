@@ -16,7 +16,7 @@ exports.isTeacherCorrect = function(id, pwd, callback){
 			if(result.length === 1) {
 				callback(null, result[0]);
 			}
-			else {
+			else {addQuestion
 				callback(true, null);
 			}
 		}
