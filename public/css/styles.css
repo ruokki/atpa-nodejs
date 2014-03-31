@@ -211,6 +211,16 @@ h2{
     z-index: 2;
 }
 
+#pop-remove-confirm{
+	background: none repeat scroll 0 0 #222222;
+    color: #FFFFFF;
+    margin: 0 auto;
+    min-width: 215px;
+    padding: 1%;
+    text-align: center;
+    width: 25%;
+}
+
 #pop-remove-confirm div .popup-titre{
 	margin: 5px 0 10px 0;
 }

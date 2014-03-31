@@ -433,8 +433,6 @@ exports.supprQuestion = function(req, res) {
 			});
 		}
 	});
-
-
 }
 
 
@@ -550,6 +548,9 @@ exports.editSession = function(req, res) {
 		}
 		else {
 			var session = result[0];
+
+			console.log(session);
+
 			question.getAllQuestion(function(questionResult){
 				res.render('teacher/sessionForm', {
 					title: 'Édition de la session',
@@ -609,6 +610,59 @@ exports.editSessionPost = function(req, res) {
 
 
 
+
+
+exports.supprSession = function(req, res) {
+
+	if(req.session.statusUser === 'S' || !req.session.statusUser) {
+		res.redirect('/');
+		console.log("test1");
+	}
+
+	var session = require('../models/session');
+	var idSession = req.params.id;
+	var status;
+	var idTeacher = req.session.idUser;
+	var usernameteacher = req.session.username;
+
+	if(req.params.status === 'saved') {
+		console.log("test2");
+		status = 'La session a bien été supprimmée';
+		console.log(status);
+	}
+	else if (req.params.status === 'error') {
+		console.log("test3");
+		status = 'Une erreur s\'est produite';
+		console.log(status);
+	}
+	else {
+		console.log("test4");
+		status = false;
+	}
+
+	console.log(idSession);
+
+
+	session.getSessionByKey(idSession, function(err, result){
+		console.log("test6");
+		session.removeSession(idSession, function(err, result){
+			// à ameliorer
+			if(err) {
+				console.log("test7");
+				res.redirect('/list/session/');
+				console.log("erreur de supression");
+			}
+			else {
+				console.log("test8");
+				res.redirect('/list/session/');
+			}
+		});
+	});
+}
+
+
+
+
 /* ------------------- */
 /*     Partie /list    */
 /* ------------------- */
@@ -644,6 +698,8 @@ exports.listQuestion = function(req, res) {
 exports.listSession = function(req, res) {
 	var session = require('../models/session');
 	var usernameteacher = req.session.username;
+
+	console.log();
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -818,6 +874,10 @@ exports.waitSession = function(req,res) {
 		app.roomSession.push(req.session.username);
 		app.connectedToSession[req.session.username] = [];
 		app.answerSession[req.session.username] = [];
+		
+		console.log(app.connectedToSession);
+		console.log(app.roomSession);
+
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',

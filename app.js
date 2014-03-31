@@ -74,6 +74,8 @@ app.get('/edit/session/:id/:status', teacherRoutes.editSession);
 app.post('/edit/session/:id', teacherRoutes.editSessionPost);
 app.post('/edit/session/:id/:saved', teacherRoutes.editSessionPost);
 
+app.get('/suppr/session/:id', teacherRoutes.supprSession);
+
 /* ---------------------------- 
 	gestion des catégories
 ----------------------------- */
