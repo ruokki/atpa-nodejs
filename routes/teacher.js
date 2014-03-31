@@ -815,8 +815,9 @@ exports.waitSession = function(req,res) {
 	var usernameteacher = req.session.username;
 
 	session.getSessionByKey(key, function(err, result){
-		app.application.enable(key);
-		app.activeSession[key] = [];
+		app.roomSession.push(req.session.username);
+		app.connectedToSession[req.session.username] = [];
+		app.answerSession[req.session.username] = [];
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',
@@ -840,10 +841,9 @@ exports.waitQuestion = function(req,res) {
 	var usernameteacher = req.session.username;
 
 	question.getQuestion(req.params.key, function(err, result){
-		app.activeQuestion[req.session.username] = {
-			question: req.params.key,
-			connected: []
-		};
+		app.roomQuestion.push(req.session.username);
+		app.connectedToQuestion[req.session.username] = [];
+		app.answerQuestion[req.session.username] = [];
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',

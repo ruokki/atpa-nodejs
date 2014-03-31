@@ -18,6 +18,7 @@
 					{% elseif question %}
 					<h2>{{ question.text }}</h2>
 					<input type="hidden" id="teacher" value="{{teacher}}" />
+					<input type="hidden" id="question" value="{{question._id}}">
 					<div class="logo-atpa"><img src="/img/ATPA.png"></div>
 					<div>
 						<button class="large" type="button" id="go">Lancer</button>
@@ -33,6 +34,8 @@
 
 {% block script %}
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/timer.js"></script>
+<script src="/js/Chart.js"></script>
 <script>
 	$(document).foundation();
 </script>

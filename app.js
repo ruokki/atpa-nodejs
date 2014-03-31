@@ -97,57 +97,67 @@ app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
 app.get('/session/:key', studentRoutes.waitingSession);
 app.get('/question/:key', studentRoutes.waitingQuestion);
 
-/* Exemple page question */
-app.get('/question/student/exemple', studentRoutes.question);
-app.get('/question/teacher/exemple', teacherRoutes.panelquestion);
-
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-// Création du serveurr web-socket
-// Initailisation de la variable contenant toutes les sessions actives
+// Création du serveur web-socket
 var sockets = io.listen(server);
-var activeSession = [];
-var activeQuestion = [];
 
-sockets.of('/session').on('connection', function(socket){
+// Stocke les sessions/questions en cours
+var roomSession = [];
+var roomQuestion = [];
 
-	// Connection d'un nouvel étudiant
-	socket.on('newStudent', function(data){
-		if(activeSession[data.key].indexOf(data.user) === -1) {
-			activeSession[data.key].push(data.user);
-		}
+// Stocke les étudiants connectés à une session/question
+var connectedToSession = [];
+var connectedToQuestion = [];
 
-		socket.broadcast.emit('studentConnected', activeSession[data.key].length);
-	});
-});
+// Stocker les réponses à une session/question
+var answerSession = [];
+var answerQuestion = [];
 
-sockets.of('/question').on('connection', function(socket){
-	// Connection d'un nouvel étudiant
-	socket.on('newStudent', function(data){
-		var connected = activeQuestion[data.teacher].connected;
-		if(connected.indexOf(data.user) === -1) {
-			connected.push(data.user);
-		}
-		socket.broadcast.emit('studentConnected', connected.length);
+sockets.on('connection', function(socket){
+
+	socket.on('initSession', function(){
+
 	});
 
-	socket.on("startQuestion", function(data){
-		var idQuestion = activeQuestion[data.teacher].question;
-		websocketRoutes.wsQuestion(idQuestion, function(teacherHTML, studentHTML){
-			socket.broadcast.emit("startStudent", studentHTML);
-			socket.broadcast.emit("startTeacher", teacherHTML);
-			socket.emit("startTeacher", teacherHTML);
+	socket.on('initQuestion', function(teacher){
+		socket.join(teacher);
+		socket.broadcast.to(teacher).emit('newStudent');
+	});
+
+	socket.on('startSession', function(){
+
+	});
+
+	socket.on('startQuestion', function(teacher,idQuestion){
+		websocketRoutes.wsQuestion(idQuestion, function(err, result){
+			socket.broadcast.to(teacher).emit("startQuestion", result);
+			socket.emit("startQuestion", result);
 		});
 	});
 
-	socket.on('answer', function(data){
-		console.log(data);
-		socket.broadcast.emit("answerStudent");
-	})
+	socket.on("answerSession", function(teacher, idQuestion, answer){
+
+	});
+
+	socket.on("answerQuestion", function(teacher, answer){
+		socket.broadcast.to(teacher).emit("answerQuestion");
+		answerQuestion[teacher].push(answer);
+	});
+
+	socket.on("endQuestion", function(teacher){
+		socket.emit("endQuestion", answerQuestion);
+	});
+
 });
 
+
 exports.application = app;
-exports.activeSession = activeSession;
-exports.activeQuestion = activeQuestion;
+exports.roomQuestion = roomQuestion;
+exports.connectedToQuestion = connectedToQuestion;
+exports.answerQuestion = answerQuestion;
+exports.roomSession = roomSession;
+exports.connectedToSession = connectedToSession;
+exports.answerSession = answerSession;
