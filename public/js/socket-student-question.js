@@ -3,11 +3,14 @@ var teacher = $("#key").val();
 var user = $("#username").val();
 var container = $("#container");
 
+// Connexion à une question
 socket.emit("initQuestion", teacher);
 
+// Au lancement d'une question
 socket.on("startQuestion", function(question){
 	container.fadeOut(250, function(){
 		container.empty();
+		document.title = question.text;
 		var answers = question.answers;
 		var answerHtml = '';
 		for(var i = 0; i < answers.length; i++) {
@@ -39,6 +42,7 @@ socket.on("startQuestion", function(question){
 			+ '</div>'
 		);
 		container.fadeIn(250);
+		// Réponse à une question
 		$("#submit-answer").click(function(e){
 			e.preventDefault();
 			var answers = $("input:checked");
@@ -57,3 +61,7 @@ socket.on("startQuestion", function(question){
 		})
 	});
 })
+
+socket.on("endQuestion", function(){
+	$("#submit-answer, input").attr("disabled", "disabled");
+});
