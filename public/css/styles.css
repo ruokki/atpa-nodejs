@@ -281,12 +281,29 @@ h2{
 }
 
 
-
+/* ======================
+	MESSAGE
+======================== */
 #msgaddConfirm{
 	color: #FC6305;
     font-size: 15px;
     text-align: left;
 }
+
+
+
+#msg-alert{
+	padding: 0.10rem 0.475rem;
+}
+
+#msg-alert p{
+	color: #FFFFFF;
+    font-size: 0.8125rem;
+    font-weight: normal;
+    margin: 2px 0;
+}
+
+
 
 
 /* Smartphones (landscape) ----------- */
@@ -382,6 +399,7 @@ button{
 
 .table-liste{
 	background: #e5e5e5;
+	margin: 0 auto 10px auto;
 }
 
 .liste-question{
