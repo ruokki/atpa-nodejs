@@ -134,8 +134,13 @@ sockets.on('connection', function(socket){
 	});
 
 	socket.on('startSession', function(key, idQuestion){
-		socket.broadcast.to(key).emit("newQuestion", questionsSession[key][idQuestion]);
-		socket.emit("newQuestion", questionsSession[key][idQuestion]);
+		var end = false;
+		console.log(questionsSession[key][idQuestion + 1]);
+		if(questionsSession[key][idQuestion + 1] === undefined) {
+			end = true;
+		}
+		socket.broadcast.to(key).emit("newQuestion", questionsSession[key][idQuestion], end);
+		socket.emit("newQuestion", questionsSession[key][idQuestion], end);
 	});
 
 	socket.on('startQuestion', function(teacher,idQuestion){

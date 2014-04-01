@@ -6,6 +6,7 @@ var nbRep = 0;
 var container = $("#container");
 var indexQuestion = 0;
 var answers;
+var endSession;
 
 // Connexion à une session
 socket.emit("initSession", key);
@@ -18,42 +19,43 @@ socket.on("newStudent", function(){
 // Bouton de lancement d'une session
 $("#go").click(function(e){
 	e.preventDefault();
-	container.fadeOut(250, function(){
-		container.empty();
-		socket.emit("startSession", key, indexQuestion);
-	})
+	socket.emit("startSession", key, indexQuestion);
 });
 
 // Nouvelle question
-socket.on("newQuestion", function(question){
-	document.title = question.text;
-	answers = question.answers;
-	nbRep = 0;
-	var html = 
-		'<section class="main-section">'
-	  	+ '<div class="row">'
-	    	+ '<div class="small-12 columns">'
-	    		+ '<section id="section-main" class="container container-marge">'
-	    			+ '<div class="small-10 small-centered columns text-center"> '
-					+ '<h2>' + question.text + '</h2>'
-					+ '<input type="hidden" id="value-timer" value="' + question.time + '">'
-					+ '<div id="timer" class="timer-large">'
-			      		+ '<span></span>'
-			      	+ '</div>'
-			      	+ '<p id="timer-msg"></p>'
-			      	+ '<p>Nombre d\'étudiant ayant répondu: <span id="nbRep" class="bleu bold">0</span></p>'
-			      	+ '<button type="button" id="btn-stat" class="button large">Résultat</button>'
-				+ '</div>'
-			+ '</section>'
-	    + '</div>'
-	  + '</div>'
-	+ '</section>'
-	+ '<script src="/js/timer.js"></script>';
-	$nbRep = $("#nbRep");
-	container.append(html);
-	container.fadeIn(250);
-	timer(function(){
-		socket.emit("endQuestionSession", key);
+socket.on("newQuestion", function(question, end){
+	endSession = end;
+	container.fadeOut(250, function(){
+		container.empty();
+		document.title = question.text;
+		answers = question.answers;
+		nbRep = 0;
+		var html = 
+			'<section class="main-section">'
+		  	+ '<div class="row">'
+		    	+ '<div class="small-12 columns">'
+		    		+ '<section id="section-main" class="container container-marge">'
+		    			+ '<div class="small-10 small-centered columns text-center"> '
+						+ '<h2>' + question.text + '</h2>'
+						+ '<input type="hidden" id="value-timer" value="' + question.time + '">'
+						+ '<div id="timer" class="timer-large">'
+				      		+ '<span></span>'
+				      	+ '</div>'
+				      	+ '<p id="timer-msg"></p>'
+				      	+ '<p>Nombre d\'étudiant ayant répondu: <span id="nbRep" class="bleu bold">0</span></p>'
+				      	+ '<button type="button" id="btn-stat" class="button large">Résultat</button>'
+					+ '</div>'
+				+ '</section>'
+		    + '</div>'
+		  + '</div>'
+		+ '</section>'
+		+ '<script src="/js/timer.js"></script>';
+		$nbRep = $("#nbRep");
+		container.append(html);
+		container.fadeIn(250);
+		timer(function(){
+			socket.emit("endQuestionSession", key);
+		});
 	});
 });
 
@@ -115,7 +117,12 @@ socket.on("endQuestionSession", function(result){
 		$("#btn-stat, #wrap-rep, #timer, #timer-msg").hide(250);
 		$(this).parent().append('<canvas id="myChart" width="235" height="200"></canvas>');
 		$(this).parent().append(answersHTML);
-		$(this).parent().append('<button type="button" id="next-question">Question suivante</button>');
+		if(endSession)  {
+			$(this).parent().append('<a href="/list/session" class="button">Retour à la liste des sessions</button>');
+		}
+		else {
+			$(this).parent().append('<button type="button" id="next-question">Question suivante</button>');
+		}
 		$("#answers").hide().fadeIn(250);
 		$("#myChart").hide().fadeIn(250, function(){
 			var ctx = document.getElementById("myChart").getContext("2d");
