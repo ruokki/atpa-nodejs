@@ -33,10 +33,10 @@
 								<a class="button tiny" href="/list/session">retour</a>
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6 columns">
-							        	<input type="text" placeholder="Label de la session" name="label">
+							        	<input id="input-label" type="text" placeholder="Label de la session" name="label">
 							    	</div>
 							    	<div class="small-6 columns">
-							    		<input type="submit" class="btn-right button small" value="Ajouter">
+							    		<input id="btn-addSession" type="submit" class="btn-right button small" value="Ajouter">
 							    	</div>
 							    </div>
 					    {% endif %}
@@ -87,7 +87,9 @@
 								
 							-->
 
-
+									<!-- popup -->
+									<div id="msg-alert" data-alert class="alert-box hide warning">
+									</div>
 
 
 
@@ -120,10 +122,46 @@
 	<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 
 	<script>
+		
+
+		/**
+		* Gestion des Verifications pour ajout/edition session
+		**/
+		$("document").ready(function(){
+
+		
+
+			$("#btn-addSession").click(function(){
+				$("#msg-alert").html("");
+				var error = [];
+
+				
+				if($("#input-label").val() == ""){
+					error.push("Veuillez entrer un label");
+				}
+				if(!($("input:checkbox").is(':checked'))){
+					error.push("Veuillez cocher au moins une case");
+				}
+
+				if(error.length != 0){
+					$("#msg-alert").removeClass("hide");
+					for (var i=0; i < error.length; i++) {
+						$("#msg-alert").append("<p>"+error[i]+"</p>");
+					}
+
+					return false;	
+				}
+				else{
+					$("#msg-alert").addClass("hide");
+					return true;	
+				}
+			})
+		});
+
+
+
 
 		$('#sortable').sortable();
-
-
 	</script>
 
 {% endblock %}
