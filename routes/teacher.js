@@ -95,9 +95,14 @@ exports.editQuestion = function(req, res) {
 					answers: data.answers,
 					question: data.text,
 					timer: data.time,
-					category: data._id_cat,
+					category: data._id_cat
 				}
 
+				if(data.imgURL) {
+					form.imgURL = data.imgURL;
+				}
+
+				console.log(form);
 
 				// recuperation de l'id
 				var idTeachQuestion = data._id_teacher	// recupe l'id du teacher de la question
