@@ -58,7 +58,7 @@ socket.on("startQuestion", function(question){
 			$(this).attr("disabled", "disabled");
 			$("input").attr("disabled", "disabled");
 			socket.emit("answerQuestion", teacher, answer);
-		})
+		});
 	});
 })
 

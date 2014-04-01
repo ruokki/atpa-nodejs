@@ -147,7 +147,7 @@ sockets.on('connection', function(socket){
 
 	socket.on("answerSession", function(key, answer){
 		socket.broadcast.to(key).emit("answerSession");
-
+		answerSession[key].push(answer);
 	});
 
 	socket.on("answerQuestion", function(teacher, answer){
@@ -158,6 +158,11 @@ sockets.on('connection', function(socket){
 	socket.on("endQuestion", function(teacher){
 		socket.emit("endQuestion", answerQuestion[teacher]);
 		socket.broadcast.to(teacher).emit("endQuestion", answerQuestion[teacher]);
+	});
+
+	socket.on("endQuestionSession", function(key){
+		socket.emit("endQuestionSession", answerSession[key]);
+		socket.broadcast.to(key).emit("endQuestionSession", answerSession[key]);
 	});
 
 });

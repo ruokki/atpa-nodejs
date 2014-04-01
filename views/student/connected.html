@@ -25,7 +25,11 @@
     <div id="pop-fin-question" class="popup-center hide">
 		<div class="pop-bodyCategorie">
           	<p class="popup-titre">Temps écoulé !</p>
+          	{% if type === 'session' %}
+          	<button type="button" id="close-popup">Fermer</button>
+          	{% elseif type === 'question' %}
           	<a class="large button btn-redirect" href="/">Revenir à l'accueil</a>
+          	{% endif %}
       	</div>
   	</div>
 

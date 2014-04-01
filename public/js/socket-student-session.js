@@ -42,5 +42,31 @@ socket.on("newQuestion",function(question){
 		+ '</div>';
 		container.html(html);
 		container.fadeIn(250);
+		// Réponse à une question
+		$("#submit-answer").click(function(e){
+			e.preventDefault();
+			var answers = $("input:checked");
+			var answer = [];
+			if(answers.length === 1) {
+				answer.push(answers.val());
+			}
+			else {
+				answers.each(function(index, elem){
+					answer.push(elem.value);
+				});
+			}
+			$(this).attr("disabled", "disabled");
+			$("input").attr("disabled", "disabled");
+			socket.emit("answerSession", key, answer);
+		});
+	});
+});
+
+socket.on("endQuestionSession", function(){
+	$("#submit-answer, input").attr("disabled", "disabled");
+	$("#pop-fin-question").removeClass("hide");
+	$("#close-popup").click(function(e){ 
+		e.preventDefault(); 
+		$("#pop-fin-question").addClass("hide");
 	});
 });
