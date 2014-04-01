@@ -13,6 +13,7 @@ var path = require('path');
 var io = require('socket.io');
 var swig = require('swig');
 var db = require('./models/db');
+var fs = require('fs');
 
 // Sessions de questions en cours
 var activeSessions = [];
@@ -30,6 +31,7 @@ app.use(express.session({secret:'io16RBS50fhXLY5G867nqXkGOJ9hyeTF'}));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.multipart());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
