@@ -888,22 +888,32 @@ exports.waitSession = function(req,res) {
 	}
 
 	var session = require('../models/session');
+	var question = require('../models/question');
 	var app = require('../app');
 	var key = req.params.key;
 	var usernameteacher = req.session.username;
 
 	session.getSessionByKey(key, function(err, result){
-		app.roomSession.push(req.session.username);
-		app.connectedToSession[req.session.username] = [];
-		app.answerSession[req.session.username] = [];
-		
+		result = result[0];
+		app.roomSession.push(result.key);
+		app.connectedToSession[result.key] = [];
+		app.questionsSession[result.key] = [];
+		app.answerSession[result.key] = [];
+
+		var nbQuestion = result.questions.length;
+		for (var i = 0; i < nbQuestion; i++ ) {
+			question.getQuestion(result.questions[i], function(err, question){
+				app.questionsSession[result.key].push(question);
+			});
+		}
+
 		console.log(app.connectedToSession);
 		console.log(app.roomSession);
 
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
 			pageTitle: 'En attente - professeur',
-			session: result[0],
+			session: result,
 			username: usernameteacher
 		});
 	});

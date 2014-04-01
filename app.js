@@ -114,14 +114,18 @@ var roomQuestion = [];
 var connectedToSession = [];
 var connectedToQuestion = [];
 
-// Stocker les réponses à une session/question
-var answerSession = [];
+// Stocke les réponses à une session/question
 var answerQuestion = [];
+var answerSession = [];
+
+// Stocke les questions et réponses d'une session
+var questionsSession = [];
 
 sockets.on('connection', function(socket){
 
-	socket.on('initSession', function(){
-
+	socket.on('initSession', function(key){
+		socket.join(key);
+		socket.broadcast.to(key).emit('newStudent');
 	});
 
 	socket.on('initQuestion', function(teacher){
@@ -129,8 +133,9 @@ sockets.on('connection', function(socket){
 		socket.broadcast.to(teacher).emit('newStudent');
 	});
 
-	socket.on('startSession', function(){
-
+	socket.on('startSession', function(key, idQuestion){
+		socket.broadcast.to(key).emit("newQuestion", questionsSession[key][idQuestion]);
+		socket.emit("newQuestion", questionsSession[key][idQuestion]);
 	});
 
 	socket.on('startQuestion', function(teacher,idQuestion){
@@ -140,7 +145,8 @@ sockets.on('connection', function(socket){
 		});
 	});
 
-	socket.on("answerSession", function(teacher, idQuestion, answer){
+	socket.on("answerSession", function(key, answer){
+		socket.broadcast.to(key).emit("answerSession");
 
 	});
 
@@ -163,4 +169,5 @@ exports.connectedToQuestion = connectedToQuestion;
 exports.answerQuestion = answerQuestion;
 exports.roomSession = roomSession;
 exports.connectedToSession = connectedToSession;
+exports.questionsSession = questionsSession;
 exports.answerSession = answerSession;

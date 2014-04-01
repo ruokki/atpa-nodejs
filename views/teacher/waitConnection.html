@@ -10,21 +10,17 @@
 					{% if session %}
 					<h2>{{ session.name }}</h2>
 					<h2>Clé : <span id="key">{{ session.key }}</span></h2>
-					<div class="logo-atpa"><img src="/img/ATPA.png"></div>
-					<div>
-						<button class="large" type="button" id="go">Lancer</button>
-						<p>Nombre d'étudiants connectés: <span id="nbCo"></span></p>
-					</div>
 					{% elseif question %}
 					<h2>{{ question.text }}</h2>
 					<input type="hidden" id="teacher" value="{{teacher}}" />
 					<input type="hidden" id="question" value="{{question._id}}">
+					{% endif %}
 					<div class="logo-atpa"><img src="/img/ATPA.png"></div>
 					<div>
 						<button class="large" type="button" id="go">Lancer</button>
 						<p>Nombre d'étudiants connectés: <span id="nbCo" class="bleu bold">0</span></p>
 					</div>
-					{% endif %}
+					
 				</div>
 			</section>
         </div>

@@ -7,6 +7,7 @@ var $nbRep;
 var nbRep = 0;
 var idQuestion = $("#question").val();
 var answers;
+var type = $("#type-question").val();
 
 // Connexion à une question
 socket.emit("initQuestion", teacher);
@@ -41,7 +42,7 @@ socket.on("startQuestion", function(question){
 		+ '</section>'
 		+ '<script src="/js/timer.js"></script>'
 	);
-	container.fadeIn(500);
+	container.fadeIn(250);
 	timer(function(){
 		socket.emit("endQuestion", teacher);
 	});

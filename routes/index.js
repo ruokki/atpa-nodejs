@@ -55,7 +55,6 @@ exports.login = function(req, res){
 				});		
 			}
 			else {
-
 				/* Execute la fonction isStudentCorrect du model student
 				 * La fonction de callback permet de récupérer les informations 
 				 * retournées par la fonction. Sans ça, Node.js ne pourrait pas 
