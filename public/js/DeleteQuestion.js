@@ -1,21 +1,19 @@
 // JavaScript Document
 $("document").ready(function(){
 
-	$(".popup-center").hide();
-
 	$(".remove-questionnaire").click(function(){
-		$(".popup-center").show();
+		$(".popup-center").removeClass("hide");
 		var idQuestion = $(this).parent().parent().attr("id");
 		$(".btn-confirm").attr("href", "/suppr/question/"+idQuestion);
 
 	});
 
 	$(".popup-close").click(function(){
-		$(this).parent().parent().hide();
+		$(this).parent().parent().addClass("hide");
 	});
 
 	$(".btn-annule").click(function(){
-		$(this).parent().parent().hide();
+		$(this).parent().parent().addClass("hide");
 	});
 
 });
