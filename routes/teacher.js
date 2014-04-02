@@ -114,8 +114,6 @@ exports.editQuestion = function(req, res) {
 					else {
 						nameTeachQuestion = data.name;
 
-						console.log(nameTeachQuestion);
-
 						res.render('teacher/questionForm', {
 							title: 'Éditer une question',
 							name: req.session.username,
@@ -175,7 +173,19 @@ exports.editQuestionPost = function(req, res) {
 	// Index de la catégorie
 	var idCat = req.body.category;
 
+	var imgType = req.files.image.type;
 	var imgURL = req.files.image.name;
+	var oldImage = req.body.oldImage;
+
+	if(imgURL !== '' ){
+		if(!(imgType === "image/jpeg" || imgType === "image/png" || imgType === "image/gif")) {
+			errors.push("Seuls les fichiers JPEG, PNG ou GIF sont autorisés.");
+		}
+	}
+
+	if(imgURL === '' && oldImage !== '') {
+		imgURL = oldImage;
+	}
 
 	// Récupére les réponses et leurs checkbox/radios associées
 	if(type === 'radio') {
@@ -269,7 +279,8 @@ exports.editQuestionPost = function(req, res) {
 			type: type,
 			category: idCat,
 			timer: time,
-			answers: answersFinal
+			answers: answersFinal,
+			imgURL : oldImage
 		};
 
 		category.getAllCategory(function(result){
@@ -307,7 +318,19 @@ exports.addQuestionPost = function(req, res) {
 	// Type de question (choix multiple, choix unique)
 	var type = req.body.type; 
 
+	var imgType = req.files.image.type;
 	var imgURL = req.files.image.name;
+	var oldImage = req.body.oldImage;
+	
+	if(imgURL !== '' ){
+		if(!(imgType === "image/jpeg" || imgType === "image/png" || imgType === "image/gif")) {
+			errors.push("Seuls les fichiers JPEG, PNG ou GIF sont autorisés.");
+		}
+	}
+
+	if(imgURL === '' && oldImage !== '') {
+		imgURL = oldImage;
+	}
 
 	// Texte de la question
 	var text = req.body.question;
@@ -413,8 +436,9 @@ exports.addQuestionPost = function(req, res) {
 			type: type,
 			category: idCat,
 			timer: time,
-			answers: answersFinal
-		}
+			answers: answersFinal,
+			imgURL : oldImage
+		};
 
 		category.getAllCategory(function(result){
 			var categories = result;
@@ -454,11 +478,9 @@ exports.supprQuestion = function(req, res) {
 
 	if(req.params.status === 'saved') {
 		status = 'La question a bien été supprimmée';
-		console.log(status);
 	}
 	else if (req.params.status === 'error') {
 		status = 'Une erreur s\'est produite';
-		console.log(status);
 	}
 	else {
 		status = false;
@@ -598,8 +620,6 @@ exports.editSession = function(req, res) {
 		else {
 			var session = result[0];
 
-			console.log(session);
-
 			question.getAllQuestion(function(questionResult){
 				res.render('teacher/sessionForm', {
 					title: 'Édition de la session',
@@ -665,7 +685,6 @@ exports.supprSession = function(req, res) {
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
-		console.log("test1");
 	}
 
 	var session = require('../models/session');
@@ -675,34 +694,24 @@ exports.supprSession = function(req, res) {
 	var usernameteacher = req.session.username;
 
 	if(req.params.status === 'saved') {
-		console.log("test2");
 		status = 'La session a bien été supprimmée';
-		console.log(status);
 	}
 	else if (req.params.status === 'error') {
-		console.log("test3");
 		status = 'Une erreur s\'est produite';
-		console.log(status);
 	}
 	else {
-		console.log("test4");
 		status = false;
 	}
 
-	console.log(idSession);
-
 
 	session.getSessionByKey(idSession, function(err, result){
-		console.log("test6");
 		session.removeSession(idSession, function(err, result){
 			// à ameliorer
 			if(err) {
-				console.log("test7");
 				res.redirect('/list/session/');
 				console.log("erreur de supression");
 			}
 			else {
-				console.log("test8");
 				res.redirect('/list/session/');
 			}
 		});
@@ -747,8 +756,6 @@ exports.listQuestion = function(req, res) {
 exports.listSession = function(req, res) {
 	var session = require('../models/session');
 	var usernameteacher = req.session.username;
-
-	console.log();
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -931,9 +938,6 @@ exports.waitSession = function(req,res) {
 				app.questionsSession[result.key].push(question);
 			});
 		}
-
-		console.log(app.connectedToSession);
-		console.log(app.roomSession);
 
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',
