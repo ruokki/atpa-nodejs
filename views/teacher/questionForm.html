@@ -122,6 +122,7 @@
 									        </div>
 						      			</div>
 						      			{% endif %}
+						      			<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
 					      			<!--****************************-->
@@ -272,29 +273,27 @@
 	    	$("#sort-type").change(function(event){
 	    	        // alert("Click event on Select has occurred!");
 	    	        $("option:selected", $(this)).each(function(){
-	    	            var obj = document.getElementById('sort-type').value;
-	    	            // alert("selected value"+obj);
+	    	            var obj = $('#sort-type').val();
 
 	    	            if(obj === "checkbox"){
-	            		 $("#input-libre").hide();
-	    	             $("#input-radio").hide();
-	    	             $("#input-check").show();
+	            			$("#input-libre").addClass("hide");
+    	             		$("#input-radio").addClass("hide");
+    	             		$("#input-check").removeClass("hide");
 	    	            }
 	    	            else if(obj === "radio"){
-	    	           	 $("#input-libre").hide();
-	    	             $("#input-check").hide();
-	    	             $("#input-radio").show();
+	    	           		$("#input-libre").addClass("hide");
+	    	             	$("#input-check").addClass("hide");
+	    	             	$("#input-radio").removeClass("hide");
 	    	            }
 	    	            else if(obj === "libre"){
-	    	            	
-    	            		$("#input-check").hide();
-    	             		$("#input-radio").hide();
-    	             		$("#input-libre").show();
+    	            		$("#input-check").addClass("hide");
+    	             		$("#input-radio").addClass("hide");
+    	             		$("#input-libre").removeClass("hide");
 	    	            }
 	    	            else{
-	    	             $("#input-check").hide();
-	    	             $("#input-radio").hide();
-	    	             $("#input-libre").hide();
+	    	             	$("#input-check").addClass("hide");
+	    	             	$("#input-radio").addClass("hide");
+	    	             	$("#input-libre").addClass("hide");
 	    	            }
 	    	        });
 	    	   });

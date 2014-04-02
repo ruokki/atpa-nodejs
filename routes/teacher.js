@@ -203,7 +203,7 @@ exports.editQuestionPost = function(req, res) {
 		}
 		else {
 			correct = '';
-			errors.push("Veuiller choisir entrer une réponse");
+			errors.push("Veuiller entrer une réponse");
 		}
 	}
 
