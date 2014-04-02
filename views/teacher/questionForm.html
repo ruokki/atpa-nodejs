@@ -34,7 +34,7 @@
 						</div>
 						{% endif %}
 					</div>
-						<form action="" method="post" name="addQuestion" role="form">
+						<form action="" method="post" name="addQuestion" role="form" enctype="multipart/form-data">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">
 							      <label>Catégorie
@@ -53,7 +53,7 @@
 							        <select name="type" id="sort-type" >
 							          <option value="radio" {% if form && form.type == 'radio' %} selected="selected"{% endif %}>choix unique</option>
 							          <option value="checkbox" {% if form && form.type == 'checkbox' %} selected="selected"{% endif %}>choix multiple</option>
-							          <option value="libre" {% if form && form.type == 'libre' %} selected="selected"{% endif %}>réponse libre</option>
+							          <option value="text" {% if form && form.type == 'text' %} selected="selected"{% endif %}>réponse libre</option>
 							        </select>
 							      </label>
 							    </div>
@@ -61,12 +61,12 @@
 					      	<div class="row panel panel-form">
 					      		<div class="small-12 columns">
 						      		<label class="hide">Question</label>
-							    	<textarea placeholder="Question" name="question">{% if form%}{{ form.question }}{% endif %}</textarea>
+							    	<textarea placeholder="Question" name="question">{% if form %}{{ form.question }}{% endif %}</textarea>
 						    	</div>
 						    	<div class="small-12 columns text-center">
 					    	        <label for="image" class="text-left">Associer une image</label>
 					    	        <input type="file" name="image" id="image" />
-					    	        {% if form && form.imgURL %}
+					    	        {% if form && form.imgURL != "" %}
 					    	        <img src="/img/userfile/{{ form.imgURL }}" width="150" alt="">
 					    	        {% endif %}
 					    	    </div>

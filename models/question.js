@@ -26,7 +26,7 @@ exports.getQuestion = function(idQuestion, callback) {
 /*
  * Ajoute une question
  */
-exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, callback) {
+exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, img, callback) {
 	var Questions = mongoose.model('question');
 	
 	var newQuestion= new Questions({
@@ -35,7 +35,8 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, 
 		text : question,
 		time: time,
 		type: type,
-		answers: answers
+		answers: answers,
+		imgURL : img
 	});
 
 	newQuestion.save(function(err, insertedQuestion){
@@ -52,7 +53,7 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, 
 /*
  * Met à jour une question
  */
- exports.updateQuestion = function(idQuestion, idCat, question, type, time, answers, callback) {
+ exports.updateQuestion = function(idQuestion, idCat, question, type, time, answers, img, callback) {
  	var Questions = mongoose.model('question');
  	
  	// Model.update(condition, toUpdate, option, callback)
@@ -64,7 +65,8 @@ exports.addQuestion = function(idCat, idTeacher, question, type, time, answers, 
  			text: question,
  			time: time,
  			type: type,
- 			answers: answers
+ 			answers: answers,
+ 			imgURL: img
  		}
  	}, 
  	{}, 

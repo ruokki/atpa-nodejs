@@ -102,8 +102,6 @@ exports.editQuestion = function(req, res) {
 					form.imgURL = data.imgURL;
 				}
 
-				console.log(form);
-
 				// recuperation de l'id
 				var idTeachQuestion = data._id_teacher	// recupe l'id du teacher de la question
 				
@@ -177,6 +175,8 @@ exports.editQuestionPost = function(req, res) {
 	// Index de la catégorie
 	var idCat = req.body.category;
 
+	var imgURL = req.files.image.name;
+
 	// Récupére les réponses et leurs checkbox/radios associées
 	if(type === 'radio') {
 		var answers = req.body.reponse.radio;
@@ -200,52 +200,63 @@ exports.editQuestionPost = function(req, res) {
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
 	}
-	else if (type === 'libre') {
+	else if (type === 'text') {
 		var answers = req.body.reponse.libre;
-		var correct;
-		if(req.body.checkbox) {
-			correct = req.body.libre.rep;
-		}
-		else {
-			correct = '';
-			errors.push("Veuiller choisir entrer une réponse");
+		var correct = true;
+		if(answers === "" ) {
+			errors.push("Veuiller entrer une réponse à la question");
 		}
 	}
 
 	var answersLength = answers.length;
 	var answersFinal = [];
 
-	correct = typeof(correct) === 'object' ? correct.toString() : correct;
+	if(type !== "text") {
+		correct = typeof(correct) === 'object' ? correct.toString() : correct;
 
-	// Parcours de la tableau contenant les questions
-	for(var i = 0; i < answersLength; i++) {
-		var isCorrect = false;
+		// Parcours de la tableau contenant les questions
+		for(var i = 0; i < answersLength; i++) {
+			var isCorrect = false;
 
-		if(correct.indexOf(i) > -1) {
-			isCorrect = true;
+			if(correct.indexOf(i) > -1) {
+				isCorrect = true;
+			}
+
+			if(answers[i].trim() === '') {
+				errors.push('Veuiller remplir la question ' + (i + 1));
+			}
+
+			answersFinal.push({
+				name: answers[i],
+				correct: isCorrect
+			});
 		}
 
-		if(answers[i].trim() === '') {
-			errors.push('Veuiller remplir la question ' + (i + 1));
-		}
-
-		answersFinal.push({
-			name: answers[i],
-			correct: isCorrect
-		});
 	}
-
+	else {
+		answersFinal = [{
+			name : answers,
+			correct : true
+		}];
+	}
 	/* 
 	 * Si aucune erreur, on enregistre les modifications en base et on redirige vers une autre page
 	 * Sinon, on réaffiche le formulaire pré-rempli avec les erreurs détectées
 	 */
 	if(!errors.length) {
 
-		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, function(err, result){
+		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, imgURL, function(err, result){
 			if(err) {
 				res.redirect('/edit/question/' + idQuestion + '/error');
 			}
 			else {
+				var fs = require('fs');
+				fs.readFile(req.files.image.path, function(err, data){
+					var newPath = __dirname.replace('routes', 'public/img/userfile/');
+					fs.writeFile(newPath + imgURL, data, function(err){
+						console.log(err);
+					});
+				});
 				res.redirect('/edit/question/' + idQuestion + '/saved');
 			}
 		});
@@ -259,7 +270,7 @@ exports.editQuestionPost = function(req, res) {
 			category: idCat,
 			timer: time,
 			answers: answersFinal
-		}
+		};
 
 		category.getAllCategory(function(result){
 			var categories = result;
@@ -295,6 +306,8 @@ exports.addQuestionPost = function(req, res) {
 	var errors = [];
 	// Type de question (choix multiple, choix unique)
 	var type = req.body.type; 
+
+	var imgURL = req.files.image.name;
 
 	// Texte de la question
 	var text = req.body.question;
@@ -337,14 +350,14 @@ exports.addQuestionPost = function(req, res) {
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
 	}
-	else if (type === 'libre') {
+	else if (type === 'text') {
 		var answers = req.body.libre;
 		if(answers === "" ) {
-			errors.push("Veuiller donner une réponse à la question");
+			errors.push("Veuiller entrer une réponse à la question");
 		}
 	}
 
-	if(type !== 'libre') {
+	if(type !== 'text') {
 		var answersLength = answers.length;
 		var answersFinal = [];
 
@@ -381,7 +394,14 @@ exports.addQuestionPost = function(req, res) {
 	 */
 	if(!errors.length) {
 
-		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal, function(insertedQuestion){
+		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal, imgURL, function(insertedQuestion){
+			var fs = require('fs');
+			fs.readFile(req.files.image.path, function(err, data){
+				var newPath = __dirname.replace('routes', 'public/img/userfile/');
+				fs.writeFile(newPath + imgURL, data, function(err){
+					console.log(err);
+				});
+			});
 			res.redirect('/edit/question/' + insertedQuestion._id + '/saved');
 		});
 	}

@@ -52,7 +52,7 @@ var questionSchema = new Schema({
 	_id_cat: {type: Number, ref: 'category'},
 	_id_teacher: {type : Number, ref: 'teacher'},
 	type : String,
-	imgURL: String,
+	imgURL: {type: String, trim: true},
 	text : {
 		type : String,
 		unique: true,

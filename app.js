@@ -13,7 +13,6 @@ var path = require('path');
 var io = require('socket.io');
 var swig = require('swig');
 var db = require('./models/db');
-var fs = require('fs');
 
 // Sessions de questions en cours
 var activeSessions = [];
