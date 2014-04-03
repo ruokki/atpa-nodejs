@@ -13,12 +13,26 @@
 	  	<div class="row">
 	    	<div class="small-12 columns">	<!-- body -->
 	        	<h1 class="text-center title">Administration</h1>
+	        	<div class="row">
+	        		{% if errors %}
+	        		<div data-alert class="small-12 columns">
+	        			<div class="alert-box alert radius">
+	        				<ul>
+	        				{% for error in errors -%}
+	        					<li>{{ error }}</li>
+	        				{%- endfor%}
+	        				</ul>
+	        				<a href="#" class="close">&times;</a>
+	        			</div>
+	        		</div>
+	        		{% endif %}
+	        	</div>
 				<section id="form-admin" class="row">
 					<div class="small-12 small-centered columns"> 
-						<form method="post" action="#">	
+						<form method="post" action="#" name="admin">
 							<div class="small-8 small-centered columns">	
 								<label class="hide">Identifiant</label>
-								<input type="text" placeholder="Identifiant" name="admin[id]">
+								<input type="text" placeholder="Identifiant" name="admin[name]">
 								<label class="hide">Mot de passe</label>
 								<input id="password" type="password" placeholder="Mot de passe" name="admin[passwd]"></input>
 								<input id="subm-enseignant" type="submit" class="button small" value="Se connecter">
@@ -33,7 +47,9 @@
 	<script src="/js/foundation.min.js"></script>
 	<script src="/js/vendor/modernizr.js"></script>
 	<script>
-
+	$(document).ready(function(){
+		$(document).foundation();
+	});
 	</script>
 </body>
 </html>

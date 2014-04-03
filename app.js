@@ -88,8 +88,10 @@ app.post('/add/categorie/', teacherRoutes.addCategorie);
 /* ---------------------------
 	gestion de l'admin
 ------------------------------ */
-app.get('/admin/login/', adminRoutes.loginAdmin);
-app.get('/admin/addPersonn/', adminRoutes.addPersonAdmin);
+app.get('/admin/login', adminRoutes.loginAdmin);
+app.post('/admin/login', adminRoutes.loginAdminPost);
+app.get('/admin/addPerson', adminRoutes.addPersonAdmin);
+app.post('/admin/addPerson', adminRoutes.addPersonAdminPost);
 
 
 /* -------------------------- */

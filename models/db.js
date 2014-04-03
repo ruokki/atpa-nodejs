@@ -65,9 +65,9 @@ var questionSchema = new Schema({
 questionSchema.plugin(autoIncrement.plugin, 'question');
 connection.model('question', questionSchema);
 
-/* ------------------------ */
+/* ------------------ */
 /* Collection Session */
-/* ------------------------ */
+/* ------------------ */
 var sessionSchema = new Schema({
 	_id: Number,
 	_id_teacher: {type: Number, ref: 'teacher'},
@@ -78,3 +78,15 @@ var sessionSchema = new Schema({
 
 sessionSchema.plugin(autoIncrement.plugin, 'session');
 connection.model('session', sessionSchema);
+
+/* ---------------- */
+/* Collection Admin */
+/* ---------------- */
+var adminSchema = new Schema({
+	_id: Number,
+	name : String,
+	password: String
+});
+
+adminSchema.plugin(autoIncrement.plugin, 'admin');
+connection.model('admin', adminSchema);
