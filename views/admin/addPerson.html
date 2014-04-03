@@ -11,34 +11,45 @@
 
 	        <div class="small-12 columns">	<!-- body -->
 	        	<section id="section-main" class="container container-marge">
-	        		
-	        		<div data-alert class="alert-box success  hide">
-						Ajout effectué ! 
+	        		{% if success %}
+	        		<div data-alert class="alert-box success">
+	        			{% if success.type === "teacher" %}
+						Le professeur {{ success.name }} a bien été ajouté
+						{% elseif success.type === "student" %}
+						L'étudiant {{ success.name }} a bien été ajouté
+						{% endif %}
 						<a href="#" class="close">&times;</a> 
 					</div>
-					<div data-alert class="alert-box alert-addTeacher hide warning">
-						Erreur, veuillez entrer le
+					{% endif %}
+					{% if errors %}
+					<div data-alert class="alert-box alert-addTeacher alert">
+						<ul>
+						{% for error in errors -%}
+							<li>{{ error }}</li>
+						{%- endfor %}
+						</ul>
 						<a href="#" class="close">&times;</a> 
 					</div>
+					{% endif %}
 
-	        		<form method="post" action="#">
+	        		<form method="post" action="">
 						<div class="small-8 small-centered columns clear">
-							<h2>Ajout d'un enseignant</h2>	
-							<label class="hide">Identifiant</label>
-							<input type="text" placeholder="Identifiant" name="teacher[id]">
+							<h2>Ajout d'un enseignant</h2>
 							<label class="hide">Nom de l'enseignant</label>
-							<input type="text" placeholder="Nom" name="teacher[nom]">
+							<input type="text" placeholder="Nom" name="teacher[name]">
 							<label class="hide">Mot de passe</label>
 							<input id="password" type="password" placeholder="Mot de passe" name="teacher[passwd]"></input>
 							<input id="subm-add-teacher" type="submit" class="button small right" value="Ajouter">
 						</div>
 					</form>
 					
-	        		<form method="post" action="#">	
+	        		<form method="post" action="">	
 						<div class="small-8 small-centered columns clear ">
 							<h2>Ajout d'un étudiant</h2>	
 							<label class="hide">Identifiant</label>
-							<input type="text" placeholder="Identifiant" name="student[id]">
+							<input type="text" placeholder="Identifiant" name="student[name]">
+							<label class="hide">Email</label>
+							<input type="text" placeholder="Email" name="student[email]">
 							<input id="subm-enseignant" type="submit" class="button small right" value="Ajouter">
 						</div>
 						
