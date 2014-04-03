@@ -73,27 +73,24 @@
 									  </tbody>
 									</table>
 
-
-							<!--
-								<ul id="sortable" class="ui-sortable liste-question">
-									<div class="small-12">
-										<div class="small-10">Question</div>
-										<div class="small-2">Ajout</div>
-									</div>
-									{% for question in questions -%}
-
-										<li class="small-12">
-											<div class="small-10">{{ question.text }}</div>
-											<div class="small-2"><input type="checkbox" name="questions" 
-										       	{% if session && (question._id in session.questions) %}checked="checked"{% endif %}
-										       	value="{{ question._id }}"/></div>
-										</li>
-									{%- endfor %}
-								</ul>
-								
-							-->
-
 									<!-- popup -->
+
+
+									{% if errors %}
+									<div class="small-12 columns">
+											<div data-alert class="alert-box alert radius">
+											<ul>
+												{% for error in errors -%}
+												<li>{{ error }}</li>
+												{%- endfor %}
+											</ul>
+											<a href="#" class="close">&times;</a>
+											</div>
+										</div>
+									</div>
+									{% endif %}
+
+
 									<div id="msg-alert" data-alert class="alert-box hide warning">
 									</div>
 
@@ -133,9 +130,8 @@
 		/**
 		* Gestion des Verifications pour ajout/edition session
 		**/
-		$("document").ready(function(){
-
 		
+		$("document").ready(function(){
 
 			$("#btn-addSession").click(function(){
 				$("#msg-alert").html("");
@@ -163,9 +159,6 @@
 				}
 			})
 		});
-
-
-
 
 		$('#sortable').sortable();
 	</script>

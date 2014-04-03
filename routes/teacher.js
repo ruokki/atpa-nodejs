@@ -551,6 +551,7 @@ exports.addSession = function(req, res) {
  */
 exports.addSessionPost = function(req, res) {
 
+
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
 	}
@@ -560,23 +561,52 @@ exports.addSessionPost = function(req, res) {
 	var label = req.body.label;
 	var questions = req.body.questions;
 	var usernameteacher = req.session.username;
+	var errors = [];
 
-	session.addSession(label, questions, req.session.idUser, function(err, insertedSession){
-		if(err) {
-			question.getAllQuestion(function(questionResult) {
-				res.render('teacher/sessionForm', {
-					title: 'Créer une session',
-					pageTitle: 'Créer une session',
-					questions: questionResult,
-					error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+	if(req.body.label === "" ) {
+		errors.push("Veuiller remplir le champ Label");
+	}
+	if(req.body.questions === undefined) {
+		errors.push("Veuiller sélectionner au moins une question");
+	}
+
+
+	if(!errors.length) {
+		session.addSession(label, questions, req.session.idUser, function(err, insertedSession){
+			if(err) {
+				question.getAllQuestion(function(questionResult) {
+					res.render('teacher/sessionForm', {
+						title: 'Créer une session',
+						pageTitle: 'Créer une session',
+						questions: questionResult,
+						error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+					});
 				});
+			}
+			else {
+				res.redirect('/edit/session/' + insertedSession._id + '/saved');
+			}
+		});
+	}
+	else{
+
+		var question = require('../models/question');
+		var usernameteacher = req.session.username;
+
+		question.getAllQuestion(function(questionResult){
+			res.render('teacher/sessionForm', {
+				title: 'Créer une session',
+				pageTitle: 'Créer une session',
+				questions: questionResult,
+				username : usernameteacher,
+				errors: errors,
 			});
-		}
-		else {
-			res.redirect('/edit/session/' + insertedSession._id + '/saved');
-		}
-	});
+		});
+	}
 };
+
+
+
 
 /*
  * GET editSession page
