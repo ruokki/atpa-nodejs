@@ -17,6 +17,7 @@ exports.welcome = function(req, res) {
 
 	res.render('index', {
 		title : 'Accueil',
+		pageTitle: 'Accueil',
 		username : usernameteacher
 	})
 }
