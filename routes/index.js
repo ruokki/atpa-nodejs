@@ -181,9 +181,12 @@ exports.initializeDB = function(req, res) {
 	var student = require('../models/student');
 	var category = require('../models/category');
 	var question = require('../models/question');
+	var admin = require('../models/admin');
 
 	teacher.addTeacher('test', 'test');
 	teacher.addTeacher('toto', 'toto');
+
+	admin.addAdmin('admin', 'admin');
 	
 	student.addStudent('test', 'test@gmail.com');
 	student.addStudent('toto', 'toto@gmail.com');

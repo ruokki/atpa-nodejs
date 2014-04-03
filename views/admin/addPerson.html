@@ -1,0 +1,69 @@
+{% extends '../layout.html' %}
+	
+{% block content %}
+			<li><a href="/list/question">Liste des questions</a></li>
+	        <li><a href="/list/session">Liste des sessions</a></li>
+	        <li><a href="/disconnect">Se déconnecter</a></li>
+	  	</ul>
+	</aside>
+    <section class="main-section">
+  		<div class="row">
+
+	        <div class="small-12 columns">	<!-- body -->
+	        	<section id="section-main" class="container container-marge">
+	        		{% if success %}
+	        		<div data-alert class="alert-box success">
+	        			{% if success.type === "teacher" %}
+						Le professeur {{ success.name }} a bien été ajouté
+						{% elseif success.type === "student" %}
+						L'étudiant {{ success.name }} a bien été ajouté
+						{% endif %}
+						<a href="#" class="close">&times;</a> 
+					</div>
+					{% endif %}
+					{% if errors %}
+					<div data-alert class="alert-box alert-addTeacher alert">
+						<ul>
+						{% for error in errors -%}
+							<li>{{ error }}</li>
+						{%- endfor %}
+						</ul>
+						<a href="#" class="close">&times;</a> 
+					</div>
+					{% endif %}
+
+	        		<form method="post" action="">
+						<div class="small-8 small-centered columns clear">
+							<h2>Ajout d'un enseignant</h2>
+							<label class="hide">Nom de l'enseignant</label>
+							<input type="text" placeholder="Nom" name="teacher[name]">
+							<label class="hide">Mot de passe</label>
+							<input id="password" type="password" placeholder="Mot de passe" name="teacher[passwd]"></input>
+							<input id="subm-add-teacher" type="submit" class="button small right" value="Ajouter">
+						</div>
+					</form>
+					
+	        		<form method="post" action="">	
+						<div class="small-8 small-centered columns clear ">
+							<h2>Ajout d'un étudiant</h2>	
+							<label class="hide">Identifiant</label>
+							<input type="text" placeholder="Identifiant" name="student[name]">
+							<label class="hide">Email</label>
+							<input type="text" placeholder="Email" name="student[email]">
+							<input id="subm-enseignant" type="submit" class="button small right" value="Ajouter">
+						</div>
+						
+					</form>
+	        	</section>
+	    	</div>
+		</div>
+	</section>
+	{% endblock %}
+
+	{% block script %}
+	<!-- <script type="text/javascript" src="/js/admin.js"></script> -->
+	<script type="text/javascript">
+		
+		
+    </script>
+{% endblock %} 

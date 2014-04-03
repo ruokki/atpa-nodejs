@@ -24,7 +24,7 @@ exports.isStudentCorrect = function(id, callback){
 /*
  * Ajoute un étudiant
  */
-exports.addStudent = function(id, email) {
+exports.addStudent = function(id, email, callback) {
 	var Students = mongoose.model('student');
 	
 	var newStudent = new Students({
@@ -35,6 +35,9 @@ exports.addStudent = function(id, email) {
 	newStudent.save(function(err){
 		if(err) {
 			console.log(err);
+		}
+		if(callback) {
+			callback(true);
 		}
 	});
 

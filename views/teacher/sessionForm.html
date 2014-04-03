@@ -1,5 +1,10 @@
 {% extends '../layout.html' %}
 {% block content %}
+			<li><a href="/list/question">Liste des questions</a></li>
+	        <li><a href="/list/session">Liste des sessions</a></li>
+	        <li><a href="/disconnect">Se déconnecter</a></li>
+	  	</ul>
+	</aside>
     <section class="main-section">
       <div class="row">
         <div class="small-12 columns">	<!-- body -->
@@ -20,6 +25,7 @@
 						{% endif %}
 						{% if session %}
 							<div class="row">
+								<a class="button tiny" href="/list/session">retour</a>
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6 columns">
 							        	<input type="text" placeholder="Label de la session" name="label" value="{{session.name}}">
@@ -67,27 +73,24 @@
 									  </tbody>
 									</table>
 
-
-							<!--
-								<ul id="sortable" class="ui-sortable liste-question">
-									<div class="small-12">
-										<div class="small-10">Question</div>
-										<div class="small-2">Ajout</div>
-									</div>
-									{% for question in questions -%}
-
-										<li class="small-12">
-											<div class="small-10">{{ question.text }}</div>
-											<div class="small-2"><input type="checkbox" name="questions" 
-										       	{% if session && (question._id in session.questions) %}checked="checked"{% endif %}
-										       	value="{{ question._id }}"/></div>
-										</li>
-									{%- endfor %}
-								</ul>
-								
-							-->
-
 									<!-- popup -->
+
+
+									{% if errors %}
+									<div class="small-12 columns">
+											<div data-alert class="alert-box alert radius">
+											<ul>
+												{% for error in errors -%}
+												<li>{{ error }}</li>
+												{%- endfor %}
+											</ul>
+											<a href="#" class="close">&times;</a>
+											</div>
+										</div>
+									</div>
+									{% endif %}
+
+
 									<div id="msg-alert" data-alert class="alert-box hide warning">
 									</div>
 
@@ -118,7 +121,7 @@
 
 
 {% block script %}
- 	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+ 	<script src="/js/vendor/jquery-ui.js"></script>
 	<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 
 	<script>
@@ -127,9 +130,8 @@
 		/**
 		* Gestion des Verifications pour ajout/edition session
 		**/
-		$("document").ready(function(){
-
 		
+		$("document").ready(function(){
 
 			$("#btn-addSession").click(function(){
 				$("#msg-alert").html("");
@@ -157,9 +159,6 @@
 				}
 			})
 		});
-
-
-
 
 		$('#sortable').sortable();
 	</script>

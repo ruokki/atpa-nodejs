@@ -17,6 +17,7 @@ exports.welcome = function(req, res) {
 
 	res.render('index', {
 		title : 'Accueil',
+		pageTitle: 'Accueil',
 		username : usernameteacher
 	})
 }
@@ -95,9 +96,12 @@ exports.editQuestion = function(req, res) {
 					answers: data.answers,
 					question: data.text,
 					timer: data.time,
-					category: data._id_cat,
+					category: data._id_cat
 				}
 
+				if(data.imgURL) {
+					form.imgURL = data.imgURL;
+				}
 
 				// recuperation de l'id
 				var idTeachQuestion = data._id_teacher	// recupe l'id du teacher de la question
@@ -110,9 +114,6 @@ exports.editQuestion = function(req, res) {
 					}
 					else {
 						nameTeachQuestion = data.name;
-
-						console.log(nameTeachQuestion);
-
 						res.render('teacher/questionForm', {
 							title: 'Éditer une question',
 							name: req.session.username,
@@ -172,6 +173,20 @@ exports.editQuestionPost = function(req, res) {
 	// Index de la catégorie
 	var idCat = req.body.category;
 
+	var imgType = req.files.image.type;
+	var imgURL = req.files.image.name;
+	var oldImage = req.body.oldImage;
+
+	if(imgURL !== '' ){
+		if(!(imgType === "image/jpeg" || imgType === "image/png" || imgType === "image/gif")) {
+			errors.push("Seuls les fichiers JPEG, PNG ou GIF sont autorisés.");
+		}
+	}
+
+	if(imgURL === '' && oldImage !== '') {
+		imgURL = oldImage;
+	}
+
 	// Récupére les réponses et leurs checkbox/radios associées
 	if(type === 'radio') {
 		var answers = req.body.reponse.radio;
@@ -195,52 +210,63 @@ exports.editQuestionPost = function(req, res) {
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
 	}
-	else if (type === 'libre') {
+	else if (type === 'text') {
 		var answers = req.body.reponse.libre;
-		var correct;
-		if(req.body.checkbox) {
-			correct = req.body.libre.rep;
-		}
-		else {
-			correct = '';
-			errors.push("Veuiller choisir entrer une réponse");
+		var correct = true;
+		if(answers === "" ) {
+			errors.push("Veuiller entrer une réponse à la question");
 		}
 	}
 
 	var answersLength = answers.length;
 	var answersFinal = [];
 
-	correct = typeof(correct) === 'object' ? correct.toString() : correct;
+	if(type !== "text") {
+		correct = typeof(correct) === 'object' ? correct.toString() : correct;
 
-	// Parcours de la tableau contenant les questions
-	for(var i = 0; i < answersLength; i++) {
-		var isCorrect = false;
+		// Parcours de la tableau contenant les questions
+		for(var i = 0; i < answersLength; i++) {
+			var isCorrect = false;
 
-		if(correct.indexOf(i) > -1) {
-			isCorrect = true;
+			if(correct.indexOf(i) > -1) {
+				isCorrect = true;
+			}
+
+			if(answers[i].trim() === '') {
+				errors.push('Veuiller remplir la question ' + (i + 1));
+			}
+
+			answersFinal.push({
+				name: answers[i],
+				correct: isCorrect
+			});
 		}
 
-		if(answers[i].trim() === '') {
-			errors.push('Veuiller remplir la question ' + (i + 1));
-		}
-
-		answersFinal.push({
-			name: answers[i],
-			correct: isCorrect
-		});
 	}
-
+	else {
+		answersFinal = [{
+			name : answers,
+			correct : true
+		}];
+	}
 	/* 
 	 * Si aucune erreur, on enregistre les modifications en base et on redirige vers une autre page
 	 * Sinon, on réaffiche le formulaire pré-rempli avec les erreurs détectées
 	 */
 	if(!errors.length) {
 
-		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, function(err, result){
+		question.updateQuestion(idQuestion, idCat, text, type, time, answersFinal, imgURL, function(err, result){
 			if(err) {
 				res.redirect('/edit/question/' + idQuestion + '/error');
 			}
 			else {
+				var fs = require('fs');
+				fs.readFile(req.files.image.path, function(err, data){
+					var newPath = __dirname.replace('routes', 'public/img/userfile/');
+					fs.writeFile(newPath + imgURL, data, function(err){
+						console.log(err);
+					});
+				});
 				res.redirect('/edit/question/' + idQuestion + '/saved');
 			}
 		});
@@ -253,8 +279,9 @@ exports.editQuestionPost = function(req, res) {
 			type: type,
 			category: idCat,
 			timer: time,
-			answers: answersFinal
-		}
+			answers: answersFinal,
+			imgURL : oldImage
+		};
 
 		category.getAllCategory(function(result){
 			var categories = result;
@@ -290,6 +317,20 @@ exports.addQuestionPost = function(req, res) {
 	var errors = [];
 	// Type de question (choix multiple, choix unique)
 	var type = req.body.type; 
+
+	var imgType = req.files.image.type;
+	var imgURL = req.files.image.name;
+	var oldImage = req.body.oldImage;
+	
+	if(imgURL !== '' ){
+		if(!(imgType === "image/jpeg" || imgType === "image/png" || imgType === "image/gif")) {
+			errors.push("Seuls les fichiers JPEG, PNG ou GIF sont autorisés.");
+		}
+	}
+
+	if(imgURL === '' && oldImage !== '') {
+		imgURL = oldImage;
+	}
 
 	// Texte de la question
 	var text = req.body.question;
@@ -332,14 +373,14 @@ exports.addQuestionPost = function(req, res) {
 			errors.push("Veuiller choisir au moins une bonne réponse");
 		}
 	}
-	else if (type === 'libre') {
+	else if (type === 'text') {
 		var answers = req.body.libre;
 		if(answers === "" ) {
-			errors.push("Veuiller donner une réponse à la question");
+			errors.push("Veuiller entrer une réponse à la question");
 		}
 	}
 
-	if(type !== 'libre') {
+	if(type !== 'text') {
 		var answersLength = answers.length;
 		var answersFinal = [];
 
@@ -376,7 +417,14 @@ exports.addQuestionPost = function(req, res) {
 	 */
 	if(!errors.length) {
 
-		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal, function(insertedQuestion){
+		question.addQuestion(idCat, req.session.idUser, text, type, time, answersFinal, imgURL, function(insertedQuestion){
+			var fs = require('fs');
+			fs.readFile(req.files.image.path, function(err, data){
+				var newPath = __dirname.replace('routes', 'public/img/userfile/');
+				fs.writeFile(newPath + imgURL, data, function(err){
+					console.log(err);
+				});
+			});
 			res.redirect('/edit/question/' + insertedQuestion._id + '/saved');
 		});
 	}
@@ -388,8 +436,9 @@ exports.addQuestionPost = function(req, res) {
 			type: type,
 			category: idCat,
 			timer: time,
-			answers: answersFinal
-		}
+			answers: answersFinal,
+			imgURL : oldImage
+		};
 
 		category.getAllCategory(function(result){
 			var categories = result;
@@ -410,9 +459,10 @@ exports.addQuestionPost = function(req, res) {
 }
 
 
-
-
-
+/*
+ * POST supprquestion page
+ * Supprime une question
+ */
 
 exports.supprQuestion = function(req, res) {
 
@@ -423,22 +473,8 @@ exports.supprQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
-	var status;
 	var idTeacher = req.session.idUser;
 	var usernameteacher = req.session.username;
-
-	if(req.params.status === 'saved') {
-		status = 'La question a bien été supprimmée';
-		console.log(status);
-	}
-	else if (req.params.status === 'error') {
-		status = 'Une erreur s\'est produite';
-		console.log(status);
-	}
-	else {
-		status = false;
-	}
-
 
 	question.getQuestion(idQuestion, function(err){
 		if(err) {
@@ -460,19 +496,21 @@ exports.supprQuestion = function(req, res) {
 }
 
 
+/*
+ * POST nextPage
+ * Renvoie en JSON la liste des questions de la page suivante
+ */
+ exports.nextPage = function(req,res) {
 
+ }
 
+/*
+ * POST prevPage
+ * Renvoie en JSON la liste des questions de la page précédente
+ */
+ exports.prevPage = function(req,res) {
 
-
-
-
-
-
-
-
-
-
-
+ }
 
 
 
@@ -513,6 +551,7 @@ exports.addSession = function(req, res) {
  */
 exports.addSessionPost = function(req, res) {
 
+
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
 	}
@@ -522,23 +561,52 @@ exports.addSessionPost = function(req, res) {
 	var label = req.body.label;
 	var questions = req.body.questions;
 	var usernameteacher = req.session.username;
+	var errors = [];
 
-	session.addSession(label, questions, req.session.idUser, function(err, insertedSession){
-		if(err) {
-			question.getAllQuestion(function(questionResult) {
-				res.render('teacher/sessionForm', {
-					title: 'Créer une session',
-					pageTitle: 'Créer une session',
-					questions: questionResult,
-					error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+	if(req.body.label === "" ) {
+		errors.push("Veuiller remplir le champ Label");
+	}
+	if(req.body.questions === undefined) {
+		errors.push("Veuiller sélectionner au moins une question");
+	}
+
+
+	if(!errors.length) {
+		session.addSession(label, questions, req.session.idUser, function(err, insertedSession){
+			if(err) {
+				question.getAllQuestion(function(questionResult) {
+					res.render('teacher/sessionForm', {
+						title: 'Créer une session',
+						pageTitle: 'Créer une session',
+						questions: questionResult,
+						error: 'Un problème est survenu lors de l\'enregistrement. Veuillez réessayer ultérieurement'
+					});
 				});
+			}
+			else {
+				res.redirect('/edit/session/' + insertedSession._id + '/saved');
+			}
+		});
+	}
+	else{
+
+		var question = require('../models/question');
+		var usernameteacher = req.session.username;
+
+		question.getAllQuestion(function(questionResult){
+			res.render('teacher/sessionForm', {
+				title: 'Créer une session',
+				pageTitle: 'Créer une session',
+				questions: questionResult,
+				username : usernameteacher,
+				errors: errors,
 			});
-		}
-		else {
-			res.redirect('/edit/session/' + insertedSession._id + '/saved');
-		}
-	});
+		});
+	}
 };
+
+
+
 
 /*
  * GET editSession page
@@ -572,8 +640,6 @@ exports.editSession = function(req, res) {
 		}
 		else {
 			var session = result[0];
-
-			console.log(session);
 
 			question.getAllQuestion(function(questionResult){
 				res.render('teacher/sessionForm', {
@@ -640,7 +706,6 @@ exports.supprSession = function(req, res) {
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
-		console.log("test1");
 	}
 
 	var session = require('../models/session');
@@ -650,34 +715,24 @@ exports.supprSession = function(req, res) {
 	var usernameteacher = req.session.username;
 
 	if(req.params.status === 'saved') {
-		console.log("test2");
 		status = 'La session a bien été supprimmée';
-		console.log(status);
 	}
 	else if (req.params.status === 'error') {
-		console.log("test3");
 		status = 'Une erreur s\'est produite';
-		console.log(status);
 	}
 	else {
-		console.log("test4");
 		status = false;
 	}
 
-	console.log(idSession);
-
 
 	session.getSessionByKey(idSession, function(err, result){
-		console.log("test6");
 		session.removeSession(idSession, function(err, result){
 			// à ameliorer
 			if(err) {
-				console.log("test7");
 				res.redirect('/list/session/');
 				console.log("erreur de supression");
 			}
 			else {
-				console.log("test8");
 				res.redirect('/list/session/');
 			}
 		});
@@ -705,12 +760,20 @@ exports.listQuestion = function(req, res) {
 	
 	question.getAllQuestion(function(questionResult){
 		category.getAllCategory(function(categoryResult){
+			var nbPages = Math.ceil(questionResult.length / 10);
+			var swigPage = [];
+			var questionToDisplay = questionResult.slice(0, 9);
+			for (var i = 1; i <= nbPages; i++) {
+				swigPage.push(i);
+			}
+
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
 				pageTitle: 'Liste des questions',
 				categories: categoryResult,
-				questions: questionResult,
-				username : usernameteacher
+				questions: questionToDisplay,
+				username : usernameteacher,
+				pages: swigPage
 			});
 		});
 	});
@@ -722,8 +785,6 @@ exports.listQuestion = function(req, res) {
 exports.listSession = function(req, res) {
 	var session = require('../models/session');
 	var usernameteacher = req.session.username;
-
-	console.log();
 
 	if(req.session.statusUser === 'S' || !req.session.statusUser) {
 		res.redirect('/');
@@ -838,44 +899,6 @@ exports.supprCategorie = function(req, res) {
 	});
 }
 
-
-
-/* ----------------------- */ 
-/*     Page statistique    */
-/* ----------------------- */ 
-
-/*
- * GET stat page
- */
-exports.stat = function(req,res) {
-	var usernameteacher = req.session.username;
-
-	if(req.session.statusUser === 'S' || !req.session.statusUser) {
-		res.redirect('/');
-	}
-
-	res.render('teacher/stat', {
-		title: 'Statistique',
-		pageTitle: 'Statistique',
-		username: usernameteacher
-	});
-};
-
-
-/*
- * GET panelquestion page
- * Affiche les question d'une session en cours
- */
-exports.panelquestion = function(req,res) {
-	var usernameteacher = req.session.username;
-
-	res.render('teacher/panelquestion', {
-		title: 'Question',
-		pageTitle: 'Question',
-		username: usernameteacher
-	});
-};
-
 /*
  * GET waitSession page
  * Affiche la page avant le lancement d'une session
@@ -906,9 +929,6 @@ exports.waitSession = function(req,res) {
 				app.questionsSession[result.key].push(question);
 			});
 		}
-
-		console.log(app.connectedToSession);
-		console.log(app.roomSession);
 
 		res.render('teacher/waitConnection', {
 			title: 'En attente - professeur',

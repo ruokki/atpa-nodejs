@@ -26,7 +26,7 @@ exports.isTeacherCorrect = function(id, pwd, callback){
 /*
  * Ajoute un professeur
  */
-exports.addTeacher = function(id, pwd) {
+exports.addTeacher = function(id, pwd, callback) {
 	var crypto = require('crypto');
 
 	var cryptedPwd = crypto.createHash('sha256').update(pwd).digest('base64');
@@ -40,6 +40,9 @@ exports.addTeacher = function(id, pwd) {
 	newTeacher.save(function(err){
 		if(err) {
 			console.log(err);
+		}
+		if(callback) {
+			callback(true);
 		}
 	});
 };

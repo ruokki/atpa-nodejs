@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var teacherRoutes = require('./routes/teacher');
 var studentRoutes = require('./routes/student');
+var adminRoutes = require('./routes/admin');
 var websocketRoutes = require('./routes/websocket');
 var http = require('http');
 var path = require('path');
@@ -30,6 +31,7 @@ app.use(express.session({secret:'io16RBS50fhXLY5G867nqXkGOJ9hyeTF'}));
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.multipart());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -83,14 +85,23 @@ app.get('/list/categorie', teacherRoutes.listCategorie);
 app.get('/suppr/categorie/:id', teacherRoutes.supprCategorie);
 app.post('/add/categorie/', teacherRoutes.addCategorie);
 
+/* ---------------------------
+	gestion de l'admin
+------------------------------ */
+app.get('/admin/login', adminRoutes.loginAdmin);
+app.post('/admin/login', adminRoutes.loginAdminPost);
+app.get('/admin/addPerson', adminRoutes.addPersonAdmin);
+app.post('/admin/addPerson', adminRoutes.addPersonAdminPost);
+
 
 /* -------------------------- */
 /*     Page du professeur     */
 /* -------------------------- */
-app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/session/waitConnection/:key', teacherRoutes.waitSession);
 app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
+app.post('/next', teacherRoutes.nextPage);
+app.post('/prev', teacherRoutes.prevPage);
 
 
 /* -------------------------- */

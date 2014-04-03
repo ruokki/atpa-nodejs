@@ -10,6 +10,10 @@ h2{
 
 }
 
+.clear{
+	clear: both;
+}
+
 .hide{
 	display: none !important;
 }
@@ -415,4 +419,14 @@ button{
 
 .item-session td{
 	/* background: #e5e5e5; */
+}
+
+
+
+/* =========================
+	ADMIN
+=========================== */
+
+.link-admin{
+	margin: 10px;
 }

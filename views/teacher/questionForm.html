@@ -1,6 +1,11 @@
 {% extends '../layout.html' %}
 
 {% block content %}
+			<li><a href="/list/question">Liste des questions</a></li>
+	        <li><a href="/list/session">Liste des sessions</a></li>
+	        <li><a href="/disconnect">Se déconnecter</a></li>
+	  	</ul>
+	</aside>
     <section class="main-section">
       <div class="row">
      
@@ -34,7 +39,7 @@
 						</div>
 						{% endif %}
 					</div>
-						<form action="" method="post" name="addQuestion" role="form">
+						<form action="" method="post" name="addQuestion" role="form" enctype="multipart/form-data">
 							<div class="row panel panel-form">
 							    <div class="small-6  columns">
 							      <label>Catégorie
@@ -53,7 +58,7 @@
 							        <select name="type" id="sort-type" >
 							          <option value="radio" {% if form && form.type == 'radio' %} selected="selected"{% endif %}>choix unique</option>
 							          <option value="checkbox" {% if form && form.type == 'checkbox' %} selected="selected"{% endif %}>choix multiple</option>
-							          <option value="libre" {% if form && form.type == 'libre' %} selected="selected"{% endif %}>réponse libre</option>
+							          <option value="text" {% if form && form.type == 'text' %} selected="selected"{% endif %}>réponse libre</option>
 							        </select>
 							      </label>
 							    </div>
@@ -61,8 +66,16 @@
 					      	<div class="row panel panel-form">
 					      		<div class="small-12 columns">
 						      		<label class="hide">Question</label>
-							    	<textarea placeholder="Question" name="question">{% if form%}{{ form.question }}{% endif %}</textarea>
+							    	<textarea placeholder="Question" name="question">{% if form %}{{ form.question }}{% endif %}</textarea>
 						    	</div>
+						    	<div class="small-12 columns text-center">
+					    	        <label for="image" class="text-left">Associer une image</label>
+					    	        <input type="file" name="image" id="image" />
+					    	        {% if form && form.imgURL != "" %}
+					    	        <img src="/img/userfile/{{ form.imgURL }}" width="150" alt="">
+					    	        <input type="hidden" name="oldImage" value="{{ form.imgURL }}" />
+					    	        {% endif %}
+					    	    </div>
 					      	</div>
 
 					      	<div class="row">
@@ -122,6 +135,7 @@
 									        </div>
 						      			</div>
 						      			{% endif %}
+						      			<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
 					      			<!--****************************-->
@@ -135,11 +149,11 @@
 									<!-- DIV D'AFFICHAGE DES REP LIBRE -->
 									<!--****************************-->
 
-									{% if form && form.type == 'libre' %}
+									{% if form && form.type == 'text' %}
 					      				<div id="input-libre">
 		      							      	<div class="row collapse input-multi">
 		      								        <div class="small-12 columns">
-		      								         <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question"/>
+		      								         <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question" value="{{form.answers[0].name}}" />
 		      								        </div>
 		      					      			</div>
 					      				{% else %}
@@ -272,29 +286,27 @@
 	    	$("#sort-type").change(function(event){
 	    	        // alert("Click event on Select has occurred!");
 	    	        $("option:selected", $(this)).each(function(){
-	    	            var obj = document.getElementById('sort-type').value;
-	    	            // alert("selected value"+obj);
+	    	            var obj = $('#sort-type').val();
 
 	    	            if(obj === "checkbox"){
-	            		 $("#input-libre").hide();
-	    	             $("#input-radio").hide();
-	    	             $("#input-check").show();
+	            			$("#input-libre").addClass("hide");
+    	             		$("#input-radio").addClass("hide");
+    	             		$("#input-check").removeClass("hide");
 	    	            }
 	    	            else if(obj === "radio"){
-	    	           	 $("#input-libre").hide();
-	    	             $("#input-check").hide();
-	    	             $("#input-radio").show();
+	    	           		$("#input-libre").addClass("hide");
+	    	             	$("#input-check").addClass("hide");
+	    	             	$("#input-radio").removeClass("hide");
 	    	            }
-	    	            else if(obj === "libre"){
-	    	            	
-    	            		$("#input-check").hide();
-    	             		$("#input-radio").hide();
-    	             		$("#input-libre").show();
+	    	            else if(obj === "text"){
+    	            		$("#input-check").addClass("hide");
+    	             		$("#input-radio").addClass("hide");
+    	             		$("#input-libre").removeClass("hide");
 	    	            }
 	    	            else{
-	    	             $("#input-check").hide();
-	    	             $("#input-radio").hide();
-	    	             $("#input-libre").hide();
+	    	             	$("#input-check").addClass("hide");
+	    	             	$("#input-radio").addClass("hide");
+	    	             	$("#input-libre").addClass("hide");
 	    	            }
 	    	        });
 	    	   });
