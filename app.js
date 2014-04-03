@@ -88,10 +88,11 @@ app.post('/add/categorie/', teacherRoutes.addCategorie);
 /* -------------------------- */
 /*     Page du professeur     */
 /* -------------------------- */
-app.get('/stat', teacherRoutes.stat);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/session/waitConnection/:key', teacherRoutes.waitSession);
 app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
+app.post('/next/question/:page', teacherRoutes.nextPage);
+app.post('/prev/question/:page', teacherRoutes.prevPage);
 
 
 /* -------------------------- */

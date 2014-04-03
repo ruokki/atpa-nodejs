@@ -23,17 +23,6 @@
 										</select>
 									  </label>
 									</div>
-									<div class="small-6  columns">
-									  <label><span id="nbItems"></span>
-										<select id="itemsParPage">
-											<option value="tous">Tous les résultats</option>
-											<option value="10">10 par page</option>
-											<option value="20">20 par page</option>
-											<option value="30">30 par page</option>
-											<option value="50">50 par page</option>
-										</select>
-									  </label>
-									</div>
 							    </div>
 							   
 							   	<div class="small-12 columns no-padding panel panel-form">
@@ -57,10 +46,17 @@
 							          {%- endfor %}
 									  </tbody>
 									</table>
-									
-									<div class="button-bar">
-										<ul id="pagination" class="button-group"></ul>
-									</div>
+								  	<ul class="pagination" id="pagination">
+								  		<li class="arrow unavailable" id="prev"><a href="">&laquo;</a></li>
+								  		{% for page in pages -%}
+								  			{% if page == 1 %}
+											<li class="current"><a href="">{{ page }}</a></li>
+											{% else %}
+											<li><a href="">{{ page }}</a></li>
+											{% endif %}
+								  		{%- endfor %}
+								  		<li class="arrow" id="next"><a href="">&raquo;</a></li>
+								  	</ul>
 						    	</div>
 						    	<a href="/add/question" class="btn-right button small">Ajouter</a>
 						  	</div>
@@ -92,51 +88,6 @@
 	<script type="text/javascript" src="/js/pagination.js"></script>
 	<script type="text/javascript">
 		$("document").ready(function(){
-			// Nombre total de questions
-			var nbItems = $('.item').length;
-			if (nbItems > 1) {
-				$('#nbItems').html("<strong>" + nbItems + "</strong> résultats");
-			} else {
-				$('#nbItems').html("<strong>" + nbItems + "</strong> résultat");
-			}
-		});
-		
-		
-		$('#itemsParPage').change(function(){
-			var itemsParPage = $(this).val();
-			var nbItems = $('.item').length;
-			
-			if (itemsParPage == "tous") {
-				itemsParPage = nbItems;
-				$('#pagination').html("");
-			} else {
-				itemsParPage = parseInt(itemsParPage);
-				
-				// Afficher pagination
-				$('#pagination').pagination({
-					items: nbItems,
-					itemsOnPage: itemsParPage
-				});
-				
-				// Afficher items
-				$('.item').hide();
-				$('.item').slice( 0, itemsParPage ).show();
-			}
-		});
-		
-		
-		$('#pagination').click(function(){
-			var nbItems = $('.item').length;
-			var itemsParPage = $('#itemsParPage').val();
-			var currentPage = $('#pagination').pagination('getCurrentPage');
-			
-			var firstResult = (currentPage * itemsParPage) - itemsParPage;
-			var lastResult = currentPage * itemsParPage;
-			
-			$('.item').fadeOut();
-			$('.item').slice( firstResult, lastResult ).fadeIn();
-		});
-		
 		
 		$('#selectCat').change(function(){
 			var categorie= $(this).val();
@@ -152,8 +103,37 @@
 				else {
 					$(elem).hide();	
 				}
-			});			
+			});
 		});
-		
+
+		$("#pagination #next").click(function(e){
+			e.preventDefault();
+			var page = $(this).parent().find('.current').next();
+			console.log(page);
+			if(page.attr("id") !== "prev") {
+				console.log("already last page");
+			}
+			else {
+				console.log("go next");
+			}
+		});
+
+		$("#pagination #prev").click(function(e){
+			e.preventDefault();
+			var page = $(this).parent().find('.current').text();
+			console.log(page);
+			if(page !== "1") {
+				console.log("go prev");
+			}
+			else {
+				console.log("already first page");
+			}
+		});
+
+		$("#pagination li:not(#next,#prev)").click(function(e){
+
+		});
+	});
+
     </script>
 {% endblock %} 

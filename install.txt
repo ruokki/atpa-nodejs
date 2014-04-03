@@ -1,0 +1,87 @@
+Installation de NodeJS et NPM :
+	- Pour installer NodeJS et NPM, il suffit de taper les commandes :
+		sudo apt-get install python-software-properties
+		sudo apt-get update
+		sudo apt-get install nodejs
+
+	- NPM est intégré au paquet de NodeJS
+	- Vérifier que NodeJS dispose d'une version supérieure à la 0.10
+		nodejs -v OU node -v
+
+	- Si ce n'est pas le cas, lancer les commandes :
+		sudo apt-add-repository ppa:chris-lea/node.js
+		sudo apt-get update
+		sudo apt-get upgrade
+
+	/* ---------- */
+	  Attention : 
+	/* ---------- */
+	Sur Debian 6.0, le paquet nodejs sur les repo officiels n'est pas la dernière version de NodeJS disponible.
+	Pour installer NodeJS sur Debian 6.0, il faut ajouter le PPA de Chris Lea :
+		- Créer un fichier "chris-lea-node_js.list" dans /etc/apt/sources.list.d/ contenant :
+			deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu precise main
+			deb-src http://ppa.launchpad.net/chris-lea/node.js/ubuntu precise main
+
+		- Lancer les commandes :
+			sudo apt-get update
+			sudo apt-get install nodejs
+
+Installation de la base de données :
+	Pour Ubuntu < 9.10 et Debian :
+		- Lancer la commande :
+			sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+		- Créer un fichier "mongodb.list" dans /etc/apt/sources.list.d/ contenant :
+			deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen
+
+		- Lancer les commandes :
+			sudo apt-get update
+			sudo apt-get install mongodb-10gen
+
+	Pour Ubuntu > 9.10 :
+		- Lancer la commande :
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+		- Créer un fichier "mongodb.list" dans /etc/apt/sources.list.d/ contenant :
+			deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
+
+		- Lancer les commandes :
+			sudo apt-get update
+			sudo apt-get install mongodb-10gen
+
+	- Pour vérifier que Mongo est bien installé et lancé, lancer la commande "mongo" pour vous connecter à Mongo.
+	  La console doit afficher un message du style :
+
+		MongoDB shell version: 2.0.4
+		connecting to: test
+		>
+
+	- Si ce n'est pas le cas, il faut lancer le daemon Mongo grâce à la commande :
+		mongod
+
+	Rééssayer d'accéder à Mongo avec la commande "mongo". Cette fois, la console doit affiché le message attendu.
+
+
+Installation de l'application :
+
+	- Cloner le répertoire présent à l'adresse https://github.com/ruokki/atpa-nodejs :
+		git clone https://github.com/ruokki/atpa-nodejs.git
+
+	- Rentrer dans le répertoire créé puis lancer la commande :
+		npm install
+
+	- Une fois tout les modules installés par NPM, il ne reste plus qu'à lancer la commande :
+		node app.js OU nodejs app.js
+
+	- Le port par défaut utilisé par NodeJS est le port 3000 (après avoir lancé la commande ci-dessus, un message indique 
+	  sur quel port est lancé l'application).
+
+	- Une fois l'application lancée, rendez-vous à l'adresse :
+		http://locahost:3000/initializeDB (si installé en local)
+		http://mondomaine.tld:3000/initializeDB (si installé sur un serveur distant)
+
+	Pour changer le port utilisé par l'application :
+		- Ouvrir le fichier app.js
+		- Repérer la ligne où il y a écrit :
+			app.set('port', process.env.PORT || 3000);
+		- Changer 'process.env.PORT || 3000' par le numéro du port que vous voulez.

@@ -113,7 +113,6 @@ exports.editQuestion = function(req, res) {
 					}
 					else {
 						nameTeachQuestion = data.name;
-
 						res.render('teacher/questionForm', {
 							title: 'Éditer une question',
 							name: req.session.username,
@@ -459,9 +458,10 @@ exports.addQuestionPost = function(req, res) {
 }
 
 
-
-
-
+/*
+ * POST supprquestion page
+ * Supprime une question
+ */
 
 exports.supprQuestion = function(req, res) {
 
@@ -472,20 +472,8 @@ exports.supprQuestion = function(req, res) {
 	var category = require('../models/category');
 	var question = require('../models/question');
 	var idQuestion = req.params.id;
-	var status;
 	var idTeacher = req.session.idUser;
 	var usernameteacher = req.session.username;
-
-	if(req.params.status === 'saved') {
-		status = 'La question a bien été supprimmée';
-	}
-	else if (req.params.status === 'error') {
-		status = 'Une erreur s\'est produite';
-	}
-	else {
-		status = false;
-	}
-
 
 	question.getQuestion(idQuestion, function(err){
 		if(err) {
@@ -507,19 +495,21 @@ exports.supprQuestion = function(req, res) {
 }
 
 
+/*
+ * POST nextPage
+ * Renvoie en JSON la liste des questions de la page suivante
+ */
+ exports.nextPage = function(req,res) {
 
+ }
 
+/*
+ * POST prevPage
+ * Renvoie en JSON la liste des questions de la page précédente
+ */
+ exports.prevPage = function(req,res) {
 
-
-
-
-
-
-
-
-
-
-
+ }
 
 
 
@@ -739,12 +729,20 @@ exports.listQuestion = function(req, res) {
 	
 	question.getAllQuestion(function(questionResult){
 		category.getAllCategory(function(categoryResult){
+			var nbPages = Math.ceil(questionResult.length / 10);
+			var swigPage = [];
+			var questionToDisplay = questionResult.slice(0, 9);
+			for (var i = 1; i <= nbPages; i++) {
+				swigPage.push(i);
+			}
+
 			res.render('teacher/listQuestion', {
 				title: 'Liste des questions',
 				pageTitle: 'Liste des questions',
 				categories: categoryResult,
-				questions: questionResult,
-				username : usernameteacher
+				questions: questionToDisplay,
+				username : usernameteacher,
+				pages: swigPage
 			});
 		});
 	});
@@ -869,44 +867,6 @@ exports.supprCategorie = function(req, res) {
 		}
 	});
 }
-
-
-
-/* ----------------------- */ 
-/*     Page statistique    */
-/* ----------------------- */ 
-
-/*
- * GET stat page
- */
-exports.stat = function(req,res) {
-	var usernameteacher = req.session.username;
-
-	if(req.session.statusUser === 'S' || !req.session.statusUser) {
-		res.redirect('/');
-	}
-
-	res.render('teacher/stat', {
-		title: 'Statistique',
-		pageTitle: 'Statistique',
-		username: usernameteacher
-	});
-};
-
-
-/*
- * GET panelquestion page
- * Affiche les question d'une session en cours
- */
-exports.panelquestion = function(req,res) {
-	var usernameteacher = req.session.username;
-
-	res.render('teacher/panelquestion', {
-		title: 'Question',
-		pageTitle: 'Question',
-		username: usernameteacher
-	});
-};
 
 /*
  * GET waitSession page

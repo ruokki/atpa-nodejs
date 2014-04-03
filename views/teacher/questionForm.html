@@ -144,11 +144,11 @@
 									<!-- DIV D'AFFICHAGE DES REP LIBRE -->
 									<!--****************************-->
 
-									{% if form && form.type == 'libre' %}
+									{% if form && form.type == 'text' %}
 					      				<div id="input-libre">
 		      							      	<div class="row collapse input-multi">
 		      								        <div class="small-12 columns">
-		      								         <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question"/>
+		      								         <input type="text" id="repLibre" name="libre" placeholder="Réponse à la question" value="{{form.answers[0].name}}" />
 		      								        </div>
 		      					      			</div>
 					      				{% else %}
@@ -293,7 +293,7 @@
 	    	             	$("#input-check").addClass("hide");
 	    	             	$("#input-radio").removeClass("hide");
 	    	            }
-	    	            else if(obj === "libre"){
+	    	            else if(obj === "text"){
     	            		$("#input-check").addClass("hide");
     	             		$("#input-radio").addClass("hide");
     	             		$("#input-libre").removeClass("hide");
