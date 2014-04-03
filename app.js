@@ -91,8 +91,8 @@ app.post('/add/categorie/', teacherRoutes.addCategorie);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/session/waitConnection/:key', teacherRoutes.waitSession);
 app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
-app.post('/next/question/:page', teacherRoutes.nextPage);
-app.post('/prev/question/:page', teacherRoutes.prevPage);
+app.post('/next', teacherRoutes.nextPage);
+app.post('/prev', teacherRoutes.prevPage);
 
 
 /* -------------------------- */
