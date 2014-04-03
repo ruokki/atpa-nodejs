@@ -501,7 +501,7 @@ exports.supprQuestion = function(req, res) {
  * Renvoie en JSON la liste des questions de la page suivante
  */
  exports.nextPage = function(req,res) {
-
+	
  }
 
 /*
@@ -509,7 +509,7 @@ exports.supprQuestion = function(req, res) {
  * Renvoie en JSON la liste des questions de la page précédente
  */
  exports.prevPage = function(req,res) {
-
+	
  }
 
 
@@ -762,7 +762,7 @@ exports.listQuestion = function(req, res) {
 		category.getAllCategory(function(categoryResult){
 			var nbPages = Math.ceil(questionResult.length / 10);
 			var swigPage = [];
-			var questionToDisplay = questionResult.slice(0, 9);
+			var questionToDisplay = questionResult.slice(0, 10);
 			for (var i = 1; i <= nbPages; i++) {
 				swigPage.push(i);
 			}
