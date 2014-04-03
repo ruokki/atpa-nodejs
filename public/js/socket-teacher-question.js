@@ -7,8 +7,7 @@ var $nbRep;
 var nbRep = 0;
 var idQuestion = $("#question").val();
 var answers;
-var type = $("#type-question").val();
-
+var questiontype;
 // Connexion à une question
 socket.emit("initQuestion", teacher);
 
@@ -21,6 +20,7 @@ socket.on("newStudent", function(){
 socket.on("startQuestion", function(question){
 	document.title = question.text;
 	answers = question.answers;
+	questiontype = question.type;
 	container.html(
 		'<section class="main-section">'
 			+ '<div class="row">'
@@ -68,6 +68,8 @@ socket.on("endQuestion", function(result){
 	var result = result; // réponses des étudiants
 	var resultLength = result.length;
 	var dataForChart = [];
+    var isTrue = [];
+	var datacpt = [];
 
 	/*
 	 * Couleurs du graphe
@@ -95,33 +97,83 @@ socket.on("endQuestion", function(result){
 	 ];
 
 	 var answersHTML = '<ul id="answers" class="text-left">';
-	$.each(answers, function(index, elem){
-		var cpt = 0;
-		var colorTmp = colors.pop();
-		for(var i = 0; i < resultLength; i++) {
-			if(index == result[i]) cpt++;
-		}
-		dataForChart.push({value: cpt, color: colorTmp});
-		if(elem.correct) {
-			answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-checkmark green right"></i></li>';
-		}
+	 var cpt;
+	 if(questiontype === "radio"){
+		$.each(answers, function(index, elem){
+			cpt = 0;
+			var colorTmp = colors.pop();
+			for(var i = 0; i < resultLength; i++) {
+				if(index == result[i]) cpt++;
+			}
+			dataForChart.push({value: cpt, color: colorTmp});
+			if(elem.correct) {
+				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-checkmark green right"></i></li>';
+			}
+			else {
+				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-remove red right"></i></li>';
+			}
+		});
+	 }
+	 else if (questiontype === "checkbox") {
+		 var labels = [];
+		 var colorTmp;
+		 for(var i = 0; i < answers.length; i++){
+			 labels.push(answers[i].name);
+			 if(answers[i].correct === true){
+				isTrue.push(i.toString());
+			}
+		 }
+		 var isTrueLength = isTrue.length;
+		 $.each(result, function(index, elem){
+		 	cpt = 0;
+			colorTmp = colors.pop();
+			var elemLength = elem.length;
+			for (var i = 0; i < elemLength; i++) {
+					if(isTrue.indexOf(elem[i]) !== -1) cpt++;
+			}
+			 datacpt.push(cpt);
+			 if(elem.correct) {
+				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-checkmark green right"></i></li>';
+			}
 		else {
-			answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-remove red right"></i></li>';
-		}
-	});
+				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-remove red right"></i></li>';
+			}
+		 });
+
+		 var dataChart = { 
+		 		labels : labels,
+				datasets : [
+						{
+							fillColor : colorTmp,
+							strokeColor : "rgba(220,220,220,1)",
+							data : datacpt
+						}
+				]		
+	 		}
+	 }
 	answersHTML += "</ul>";
 
 	$("#btn-stat").click(function(){
 		$("#btn-stat, #wrap-rep, #timer, #timer-msg").hide(250);
-		$(this).parent().append('<canvas id="myChart" width="235" height="200"></canvas>');
+		$(this).parent().append('<canvas id="myChart" width="400" height="260"></canvas>');
 		$(this).parent().append(answersHTML);
-		$(this).parent().append('<a href="/list/question" class="button">Retour à la liste des questions</a>');
+		$(this).parent().append('<a href="/list/question" class="button">Retour à la liste des questions</a>');	
 		$("#answers").hide().fadeIn(250);
 		$("#myChart").hide().fadeIn(250, function(){
 			var ctx = document.getElementById("myChart").getContext("2d");
-			var myNewChart = new Chart(ctx).Pie(dataForChart, {
-				segmentStrokeColor: "#E9E8EF"
-			});
+			if(questiontype === "radio"){
+				var myNewChart = new Chart(ctx).Pie(dataForChart, {
+					segmentStrokeColor: "#E9E8EF"
+				});
+			}
+			else if(questiontype === "checkbox"){
+				var myNewChart = new Chart(ctx).Bar(dataChart, {
+					scaleOverride : true,
+					scaleSteps : Math.max.apply(Math, datacpt),
+					scaleStepWidth : 1,
+					scaleStartValue : 0
+				});
+			}
 		});
 	});
 
