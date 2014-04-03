@@ -14,19 +14,29 @@
 								<a class="button tiny" href="/welcome">retour</a>
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6  columns">
-							      <label>Catégorie
-							        <select id="selectCat">
-							        	<option value="-1">Toutes les catégories</option>
-							          {% for category in categories -%}
-										<option value="{{category._id}}">{{ category.label }}</option>
-							          {%- endfor %}
-							        </select>
-							      </label>
-							    </div>
+									  <label>Catégorie
+										<select id="selectCat">
+											<option value="-1">Toutes les catégories</option>
+										  {% for category in categories -%}
+											<option value="{{category._id}}">{{ category.label }}</option>
+										  {%- endfor %}
+										</select>
+									  </label>
+									</div>
+									<div class="small-6  columns">
+									  <label><span id="nbItems"></span>
+										<select id="itemsParPage">
+											<option value="tous">Tous les résultats</option>
+											<option value="10">10 par page</option>
+											<option value="20">20 par page</option>
+											<option value="30">30 par page</option>
+											<option value="50">50 par page</option>
+										</select>
+									  </label>
+									</div>
 							    </div>
 							   
-							   	<div class="small-12  columns no-padding panel panel-form">
-
+							   	<div class="small-12 columns no-padding panel panel-form">
 						      		<table id="question-table">
 									  <thead>
 									    <tr>
@@ -36,9 +46,9 @@
 									      <th width="50">Lancer</th>
 									    </tr>
 									  </thead>
-									  <tbody>
+									  <tbody >
 									  {% for question in questions -%}
-										<tr id="{{question._id}}" data-category="{{question._id_cat}}" >
+										<tr id="{{question._id}}" class="item" data-category="{{question._id_cat}}" >
 									      <td>{{ question.text }}</td>
 									      <td class="text-center"><a class="remove-questionnaire" href="#"><i class="foundicon-minus red"></i></a></td>
 									      <td class="text-center"><a href="/edit/question/{{question._id}}"><i class="foundicon-edit"></i></a></td>
@@ -47,6 +57,10 @@
 							          {%- endfor %}
 									  </tbody>
 									</table>
+									
+									<div class="button-bar">
+										<ul id="pagination" class="button-group"></ul>
+									</div>
 						    	</div>
 						    	<a href="/add/question" class="btn-right button small">Ajouter</a>
 						  	</div>
@@ -60,7 +74,7 @@
     
    
     
-    <div id="pop-remove-confirm" class="popup-center">
+    <div id="pop-remove-confirm" class="popup-center hide">
 		<div class="pop-bodyCategorie">
 			<a class="popup-close" href="#close">×</a>
           	<p class="popup-titre">Voulez vous supprimer ?</p>
@@ -75,7 +89,54 @@
 
 {% block script %}
 	<script type="text/javascript" src="/js/DeleteQuestion.js"></script>
+	<script type="text/javascript" src="/js/pagination.js"></script>
 	<script type="text/javascript">
+		$("document").ready(function(){
+			// Nombre total de questions
+			var nbItems = $('.item').length;
+			if (nbItems > 1) {
+				$('#nbItems').html("<strong>" + nbItems + "</strong> résultats");
+			} else {
+				$('#nbItems').html("<strong>" + nbItems + "</strong> résultat");
+			}
+		});
+		
+		
+		$('#itemsParPage').change(function(){
+			var itemsParPage = $(this).val();
+			var nbItems = $('.item').length;
+			
+			if (itemsParPage == "tous") {
+				itemsParPage = nbItems;
+				$('#pagination').html("");
+			} else {
+				itemsParPage = parseInt(itemsParPage);
+				
+				// Afficher pagination
+				$('#pagination').pagination({
+					items: nbItems,
+					itemsOnPage: itemsParPage
+				});
+				
+				// Afficher items
+				$('.item').hide();
+				$('.item').slice( 0, itemsParPage ).show();
+			}
+		});
+		
+		
+		$('#pagination').click(function(){
+			var nbItems = $('.item').length;
+			var itemsParPage = $('#itemsParPage').val();
+			var currentPage = $('#pagination').pagination('getCurrentPage');
+			
+			var firstResult = (currentPage * itemsParPage) - itemsParPage;
+			var lastResult = currentPage * itemsParPage;
+			
+			$('.item').fadeOut();
+			$('.item').slice( firstResult, lastResult ).fadeIn();
+		});
+		
 		
 		$('#selectCat').change(function(){
 			var categorie= $(this).val();

@@ -20,6 +20,7 @@
 						{% endif %}
 						{% if session %}
 							<div class="row">
+								<a class="button tiny" href="/list/session">retour</a>
 							    <div class="small-12  columns no-padding panel panel-form">
 						      		<div class="small-6 columns">
 							        	<input type="text" placeholder="Label de la session" name="label" value="{{session.name}}">
@@ -118,7 +119,7 @@
 
 
 {% block script %}
- 	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+ 	<script src="/js/vendor/jquery-ui.js"></script>
 	<script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 
 	<script>

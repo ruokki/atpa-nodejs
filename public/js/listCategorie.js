@@ -3,21 +3,19 @@ $("document").ready(function(){
 
 	/* ===== GENERAL ===== */
 	$(".popup-close").click(function(){
-		$(this).parent().parent().hide();
+		$(this).parent().parent().addClass("hide");
 	});
 
 	$(".btn-annule").click(function(){
-		$(this).parent().parent().hide();
+		$(this).parent().parent().addClass("hide");
 	});
 
 
 
 	/* ======= DELETE ====== */
-	$("#pop-remove-confirm").hide();
-
-
+	
 	$(".remove-categorie").click(function(){
-		$("#pop-remove-confirm").show();
+		$("#pop-remove-confirm").removeClass("hide");
 		var idCategorie = $(this).parent().parent().attr("id");
 		$(".btn-confirm").attr("href", "/suppr/categorie/"+idCategorie);
 
@@ -25,10 +23,8 @@ $("document").ready(function(){
 
 	
 	/* ======= ADD =========== */
-	$("#pop-addCategorie").hide();
-
 	$("#addCategorie").click(function(){
-		$("#pop-addCategorie").show();
+		$("#pop-addCategorie").removeClass("hide");
 	});	
 
 	$("#btn-addCategorie").click(function(){
@@ -40,8 +36,8 @@ $("document").ready(function(){
 			return false;
 		}
 		else{
-			$(".popup-center").hide();
-			$("#pop-addCategorie").hide();
+			$(".popup-center").addClass("hide");
+			$("#pop-addCategorie").addClass("hide");
 		}
 	});
 
