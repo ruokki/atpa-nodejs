@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var teacherRoutes = require('./routes/teacher');
 var studentRoutes = require('./routes/student');
+var adminRoutes = require('./routes/admin');
 var websocketRoutes = require('./routes/websocket');
 var http = require('http');
 var path = require('path');
@@ -83,6 +84,11 @@ app.get('/suppr/session/:id', teacherRoutes.supprSession);
 app.get('/list/categorie', teacherRoutes.listCategorie);
 app.get('/suppr/categorie/:id', teacherRoutes.supprCategorie);
 app.post('/add/categorie/', teacherRoutes.addCategorie);
+
+/* ---------------------------
+	gestion de l'admin
+------------------------------ */
+app.get('/admin/login/', adminRoutes.loginAdmin);
 
 
 /* -------------------------- */
