@@ -89,6 +89,7 @@ app.post('/add/categorie/', teacherRoutes.addCategorie);
 	gestion de l'admin
 ------------------------------ */
 app.get('/admin/login/', adminRoutes.loginAdmin);
+app.get('/admin/addPersonn/', adminRoutes.addPersonAdmin);
 
 
 /* -------------------------- */

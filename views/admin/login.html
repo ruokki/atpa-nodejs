@@ -1,1 +1,40 @@
-{% extends '../layout.html' %}
+<!doctype html>
+<html>
+<head>
+		<title>{{ title }}</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/css/foundation.css">
+		<link rel="stylesheet" type="text/css" href="/css/general_enclosed_foundicons.css">
+		<link rel="stylesheet" type="text/css" href="/css/styles.css">
+		<link rel="shortcut icon" type="image/png" href="/img/ATPA.png" />
+</head>
+<body>
+	<section class="main-section">
+	  	<div class="row">
+	    	<div class="small-12 columns">	<!-- body -->
+	        	<h1 class="text-center title">Administration</h1>
+				<section id="form-admin" class="row">
+					<div class="small-12 small-centered columns"> 
+						<form method="post" action="#">	
+							<div class="small-8 small-centered columns">	
+								<label class="hide">Identifiant</label>
+								<input type="text" placeholder="Identifiant" name="admin[id]">
+								<label class="hide">Mot de passe</label>
+								<input id="password" type="password" placeholder="Mot de passe" name="admin[passwd]"></input>
+								<input id="subm-enseignant" type="submit" class="button small" value="Se connecter">
+							</div>
+						</form>
+					</div>	
+				</section>
+	    	</div>
+		</div>
+	</section>
+	<script src="/js/vendor/jquery.js"></script>
+	<script src="/js/foundation.min.js"></script>
+	<script src="/js/vendor/modernizr.js"></script>
+	<script>
+
+	</script>
+</body>
+</html>
+

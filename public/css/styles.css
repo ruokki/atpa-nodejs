@@ -10,6 +10,10 @@ h2{
 
 }
 
+.clear{
+	clear: both;
+}
+
 .hide{
 	display: none !important;
 }
