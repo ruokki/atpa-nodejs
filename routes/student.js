@@ -3,18 +3,14 @@
 /* ------------------------------------------------ */
 
 /*
- * GET question page
- */
-exports.question = function(req,res) {
-	res.render('student/question', {
-		title: 'Réponse'
-	});
-};
-
-/*
  * GET waitingSession page
  */
 exports.waitingSession = function(req,res) {
+
+	if(req.session.statusUser !== 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var app = require('../app');
 	var key = req.params.key;
 	var usernameStudent = req.session.username;
@@ -34,6 +30,11 @@ exports.waitingSession = function(req,res) {
  * GET waitingQuestion page
  */
 exports.waitingQuestion = function(req,res) {
+
+	if(req.session.statusUser !== 'S' || !req.session.statusUser) {
+		res.redirect('/');
+	}
+
 	var app = require('../app');
 	var teacher = req.params.key;
 	var usernameStudent = req.session.username;

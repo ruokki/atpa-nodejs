@@ -69,7 +69,7 @@
 							    	<textarea placeholder="Question" name="question">{% if form %}{{ form.question }}{% endif %}</textarea>
 						    	</div>
 						    	<div class="small-12 columns text-center">
-					    	        <label for="image" class="text-left">Associer une image</label>
+					    	        <label for="image" class="text-left">Associer une image (optionnel)</label>
 					    	        <input type="file" name="image" id="image" />
 					    	        {% if form && form.imgURL != "" %}
 					    	        <img src="/img/userfile/{{ form.imgURL }}" width="150" alt="">
@@ -85,6 +85,7 @@
 									<!--******************************-->
 					      				{% if form && form.type == 'checkbox' %}
 					      				<div id="input-check">
+										<p>aaa</p>
 					      					{% for checkbox in form.answers -%}
 		      							      	<div class="row collapse input-multi">
 		      										<div class="small-1 columns">
@@ -138,16 +139,16 @@
 						      			<a id="add-multi-rep" class="btn-add small-1 small-offset-11"><i class="foundicon-plus"></i></a>
 					      			</div>
 
-					      			<!--****************************-->
+					      			<!--******************************-->
 									<!-- FIN D'AFFICHAGE DES CHECKBOX -->
-									<!--****************************-->
+									<!--******************************-->
 
 
 
 
-									<!--****************************-->
+									<!--*******************************-->
 									<!-- DIV D'AFFICHAGE DES REP LIBRE -->
-									<!--****************************-->
+									<!--*******************************-->
 
 									{% if form && form.type == 'text' %}
 					      				<div id="input-libre">
@@ -250,7 +251,7 @@
 
 						  	<div class="row panel panel-form">
 							    <div class="small-6  columns">
-							      <label>Timer
+							      <label>Temps imparti
 							        <input type="number" name="timer" placeholder="en secondes" value="{% if form %}{{ form.timer }}{% endif %}">
 							      </label>
 							    </div>

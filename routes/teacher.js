@@ -497,21 +497,17 @@ exports.supprQuestion = function(req, res) {
 
 
 /*
- * POST nextPage
- * Renvoie en JSON la liste des questions de la page suivante
+ * POST changePage
+ * Renvoie en JSON la liste des questions dans les limites demandées
  */
- exports.nextPage = function(req,res) {
-
+ exports.changePage = function(req,res) {
+	console.log(req.body);
+	var question = require('../models/question');
+	question.getAllQuestion(function(questionResult){
+		var questionToDisplay = questionResult.slice(parseInt(req.body.limitMin), parseInt(req.body.limitMax));
+		res.send(200, questionToDisplay);
+	});
  }
-
-/*
- * POST prevPage
- * Renvoie en JSON la liste des questions de la page précédente
- */
- exports.prevPage = function(req,res) {
-
- }
-
 
 
 /* ---------------------------- */
@@ -760,9 +756,9 @@ exports.listQuestion = function(req, res) {
 	
 	question.getAllQuestion(function(questionResult){
 		category.getAllCategory(function(categoryResult){
-			var nbPages = Math.ceil(questionResult.length / 10);
+			var nbPages = Math.ceil(questionResult.length / 5);
 			var swigPage = [];
-			var questionToDisplay = questionResult.slice(0, 9);
+			var questionToDisplay = questionResult.slice(0, 5);
 			for (var i = 1; i <= nbPages; i++) {
 				swigPage.push(i);
 			}

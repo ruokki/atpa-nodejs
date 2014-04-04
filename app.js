@@ -100,8 +100,7 @@ app.post('/admin/addPerson', adminRoutes.addPersonAdminPost);
 app.get('/welcome', teacherRoutes.welcome);
 app.get('/session/waitConnection/:key', teacherRoutes.waitSession);
 app.get('/question/waitConnection/:key', teacherRoutes.waitQuestion);
-app.post('/next', teacherRoutes.nextPage);
-app.post('/prev', teacherRoutes.prevPage);
+app.post('/changePage', teacherRoutes.changePage);
 
 
 /* -------------------------- */
