@@ -88,6 +88,19 @@ Installation de l'application :
 		- Changer 'process.env.PORT || 3000' par le numéro du port que vous voulez.
 
 
+Valeurs de test :
+	Étudiant : 
+		- login : etud1
+		- login : etud2
+
+	Enseignant :
+		- login : test, mot de passe : test
+		- login : toto, mot de passe : toto
+
+	Admininstration :
+		- login : admin, mot de passe : admin
+
+
 Rendre NodeJS indépendant (processus à part entier) :
 Pour rendre NodeJS indépendant, il faut installer un module de NodeJS grâce à NPM :
 	- Lancer la commande :
@@ -101,4 +114,3 @@ Pour l'arréter, il faut taper la commande :
 ATTENTION !!
 En cas de crash de l'application, Forever ne relancera pas automatiquement l'application.
 Il faut relancer l'application manuellement.
-

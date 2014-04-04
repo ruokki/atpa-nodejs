@@ -188,8 +188,8 @@ exports.initializeDB = function(req, res) {
 
 	admin.addAdmin('admin', 'admin');
 	
-	student.addStudent('test', 'test@gmail.com');
-	student.addStudent('toto', 'toto@gmail.com');
+	student.addStudent('etud1', 'etud1@gmail.com');
+	student.addStudent('etud2', 'etud2@gmail.com');
 
 	category.addCategory('MySQL');
 	category.addCategory('PHP');
