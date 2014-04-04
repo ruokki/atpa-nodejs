@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost');
+var socket = io.connect('http://' + document.domain + '/');
 var key = $("#key").text();
 var nbCo = $("#nbCo");
 var $nbRep;
@@ -7,6 +7,7 @@ var container = $("#container");
 var indexQuestion = 0;
 var answers;
 var endSession;
+var questiontype;
 
 // Connexion à une session
 socket.emit("initSession", key);
@@ -25,6 +26,7 @@ $("#go").click(function(e){
 // Nouvelle question
 socket.on("newQuestion", function(question, end){
 	endSession = end;
+	questiontype = question.type;
 	container.fadeOut(250, function(){
 		container.empty();
 		document.title = question.text;

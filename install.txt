@@ -80,11 +80,13 @@ Installation de l'application :
 		http://locahost:3000/initializeDB (si installé en local)
 		http://mondomaine.tld:3000/initializeDB (si installé sur un serveur distant)
 
+
 	Pour changer le port utilisé par l'application :
 		- Ouvrir le fichier app.js
 		- Repérer la ligne où il y a écrit :
 			app.set('port', process.env.PORT || 3000);
 		- Changer 'process.env.PORT || 3000' par le numéro du port que vous voulez.
+
 
 Rendre NodeJS indépendant (processus à part entier) :
 Pour rendre NodeJS indépendant, il faut installer un module de NodeJS grâce à NPM :
