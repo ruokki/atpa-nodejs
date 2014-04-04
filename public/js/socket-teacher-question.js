@@ -122,6 +122,12 @@ socket.on("endQuestion", function(result){
 			 if(answers[i].correct === true){
 				isTrue.push(i.toString());
 			}
+			if(answers[i].correct) {
+				answersHTML += '<li>' + answers[i].name + '<i class="foundicon-checkmark green right"></i></li>';
+			}
+			else {
+				answersHTML += '<li>' + answers[i].name + '<i class="foundicon-remove red right"></i></li>';
+			}
 		 }
 		 var isTrueLength = isTrue.length;
 		 $.each(result, function(index, elem){
@@ -132,12 +138,6 @@ socket.on("endQuestion", function(result){
 					if(isTrue.indexOf(elem[i]) !== -1) cpt++;
 			}
 			 datacpt.push(cpt);
-			 if(elem.correct) {
-				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-checkmark green right"></i></li>';
-			}
-		else {
-				answersHTML += '<li><span class="legend" style="background-color:' + colorTmp + '"></span>' + elem.name + '<i class="foundicon-remove red right"></i></li>';
-			}
 		 });
 
 		 var dataChart = { 
@@ -157,7 +157,7 @@ socket.on("endQuestion", function(result){
 		$("#btn-stat, #wrap-rep, #timer, #timer-msg").hide(250);
 		$(this).parent().append('<canvas id="myChart" width="400" height="260"></canvas>');
 		$(this).parent().append(answersHTML);
-		$(this).parent().append('<a href="/list/question" class="button">Retour à la liste des questions</a>');	
+		$(this).parent().append('<a href="/list/question" class="button">Retour à la liste des questions</a><br />');	
 		$("#answers").hide().fadeIn(250);
 		$("#myChart").hide().fadeIn(250, function(){
 			var ctx = document.getElementById("myChart").getContext("2d");
@@ -174,7 +174,14 @@ socket.on("endQuestion", function(result){
 					scaleStartValue : 0
 				});
 			}
+			else if (questiontype === "text") {
+				$("#myChart").after('<p>' + answers[0].name + '</p>');
+				$("#myChart").after('<p>La réponse était :</p>');
+				$("#myChart").remove();
+				$("#answers").remove();
+			}
 		});
+
 	});
 
 });

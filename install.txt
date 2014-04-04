@@ -85,3 +85,18 @@ Installation de l'application :
 		- Repérer la ligne où il y a écrit :
 			app.set('port', process.env.PORT || 3000);
 		- Changer 'process.env.PORT || 3000' par le numéro du port que vous voulez.
+
+Rendre NodeJS indépendant (processus à part entier) :
+Pour rendre NodeJS indépendant, il faut installer un module de NodeJS grâce à NPM :
+	- Lancer la commande :
+		npm install forever -g
+
+Pour lancer NodeJS en mode daemon (indépendant), il faut taper la commande :
+	forever start app.js
+Pour l'arréter, il faut taper la commande :
+	foerver stop app.js
+
+ATTENTION !!
+En cas de crash de l'application, Forever ne relancera pas automatiquement l'application.
+Il faut relancer l'application manuellement.
+
