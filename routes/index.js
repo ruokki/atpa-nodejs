@@ -261,6 +261,107 @@ exports.initializeDB = function(req, res) {
 			}
 		]
 	);
+	
+	question.addQuestion(
+		0,
+		0,
+		"Père du PHP?",
+		'radio',
+		30,
+		[
+			{
+				name: 'Larry Wall ',
+				correct: false
+			},
+			{
+				name: 'Rasmus Lerdorf ',
+				correct: true
+			},
+			{
+				name: 'James Gosling ',
+				correct: false
+			},	
+			{
+				name: 'Guido Van Rossum  ',
+				correct: false
+			},
+		]
+	);
+	
+	question.addQuestion(
+		0,
+		0,
+		"Père du PHP?",
+		'radio',
+		30,
+		[
+			{
+				name: 'Larry Wall ',
+				correct: false
+			},
+			{
+				name: 'Rasmus Lerdorf ',
+				correct: true
+			},
+			{
+				name: 'James Gosling ',
+				correct: false
+			},	
+			{
+				name: 'Guido Van Rossum  ',
+				correct: false
+			},
+		]
+	);
+	
+	question.addQuestion(
+		0,
+		0,
+		" A quoi peuvent servir les sessions ?",
+		'checkbox',
+		30,
+		[
+			{
+				name: 'Sauvegarder des informations',
+				correct: true
+			},
+			{
+				name: 'Se connecter à une base de donnée',
+				correct: false
+			},
+			{
+				name: ' A faire référence à une session en cours',
+				correct: true
+			},	
+			{
+				name: ' A se connecter à une zone réservée',
+				correct: false
+			},
+		]
+	);
+	
+	question.addQuestion(
+		2,
+		0,
+		" Quelles balises permettent de mettre du texte en gras ?",
+		'checkbox',
+		30,
+		[
+			{
+				name: ' <g></g>',
+				correct: false
+			},
+			{
+				name: ' <b></b>',
+				correct: true
+			},
+			{
+				name: ' <bold></bold>',
+				correct: false
+			}
+		]
+	);
+	
 
 	res.redirect('/');
 }
